@@ -16,7 +16,10 @@ namespace Trains
 
         float CalculateDistanceTravelledByBird(float speedOfTrains, float birdsPositionOfStart, float speedOfBird, float distanceBetweenTrains)
         {
-            return ((distanceBetweenTrains / 2) - birdsPositionOfStart) * (speedOfBird / speedOfTrains);
+            float positionOfCollision = distanceBetweenTrains / 2;
+            float distanceRemainingUntilCollision = positionOfCollision - birdsPositionOfStart;
+            float relativeSpeedOfBird = speedOfBird / speedOfTrains;
+            return distanceRemainingUntilCollision * relativeSpeedOfBird;
         }
     }
 }
