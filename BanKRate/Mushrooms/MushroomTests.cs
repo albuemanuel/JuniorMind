@@ -14,10 +14,17 @@ namespace Mushrooms
             Assert.AreEqual(21, NrOfRedMushrooms);
         }
 
-        int CalculateNrOfRedMushrooms(int total, int relNrOfRedMushrooms)
+        [TestMethod]
+        public void NrOfRedShroomsWhenFewerThanWhiteMushrooms()
         {
-            int nrOfWhiteMushrooms = total / (relNrOfRedMushrooms + 1);
-            return nrOfWhiteMushrooms * relNrOfRedMushrooms;
+            int NrOfRedMushrooms = CalculateNrOfRedMushrooms(15, 0.5f);
+            Assert.AreEqual(5, NrOfRedMushrooms);
+        }
+
+        int CalculateNrOfRedMushrooms(int total, float relNrOfRedMushrooms)
+        {
+            int nrOfWhiteMushrooms = (int)(total / (relNrOfRedMushrooms + 1));
+            return (int)(nrOfWhiteMushrooms * relNrOfRedMushrooms);
         }
 
     }
