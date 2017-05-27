@@ -16,7 +16,8 @@ namespace Mushrooms
 
         int CalculateNrOfRedMushrooms(int total, int relNrOfRedMushrooms)
         {
-            return (total / (relNrOfRedMushrooms + 1)) * relNrOfRedMushrooms;
+            int nrOfWhiteMushrooms = total / (relNrOfRedMushrooms + 1);
+            return nrOfWhiteMushrooms * relNrOfRedMushrooms;
         }
 
     }
