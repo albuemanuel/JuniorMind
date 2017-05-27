@@ -8,8 +8,15 @@ namespace Mushrooms
     public class MushroomTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void NrOfRedMushrooms()
         {
+            int NrOfRedMushrooms = CalculateNrOfRedMushrooms(28, 3);
+            Assert.AreEqual(21, NrOfRedMushrooms);
+        }
+
+        int CalculateNrOfRedMushrooms(int total, int relNrOfRedMushrooms)
+        {
+            return (total / (relNrOfRedMushrooms + 1)) * relNrOfRedMushrooms;
         }
 
     }
