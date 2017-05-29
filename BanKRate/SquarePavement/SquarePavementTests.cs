@@ -18,7 +18,10 @@ namespace SquarePavement
 
         int CalculateNoOfCubicStones(int lengthOfSquare, int widthOfSquare, int sizeOfCubicStone)
         {
-            return (int)(Math.Ceiling((double)lengthOfSquare / sizeOfCubicStone) * Math.Ceiling((double)widthOfSquare / 4));
+
+            int nrOfCubicStonesThatCoverOneSideOfSquare = (int)(Math.Ceiling((double)lengthOfSquare / sizeOfCubicStone));
+            int nrOfCubicStonesThatCoverSecondSideOfSquare = (int)(Math.Ceiling((double)widthOfSquare / 4));
+            return nrOfCubicStonesThatCoverOneSideOfSquare * nrOfCubicStonesThatCoverSecondSideOfSquare;
 
                 
         }
