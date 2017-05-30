@@ -20,7 +20,8 @@ namespace SquarePavement
         {
 
             int nrOfCubicStonesThatCoverOneSideOfSquare = (int)(Math.Ceiling((double)lengthOfSquare / sizeOfCubicStone));
-            int nrOfCubicStonesThatCoverSecondSideOfSquare = (int)(Math.Ceiling((double)widthOfSquare / 4));
+            int nrOfCubicStonesThatCoverSecondSideOfSquare = (int)(Math.Ceiling((double)widthOfSquare / sizeOfCubicStone));
+
             return nrOfCubicStonesThatCoverOneSideOfSquare * nrOfCubicStonesThatCoverSecondSideOfSquare;
 
                 
