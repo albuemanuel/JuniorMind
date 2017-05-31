@@ -5,11 +5,18 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace SportRepetition
 {
     [TestClass]
-    public class UnitTest1
+    public class SportRepetitionTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void NoOfRepetitions()
         {
+            int reps = CalculateNoOfRepetitions(4);
+            Assert.AreEqual(16, reps);
+        }
+
+        int CalculateNoOfRepetitions(int rounds)
+        {
+            return rounds * rounds;
         }
     }
 }

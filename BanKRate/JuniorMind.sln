@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mushrooms", "Mushrooms\Mush
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquarePavement", "SquarePavement\SquarePavement.csproj", "{F8738176-3C8C-45E0-A6CD-9D376CA7999A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportRepetition", "SportRepetition\SportRepetition.csproj", "{C426E189-B104-4679-A2F0-BA051D3184D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -113,6 +115,24 @@ Global
 		{F8738176-3C8C-45E0-A6CD-9D376CA7999A}.Release|x86.ActiveCfg = Release|x86
 		{F8738176-3C8C-45E0-A6CD-9D376CA7999A}.Release|x86.Build.0 = Release|x86
 		{F8738176-3C8C-45E0-A6CD-9D376CA7999A}.Release|x86.Deploy.0 = Release|x86
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Debug|ARM.ActiveCfg = Debug|ARM
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Debug|ARM.Build.0 = Debug|ARM
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Debug|ARM.Deploy.0 = Debug|ARM
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Debug|x64.ActiveCfg = Debug|x64
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Debug|x64.Build.0 = Debug|x64
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Debug|x64.Deploy.0 = Debug|x64
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Debug|x86.ActiveCfg = Debug|x86
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Debug|x86.Build.0 = Debug|x86
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Debug|x86.Deploy.0 = Debug|x86
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Release|ARM.ActiveCfg = Release|ARM
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Release|ARM.Build.0 = Release|ARM
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Release|ARM.Deploy.0 = Release|ARM
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Release|x64.ActiveCfg = Release|x64
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Release|x64.Build.0 = Release|x64
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Release|x64.Deploy.0 = Release|x64
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Release|x86.ActiveCfg = Release|x86
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Release|x86.Build.0 = Release|x86
+		{C426E189-B104-4679-A2F0-BA051D3184D8}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
