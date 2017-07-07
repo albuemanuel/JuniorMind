@@ -16,7 +16,8 @@ namespace Floor
 
         double CalculateNoOfTilesNeeded(double lengthOfRoom, double widthOfRoom, double lengthOfFloorTile, double widthOfFloorTile)
         {
-            return Math.Ceiling((lengthOfRoom * widthOfRoom) / (lengthOfFloorTile * widthOfFloorTile));
+            double qty = (lengthOfRoom * widthOfRoom) / (lengthOfFloorTile * widthOfFloorTile);
+            return Math.Ceiling(qty);
         }
     }
 }
