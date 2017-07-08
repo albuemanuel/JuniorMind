@@ -14,9 +14,13 @@ namespace Floor
             Assert.AreEqual(7, qty);
         }
 
+        
+
         int CalculateNoOfTilesNeeded(int lengthOfRoom, int widthOfRoom, int lengthOfFloorTile, int widthOfFloorTile)
         {
-            int noOfTiles = (int)Math.Ceiling((float)(lengthOfRoom * widthOfRoom) / (lengthOfFloorTile * widthOfFloorTile));
+            int areaOfRoom = lengthOfRoom * widthOfRoom;
+            int areaOfTile = lengthOfFloorTile * widthOfFloorTile;
+            int noOfTiles = (int)Math.Ceiling((float)areaOfRoom / areaOfTile);
             return noOfTiles;
         }
     }
