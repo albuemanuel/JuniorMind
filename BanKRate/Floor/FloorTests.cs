@@ -8,16 +8,16 @@ namespace Floor
     public class FloorTests
     {
         [TestMethod]
-        public void NoOfTilesNeededForRoomFlooring()
+        public void NoOfTilesNeededWithoutLosses()
         {
-            double qty = CalculateNoOfTilesNeeded(0.425, 2, 1, 1);
-            Assert.AreEqual(1, qty);
+            int qty = CalculateNoOfTilesNeeded(7, 4, 2, 2);
+            Assert.AreEqual(7, qty);
         }
 
-        double CalculateNoOfTilesNeeded(double lengthOfRoom, double widthOfRoom, double lengthOfFloorTile, double widthOfFloorTile)
+        int CalculateNoOfTilesNeeded(int lengthOfRoom, int widthOfRoom, int lengthOfFloorTile, int widthOfFloorTile)
         {
-            double qty = (lengthOfRoom * widthOfRoom) / (lengthOfFloorTile * widthOfFloorTile);
-            return Math.Ceiling(qty);
+            int noOfTiles = (int)Math.Ceiling((float)(lengthOfRoom * widthOfRoom) / (lengthOfFloorTile * widthOfFloorTile));
+            return noOfTiles;
         }
     }
 }
