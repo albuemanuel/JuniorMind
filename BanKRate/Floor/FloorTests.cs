@@ -29,7 +29,7 @@ namespace Floor
             int areaOfTile = lengthOfFloorTile * widthOfFloorTile;
 
             int noOfTiles = (int)Math.Ceiling((float)areaOfRoom / areaOfTile);
-            int noOfTilesWithLosses = (int)(noOfTiles + Math.Ceiling((float)((0.15 * noOfTiles * areaOfTile) / areaOfTile)));
+            int noOfTilesWithLosses = (int)(noOfTiles + Math.Ceiling((float)0.15 * noOfTiles));
 
             return noOfTilesWithLosses;
         }
