@@ -15,7 +15,8 @@ namespace TaxiFare
 
         decimal CalculateTaxiFare(int distanceInKm, int hour)
         {
-            return distanceInKm * 5;
+            int pricePerKm = 5;
+            return  distanceInKm * pricePerKm;
 
         }
     }
