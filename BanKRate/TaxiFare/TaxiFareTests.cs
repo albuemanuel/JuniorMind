@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TaxiFare
 {
     [TestClass]
-    public class UnitTest1
+    public class TaxiFareTests
     {
         [TestMethod]
         public void DaytimePriceFareForShortDistances()
@@ -13,9 +13,15 @@ namespace TaxiFare
             Assert.AreEqual(5, CalculateTaxiFare(1, 8));
         }
 
+        [TestMethod]
+        public void DaytimePriceFareForMediumDistances()
+        {
+            Assert.AreEqual(168, CalculateTaxiFare(21, 8));
+        }
+
         decimal CalculateTaxiFare(int distanceInKm, int hour)
         {
-            int pricePerKm = 5;
+            decimal pricePerKm = distanceInKm > 20 ? 8 : 5;
             return  distanceInKm * pricePerKm;
 
         }
