@@ -8,8 +8,15 @@ namespace TaxiFare
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void DaytimePriceFareForShortDistances()
         {
+            Assert.AreEqual(5, CalculateTaxiFare(1, 8));
+        }
+
+        decimal CalculateTaxiFare(int distanceInKm, int hour)
+        {
+            return distanceInKm * 5;
+
         }
     }
 }
