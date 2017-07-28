@@ -21,8 +21,8 @@ namespace FarmersLand
 
         double CalculateInitialSizeOfLand(int finalSizeOfLandInMetres, int newAquiredLandWidthInMetres)
         {
-            
-            return Math.Pow(((-newAquiredLandWidthInMetres + Math.Sqrt(Math.Pow(newAquiredLandWidthInMetres, 2) + 4*finalSizeOfLandInMetres))/2),2);
+            double sideLengthOfInitialLand = ((-newAquiredLandWidthInMetres + Math.Sqrt(Math.Pow(newAquiredLandWidthInMetres, 2) + 4 * finalSizeOfLandInMetres)) / 2);
+            return Math.Pow(sideLengthOfInitialLand,2);
         }
     }
 }
