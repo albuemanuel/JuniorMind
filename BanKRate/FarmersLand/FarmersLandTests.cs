@@ -8,8 +8,14 @@ namespace FarmersLand
     public class FarmersLandTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void SizeOfInitialLandForSquareAquiredLand()
         {
+            Assert.AreEqual(100, CalculateInitialSizeOfLand(200, 10));
+        }
+
+        int CalculateInitialSizeOfLand(int finalSizeOfLandInMetres, int newAquiredLandWidthInMetres)
+        {
+            return finalSizeOfLandInMetres - newAquiredLandWidthInMetres*newAquiredLandWidthInMetres;
         }
     }
 }
