@@ -15,7 +15,8 @@ namespace FarmersLand
 
         int CalculateInitialSizeOfLand(int finalSizeOfLandInMetres, int newAquiredLandWidthInMetres)
         {
-            return finalSizeOfLandInMetres - newAquiredLandWidthInMetres*newAquiredLandWidthInMetres;
+            int sizeOfAquiredLand = newAquiredLandWidthInMetres * newAquiredLandWidthInMetres;
+            return finalSizeOfLandInMetres - sizeOfAquiredLand;
         }
     }
 }
