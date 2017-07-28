@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxiFare", "TaxiFare\TaxiFa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melon", "Melon\Melon.csproj", "{B6E4067A-A09B-426A-8AD1-B9B6B7A6EA7E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmersLand", "FarmersLand\FarmersLand.csproj", "{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -213,6 +215,24 @@ Global
 		{B6E4067A-A09B-426A-8AD1-B9B6B7A6EA7E}.Release|x86.ActiveCfg = Release|x86
 		{B6E4067A-A09B-426A-8AD1-B9B6B7A6EA7E}.Release|x86.Build.0 = Release|x86
 		{B6E4067A-A09B-426A-8AD1-B9B6B7A6EA7E}.Release|x86.Deploy.0 = Release|x86
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Debug|ARM.ActiveCfg = Debug|ARM
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Debug|ARM.Build.0 = Debug|ARM
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Debug|ARM.Deploy.0 = Debug|ARM
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Debug|x64.ActiveCfg = Debug|x64
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Debug|x64.Build.0 = Debug|x64
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Debug|x64.Deploy.0 = Debug|x64
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Debug|x86.ActiveCfg = Debug|x86
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Debug|x86.Build.0 = Debug|x86
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Debug|x86.Deploy.0 = Debug|x86
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Release|ARM.ActiveCfg = Release|ARM
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Release|ARM.Build.0 = Release|ARM
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Release|ARM.Deploy.0 = Release|ARM
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Release|x64.ActiveCfg = Release|x64
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Release|x64.Build.0 = Release|x64
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Release|x64.Deploy.0 = Release|x64
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Release|x86.ActiveCfg = Release|x86
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Release|x86.Build.0 = Release|x86
+		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
