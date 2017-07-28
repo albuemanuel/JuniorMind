@@ -13,10 +13,16 @@ namespace FarmersLand
             Assert.AreEqual(100, CalculateInitialSizeOfLand(200, 10));
         }
 
-        int CalculateInitialSizeOfLand(int finalSizeOfLandInMetres, int newAquiredLandWidthInMetres)
+        [TestMethod]
+        public void SizeOfInitialLandForAquiredLand()
         {
-            int sizeOfAquiredLand = newAquiredLandWidthInMetres * newAquiredLandWidthInMetres;
-            return finalSizeOfLandInMetres - sizeOfAquiredLand;
+            Assert.AreEqual(100, CalculateInitialSizeOfLand(300, 20));
+        }
+
+        double CalculateInitialSizeOfLand(int finalSizeOfLandInMetres, int newAquiredLandWidthInMetres)
+        {
+            
+            return Math.Pow(((-newAquiredLandWidthInMetres + Math.Sqrt(Math.Pow(newAquiredLandWidthInMetres, 2) + 4*finalSizeOfLandInMetres))/2),2);
         }
     }
 }
