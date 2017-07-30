@@ -8,8 +8,16 @@ namespace FizzBuzz
     public class FizzBuzzTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void FizzForMultipleOfThree()
         {
+            Assert.AreEqual("Fizz", IsFizzOrBuzz(6));
+        }
+
+        string IsFizzOrBuzz(int number)
+        {
+           return number % 3 == 0 ? "Fizz" : null;
+            
+            
         }
     }
 }
