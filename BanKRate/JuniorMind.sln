@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BanKRate", "BanKRate\BanKRate.csproj", "{475FF8B6-AD49-4686-AAB9-587E1B8C6303}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Melon", "Melon\Melon.csproj", "{B6E4067A-A09B-426A-8AD1-B9B6B7A6EA7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmersLand", "FarmersLand\FarmersLand.csproj", "{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FizzBuzz", "FizzBuzz\FizzBuzz.csproj", "{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -233,6 +235,24 @@ Global
 		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Release|x86.ActiveCfg = Release|x86
 		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Release|x86.Build.0 = Release|x86
 		{216EEB25-B721-45FC-9BDE-EDC298FDE2FD}.Release|x86.Deploy.0 = Release|x86
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Debug|ARM.ActiveCfg = Debug|ARM
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Debug|ARM.Build.0 = Debug|ARM
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Debug|ARM.Deploy.0 = Debug|ARM
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Debug|x64.ActiveCfg = Debug|x64
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Debug|x64.Build.0 = Debug|x64
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Debug|x64.Deploy.0 = Debug|x64
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Debug|x86.ActiveCfg = Debug|x86
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Debug|x86.Build.0 = Debug|x86
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Debug|x86.Deploy.0 = Debug|x86
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Release|ARM.ActiveCfg = Release|ARM
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Release|ARM.Build.0 = Release|ARM
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Release|ARM.Deploy.0 = Release|ARM
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Release|x64.ActiveCfg = Release|x64
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Release|x64.Build.0 = Release|x64
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Release|x64.Deploy.0 = Release|x64
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Release|x86.ActiveCfg = Release|x86
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Release|x86.Build.0 = Release|x86
+		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
