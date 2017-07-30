@@ -31,13 +31,18 @@ namespace FizzBuzz
 
             if (IsMultipleOfThreeAndFive(number))
                 return FizzOrBuzz[0]+FizzOrBuzz[1];
-            if (number % 3 == 0)
+            if (IsMultipleOfThree(number))
                 return FizzOrBuzz[0];
             if (number % 5 == 0)
                 return FizzOrBuzz[1];
 
             return null;
 
+        }
+
+        private bool IsMultipleOfThree(int number)
+        {
+            return number % 3 == 0;
         }
 
         private bool IsMultipleOfThreeAndFive(int number)
