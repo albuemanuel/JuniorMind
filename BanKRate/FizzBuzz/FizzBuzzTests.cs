@@ -19,10 +19,18 @@ namespace FizzBuzz
             Assert.AreEqual("Buzz", IsFizzOrBuzz(10));
         }
 
+        [TestMethod]
+        public void FizzBuzzForMultipleOfThreeAndFive()
+        {
+            Assert.AreEqual("FizzBuzz", IsFizzOrBuzz(30));
+        }
+
         string IsFizzOrBuzz(int number)
         {
             string[] FizzOrBuzz = { "Fizz", "Buzz" };
 
+            if (number % 3 == 0 && number % 5 == 0)
+                return FizzOrBuzz[0]+FizzOrBuzz[1];
             if (number % 3 == 0)
                 return FizzOrBuzz[0];
             if (number % 5 == 0)
