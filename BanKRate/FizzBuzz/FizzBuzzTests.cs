@@ -29,7 +29,7 @@ namespace FizzBuzz
         {
             string[] FizzOrBuzz = { "Fizz", "Buzz" };
 
-            if (number % 3 == 0 && number % 5 == 0)
+            if (IsMultipleOfThreeAndFive(number))
                 return FizzOrBuzz[0]+FizzOrBuzz[1];
             if (number % 3 == 0)
                 return FizzOrBuzz[0];
@@ -40,6 +40,9 @@ namespace FizzBuzz
 
         }
 
-        
+        private bool IsMultipleOfThreeAndFive(int number)
+        {
+            return number % 3 == 0 && number % 5 == 0;
+        }
     }
 }
