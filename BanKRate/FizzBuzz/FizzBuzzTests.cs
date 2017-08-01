@@ -8,51 +8,42 @@ namespace FizzBuzz
     public class FizzBuzzTests
     {
         [TestMethod]
-        public void FizzForMultipleOfThree()
+        public void FizzForMultipleOfFirstDivisor()
         {
-            Assert.AreEqual("Fizz", IsFizzOrBuzz(6));
+            Assert.AreEqual("Fizz", IsFizzOrBuzz(6, new int[] { 3, 5 }));
         }
 
         [TestMethod]
-        public void BuzzForMultipleOfFive()
+        public void BuzzForMultipleOfSecondDivisor()
         {
-            Assert.AreEqual("Buzz", IsFizzOrBuzz(10));
+            Assert.AreEqual("Buzz", IsFizzOrBuzz(10, new int[] { 3, 5 }));
         }
 
         [TestMethod]
-        public void FizzBuzzForMultipleOfThreeAndFive()
+        public void FizzBuzzForMultipleOfBothDivisors()
         {
-            Assert.AreEqual("FizzBuzz", IsFizzOrBuzz(30));
+            Assert.AreEqual("FizzBuzz", IsFizzOrBuzz(30, new int[]{ 6, 10}));
         }
 
-        string IsFizzOrBuzz(int number)
+        string IsFizzOrBuzz(int number, int[] divisors)
         {
-            string[] FizzOrBuzz = { "Fizz", "Buzz" };
+            string FizzOrBuzz = null;
 
-            if (IsMultipleOfThreeAndFive(number))
-                return FizzOrBuzz[0]+FizzOrBuzz[1];
-            if (IsMultipleOfThree(number))
-                return FizzOrBuzz[0];
-            if (IsMultipleOfFive(number))
-                return FizzOrBuzz[1];
 
-            return null;
+            if (IsMultiple(number, divisors[0]))
+                FizzOrBuzz += "Fizz";
+            if (IsMultiple(number, divisors[1]))
+                return FizzOrBuzz += "Buzz";
+
+            return FizzOrBuzz;
 
         }
 
-        private bool IsMultipleOfFive(int number)
+        private bool IsMultiple(int number, int divisor)
         {
-            return number % 5 == 0;
+            return number % divisor == 0;
         }
 
-        private bool IsMultipleOfThree(int number)
-        {
-            return number % 3 == 0;
-        }
-
-        private bool IsMultipleOfThreeAndFive(int number)
-        {
-            return number % 3 == 0 && number % 5 == 0;
-        }
+        
     }
 }
