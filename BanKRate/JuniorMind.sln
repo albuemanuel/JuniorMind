@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FarmersLand", "FarmersLand\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FizzBuzz", "FizzBuzz\FizzBuzz.csproj", "{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentPayments", "RentPayments\RentPayments.csproj", "{CFF82167-05F8-47B1-ABE4-5399EFF687F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -253,6 +255,24 @@ Global
 		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Release|x86.ActiveCfg = Release|x86
 		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Release|x86.Build.0 = Release|x86
 		{45EBDDE9-1770-4728-AAF9-4BCADB8FE71A}.Release|x86.Deploy.0 = Release|x86
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Debug|ARM.ActiveCfg = Debug|ARM
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Debug|ARM.Build.0 = Debug|ARM
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Debug|ARM.Deploy.0 = Debug|ARM
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Debug|x64.ActiveCfg = Debug|x64
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Debug|x64.Build.0 = Debug|x64
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Debug|x64.Deploy.0 = Debug|x64
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Debug|x86.ActiveCfg = Debug|x86
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Debug|x86.Build.0 = Debug|x86
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Debug|x86.Deploy.0 = Debug|x86
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Release|ARM.ActiveCfg = Release|ARM
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Release|ARM.Build.0 = Release|ARM
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Release|ARM.Deploy.0 = Release|ARM
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Release|x64.ActiveCfg = Release|x64
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Release|x64.Build.0 = Release|x64
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Release|x64.Deploy.0 = Release|x64
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Release|x86.ActiveCfg = Release|x86
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Release|x86.Build.0 = Release|x86
+		{CFF82167-05F8-47B1-ABE4-5399EFF687F5}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
