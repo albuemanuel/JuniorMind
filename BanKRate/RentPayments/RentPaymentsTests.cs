@@ -13,9 +13,16 @@ namespace RentPayments
             Assert.AreEqual(200, CalculateRent(200, 0));
         }
 
+        [TestMethod]
+        public void RentForShortNrOfDaysPastDueDate()
+        {
+            Assert.AreEqual(208, CalculateRent(200, 2));
+        }
+
         decimal CalculateRent(decimal rent, int nrOfDaysPastDue)
         {
-            return rent;
+            decimal penalty = 0.02m;
+            return rent + nrOfDaysPastDue*penalty*rent;
         }
     }
 }
