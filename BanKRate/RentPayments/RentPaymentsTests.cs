@@ -33,8 +33,10 @@ namespace RentPayments
 
         decimal CalculateRent(decimal rent, int noOfDaysPastDue)
         {
-            float penalty = GetPenalty(noOfDaysPastDue);
-            return rent + (noOfDaysPastDue * (decimal)penalty * rent);
+            float penaltyPercentPerDay = GetPenalty(noOfDaysPastDue);
+            decimal actualPenalty = noOfDaysPastDue * (decimal)penaltyPercentPerDay * rent;
+
+            return rent + actualPenalty;
         }
 
         private static float GetPenalty(int noOfDaysPastDue)
