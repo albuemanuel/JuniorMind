@@ -8,8 +8,14 @@ namespace RentPayments
     public class RentPaymentsTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void RentForInTimePayment()
         {
+            Assert.AreEqual(200, CalculateRent(200, 0));
+        }
+
+        decimal CalculateRent(decimal rent, int nrOfDaysPastDue)
+        {
+            return rent;
         }
     }
 }
