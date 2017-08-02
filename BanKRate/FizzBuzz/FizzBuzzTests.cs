@@ -25,6 +25,12 @@ namespace FizzBuzz
             Assert.AreEqual("FizzBuzz", IsFizzOrBuzz(30, new int[]{ 6, 10}));
         }
 
+        [TestMethod]
+        public void FizzBuzzForMultipleOfNoneOfTheDivisors()
+        {
+            Assert.AreEqual(null, IsFizzOrBuzz(30, new int[] { 7, 11 }));
+        }
+
         string IsFizzOrBuzz(int number, int[] divisors)
         {
             string FizzOrBuzz = null;
