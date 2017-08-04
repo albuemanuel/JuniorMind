@@ -13,25 +13,27 @@ namespace RomanNumbers
             Assert.AreEqual("X", ConvertToRomanNumber(10));
         }
 
+        
+
         string ConvertToRomanNumber(int no)
         {
-            int temp = no;
+            
 
-            if (temp == 10)
+            if (no == 10)
                 return "X";
-            else if (temp >= 5)
-                if (temp > 8)
+            else if (no >= 5)
+                if (no > 8)
                     return "IX";
                 else
                 {
-                    temp -= 5;
-                    return "V" + ConvertToRomanNumber(temp);
+                    no -= 5;
+                    return "V" + ConvertToRomanNumber(no);
                 }
-            else if (temp > 3)
+            else if (no > 3)
                 return "IV";
             else
             {
-                switch(temp)
+                switch(no)
                 {
                     case 1:
                         return "I";
