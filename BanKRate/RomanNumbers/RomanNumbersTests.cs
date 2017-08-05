@@ -16,23 +16,28 @@ namespace RomanNumbers
         [TestMethod]
         public void ConversionForLargerNumbers()
         {
-            Assert.AreEqual("XLV", ConvertToRomanNumber(45));
+            Assert.AreEqual("LVII", ConvertToRomanNumber(57));
         }
 
         [TestMethod]
         public void DecompositionOfNo()
         {
-            CollectionAssert.AreEqual(new int[]{ 5, 7}, ConvertToRomanNumber(57));
+            //CollectionAssert.AreEqual(new int[]{ 5, 7}, ConvertToRomanNumber(57));
         }
 
-        int[] ConvertToRomanNumber(int no)
+
+
+        string ConvertToRomanNumber(int no)
         {
             int[] noDecomposed = DecomposeNo(no);
-            string[] noRoman = { "I", "II", "III", "IV", "V", "IX", "X", "XL", "L", "XC", "X" };
+            string[] unitsRoman = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
+            string[] tensRoman = { "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" };
 
-            
+            string noRoman = null;
 
-            return noDecomposed;
+            noRoman = tensRoman[noDecomposed[0]-1] + unitsRoman[noDecomposed[1]-1];
+
+            return noRoman;
         }
 
         private int[] DecomposeNo(int no)
