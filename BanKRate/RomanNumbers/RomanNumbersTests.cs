@@ -20,35 +20,35 @@ namespace RomanNumbers
         }
 
         [TestMethod]
-        public void DecompositionOfNo()
+        public void ErrorMessage()
         {
-            //CollectionAssert.AreEqual(new int[]{ 5, 7}, ConvertToRomanNumber(57));
+            Assert.AreEqual("Value out of range", ConvertToRomanNumber(250));
         }
+
+
 
 
 
         string ConvertToRomanNumber(int no)
         {
-            int[] noDecomposed = DecomposeNo(no);
+            
             string[] unitsRoman = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
             string[] tensRoman = { "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" };
 
-            string noRoman = null;
+            
+            if( no > 0 && no <= 100)
+                if (no > 9)
+                    return tensRoman[no / 10 - 1] + unitsRoman[no % 10 - 1];
+         
+                if (no < 10)
+                    return unitsRoman[no - 1];
 
-            noRoman = tensRoman[noDecomposed[0]-1] + unitsRoman[noDecomposed[1]-1];
+                if (no == 100)
+                    return "C";
 
-            return noRoman;
+            return "Value out of range";
         }
 
-        private int[] DecomposeNo(int no)
-        {
-            int[] noDecomposed = { 0, 0 };
-
-            noDecomposed[0] = no / 10;
-            noDecomposed[1] = no % (noDecomposed[0]*10);
-
-            return noDecomposed;
-
-        }
+       
     }
 }
