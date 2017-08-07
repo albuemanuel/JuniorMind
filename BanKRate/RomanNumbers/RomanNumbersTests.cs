@@ -32,19 +32,12 @@ namespace RomanNumbers
         string ConvertToRomanNumber(int no)
         {
             
-            string[] unitsRoman = { "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
-            string[] tensRoman = { "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" };
+            string[] unitsRoman = { "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" };
+            string[] tensRoman = { "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC", "C" };
 
-            
-            if( no > 0 && no <= 100)
-                if (no > 9)
-                    return tensRoman[no / 10 - 1] + unitsRoman[no % 10 - 1];
-         
-                if (no < 10)
-                    return unitsRoman[no - 1];
 
-                if (no == 100)
-                    return "C";
+            if (no > 0 && no <= 100)
+                return tensRoman[no / 10] + unitsRoman[no % 10];
 
             return "Value out of range";
         }
