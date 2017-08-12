@@ -18,12 +18,15 @@ namespace ChessBoard
             Assert.AreEqual(14, CalculateNoOfSquares(3));
         }
 
-
         int CalculateNoOfSquares(int size)
         {
-            if(size!=0)
-                return size * size + CalculateNoOfSquares(size-1);
-            return 0;
+            int NoOfSquares = 1;
+
+            for (int i = 2; i <= size; i++)
+                NoOfSquares += i * i;
+
+            return NoOfSquares;
+        
         }
     }
 }
