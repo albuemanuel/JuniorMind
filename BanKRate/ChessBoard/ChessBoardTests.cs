@@ -12,9 +12,18 @@ namespace ChessBoard
             Assert.AreEqual(5, CalculateNoOfSquares(2));
         }
 
+        [TestMethod]
+        public void NoOfSquaresForMediumBoard()
+        {
+            Assert.AreEqual(14, CalculateNoOfSquares(3));
+        }
+
+
         int CalculateNoOfSquares(int size)
         {
-            return size * size + 1;
+            if(size!=0)
+                return size * size + CalculateNoOfSquares(size-1);
+            return 0;
         }
     }
 }
