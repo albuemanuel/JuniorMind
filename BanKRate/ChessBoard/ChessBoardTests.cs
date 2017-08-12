@@ -7,8 +7,14 @@ namespace ChessBoard
     public class ChessBoardTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void NoOfSquaresForSmallBoard()
         {
+            Assert.AreEqual(5, CalculateNoOfSquares(2));
+        }
+
+        int CalculateNoOfSquares(int size)
+        {
+            return size * size + 1;
         }
     }
 }
