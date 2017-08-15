@@ -14,18 +14,15 @@ namespace Panagram
 
         bool IsPanagram(string phrase)
         {
-            phrase = phrase.Replace(" ", "").ToLower();
-            string alphabet = "abcdefghijklmnopqrstuvwxyz";
-            int[] index = new int[26];
+            phrase = phrase.Replace(" ", "");
+
+
 
             for (int i = 0; i < phrase.Length; i++)
-                for (int j = 0; j < 26; j++)
-                    if (phrase[i] == alphabet[j])
-                        index[j] = 1;
-
-            for (int i = 0; i < 26; i++)
-                if (index[i] == 0)
+                if (!Char.IsLetter(phrase[i]))
                     return false;
+
+            
 
             return true;
         }
