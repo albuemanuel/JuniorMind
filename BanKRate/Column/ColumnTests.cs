@@ -12,12 +12,29 @@ namespace Column
             Assert.AreEqual("Z", ConvertToIndex(26));
         }
 
+        [TestMethod]
+        public void IndexForMediumNo()
+        {
+            Assert.AreEqual("AZ", ConvertToIndex(52));
+        }
+
+
         string ConvertToIndex(int no)
         {
-            string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            
             string index = "";
+            int count = 0;
 
-            index += alphabet[no - 1];
+            for(int i=0; i<no; i++)
+            {
+                count++;
+                if(count == 27)
+                {
+                    count = 1;
+                    index += "A";
+                }
+            }
+            index += (char)('A' + count-1);
 
             return index;
         }
