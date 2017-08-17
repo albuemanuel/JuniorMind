@@ -7,14 +7,19 @@ namespace Column
     public class ColumnTests
     {
         [TestMethod]
-        public void Index()
+        public void IndexForSmallNo()
         {
-            Assert.AreEqual("AA", ConvertToIndex(27));
+            Assert.AreEqual("Z", ConvertToIndex(26));
         }
 
         string ConvertToIndex(int no)
         {
-            return "";
+            string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string index = "";
+
+            index += alphabet[no - 1];
+
+            return index;
         }
     }
 }
