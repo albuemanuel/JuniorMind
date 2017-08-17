@@ -18,25 +18,36 @@ namespace Column
             Assert.AreEqual("AZ", ConvertToIndex(52));
         }
 
+        [TestMethod]
+        public void IndexForAnyNo()
+        {
+            Assert.AreEqual("BBS", ConvertToIndex(1423));
+        }
+
 
         string ConvertToIndex(int no)
         {
-            
-            string index = "";
-            int count = 0;
-
-            for(int i=0; i<no; i++)
+            if (no / 26 < 27)
             {
-                count++;
-                if(count == 27)
-                {
-                    count = 1;
-                    index += "A";
-                }
-            }
-            index += (char)('A' + count-1);
+                if (no <= 26)
+                    return "" + (char)('A' + no - 1);
 
-            return index;
+                if (no % 26 == 0)
+                    return "" + (char)('A' + (no / 26) - 2) + 'Z';
+
+                return "" + (char)('A' + (no / 26) - 1) + (char)('A' + (no % 26) - 1);
+            }
+
+            return ConvertToIndex(no / 26) + ConvertToIndex(no % 26);
+
+            
+
         }
+
+        
+
+       
+            
+
     }
 }
