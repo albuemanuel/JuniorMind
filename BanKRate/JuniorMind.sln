@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BanKRate", "BanKRate\BanKRate.csproj", "{475FF8B6-AD49-4686-AAB9-587E1B8C6303}"
 EndProject
@@ -32,6 +32,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RomanNumbers", "RomanNumbers\RomanNumbers.csproj", "{3D429E04-755D-45D9-946E-653CF48A4D4F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panagram", "Panagram\Panagram.csproj", "{74C73906-F76D-4D5C-B646-6A9352F373AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Column", "Column\Column.csproj", "{C3D47768-36FE-46C3-879A-4951E8AF4DDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -341,8 +343,27 @@ Global
 		{74C73906-F76D-4D5C-B646-6A9352F373AF}.Release|x64.Build.0 = Release|Any CPU
 		{74C73906-F76D-4D5C-B646-6A9352F373AF}.Release|x86.ActiveCfg = Release|Any CPU
 		{74C73906-F76D-4D5C-B646-6A9352F373AF}.Release|x86.Build.0 = Release|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Debug|ARM.Build.0 = Debug|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Debug|x64.Build.0 = Debug|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Debug|x86.Build.0 = Debug|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Release|ARM.ActiveCfg = Release|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Release|ARM.Build.0 = Release|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Release|x64.ActiveCfg = Release|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Release|x64.Build.0 = Release|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Release|x86.ActiveCfg = Release|Any CPU
+		{C3D47768-36FE-46C3-879A-4951E8AF4DDE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {538BC90C-09A1-4AE6-9556-2B0114568833}
 	EndGlobalSection
 EndGlobal
