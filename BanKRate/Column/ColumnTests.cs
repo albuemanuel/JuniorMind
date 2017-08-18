@@ -30,18 +30,21 @@ namespace Column
             if (no / 26 < 27)
             {
                 if (no <= 26)
-                    return "" + (char)('A' + no - 1);
+                    return AssignLetter(no);
 
                 if (no % 26 == 0)
-                    return "" + (char)('A' + (no / 26) - 2) + 'Z';
+                    return AssignLetter(no / 26 - 1) + 'Z';
 
-                return "" + (char)('A' + (no / 26) - 1) + (char)('A' + (no % 26) - 1);
+                return AssignLetter(no/26) + AssignLetter(no%26);
             }
 
             return ConvertToIndex(no / 26) + ConvertToIndex(no % 26);
 
-            
+        }
 
+        string AssignLetter(int no)
+        {
+            return "" + (char)('A' + no-1);
         }
 
         
