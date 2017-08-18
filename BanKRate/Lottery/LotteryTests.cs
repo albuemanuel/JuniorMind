@@ -10,17 +10,24 @@ namespace Lottery
         public void ChanceToWinForSixOutOfFortynine()
         {
 
-            Assert.AreEqual("1 / 13983816", CalculateProbabilityToWin(6));
+            Assert.AreEqual("1 / 13983816", CalculateProbabilityToWin(6, 49));
         }
 
-        string CalculateProbabilityToWin(int category)
+        [TestMethod]
+        public void ChanceToWinForAnyRules()
+        {
+
+            Assert.AreEqual("1 / 658008", CalculateProbabilityToWin(5, 40));
+        }
+
+        string CalculateProbabilityToWin(int category, int totalNo)
         {
             double probabilityForSequence = 1;
             int noOfSequences = 1;
 
             for (int i = 0; i < category; i++)
             {
-                probabilityForSequence *= 49 - i;
+                probabilityForSequence *= totalNo - i;
             }
 
             for (int i = 1; i <= category; i++)
