@@ -27,7 +27,7 @@ namespace Column
 
         string ConvertToIndex(int no)
         {
-            if (no / 26 < 27)
+            if (no / 26 <= 26)
             {
                 if (no <= 26)
                     return AssignLetter(no);
@@ -35,7 +35,7 @@ namespace Column
                 if (no % 26 == 0)
                     return AssignLetter(no / 26 - 1) + 'Z';
 
-                return AssignLetter(no/26) + AssignLetter(no%26);
+                return AssignLetter(no / 26) + AssignLetter(no % 26);
             }
 
             return ConvertToIndex(no / 26) + ConvertToIndex(no % 26);
