@@ -17,14 +17,14 @@ namespace Lottery
         public void ChanceToWinForAnyRules()
         {
 
-            Assert.AreEqual("1 / 1712303.99183674", CalculateProbabilityToWin(6, 49, 5));
+            Assert.AreEqual("1 / 300727", CalculateProbabilityToWin(6, 49, 5));
         }
 
         string CalculateProbabilityToWin(int noOfExtractions, int totalNo, int noOfCorrectNo)
         {
-            double probability = 0;
-            double probabilityOfSequence = 1;
-            double probabilityOfCombinations = 0;
+            double probabilityNumerator = 0;
+            double probabilityOfSequenceDenominator = 1;
+            double probabilityDenominator = 0;
             
 
             for (int seqNo=0; seqNo<6; seqNo++)
@@ -33,14 +33,17 @@ namespace Lottery
                 {
                     if (i == seqNo)
                         continue;
-                    probabilityOfSequence *= 1d/(49 - i);
+                    probabilityOfSequenceDenominator *= 49 - i;
                 }
-                probabilityOfCombinations += probabilityOfSequence;
+                AddFractions(probabilityNumerator, probabilityDenominator, 1, probabilityOfSequenceDenominator, out probabilityNumerator, out probabilityDenominator);
+                probabilityOfSequenceDenominator = 1;
             }
 
-            probability = probabilityOfCombinations * CalculateFactorial(noOfCorrectNo);
+            probabilityNumerator *= CalculateFactorial(noOfCorrectNo);
 
-            return 1 + " / " + Math.Pow(probability, -1).ToString();
+            return 1 + " / " + (int)(probabilityDenominator / probabilityNumerator);
+
+            
         }
 
         int CalculateFactorial(int no)
@@ -55,8 +58,17 @@ namespace Lottery
 
         void AddFractions(double numeratorOne, double denominatorOne, double numeratorTwo, double denominatorTwo, out double resultNumerator, out double resultDenominator)
         {
-            resultNumerator = numeratorOne * denominatorTwo + numeratorTwo * denominatorOne;
-            resultDenominator = denominatorOne * denominatorTwo;
+            if(numeratorOne != 0)
+            {
+                resultNumerator = numeratorOne * denominatorTwo + numeratorTwo * denominatorOne;
+                resultDenominator = denominatorOne * denominatorTwo;
+                return;
+            }
+
+            resultNumerator = numeratorTwo;
+            resultDenominator = denominatorTwo;
+
+            
         }
     }
 }
