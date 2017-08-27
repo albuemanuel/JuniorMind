@@ -17,33 +17,39 @@ namespace Lottery
         public void ChanceToWinForAnyRules()
         {
 
-            Assert.AreEqual("1 / 300727", CalculateProbabilityToWin(6, 49, 5));
+            Assert.AreEqual("0.000332527258653861%", CalculateProbabilityToWin(6, 49, 5));
         }
 
         string CalculateProbabilityToWin(int noOfExtractions, int totalNo, int noOfCorrectNo)
         {
-            double probabilityNumerator = 0;
-            double probabilityOfSequenceDenominator = 1;
-            double probabilityDenominator = 0;
+            double[] seqOfProbabilities = new double[noOfExtractions];
+
+            for(int i=0; i<noOfExtractions; i++)
+                seqOfProbabilities[i] = 1f / (totalNo - i);
             
 
-            for (int seqNo=0; seqNo<6; seqNo++)
+            double probability = 0;
+            double probabilityOfSequence = 1;
+
+
+
+            for (int seqNo = 0; seqNo < noOfExtractions; seqNo++)
             {
-                for(int i=0; i<6; i++)
+                for (int i = 0; i < noOfExtractions; i++)
                 {
                     if (i == seqNo)
                         continue;
-                    probabilityOfSequenceDenominator *= 49 - i;
+                    probabilityOfSequence *= seqOfProbabilities[i];
                 }
-                AddFractions(probabilityNumerator, probabilityDenominator, 1, probabilityOfSequenceDenominator, out probabilityNumerator, out probabilityDenominator);
-                probabilityOfSequenceDenominator = 1;
+                probability += probabilityOfSequence;
+                probabilityOfSequence = 1;
             }
 
-            probabilityNumerator *= CalculateFactorial(noOfCorrectNo);
+            probability *= CalculateFactorial(noOfCorrectNo) * 100;
 
-            return 1 + " / " + (int)(probabilityDenominator / probabilityNumerator);
+            return probability.ToString() + "%";
 
-            
+
         }
 
         int CalculateFactorial(int no)
@@ -56,19 +62,7 @@ namespace Lottery
             return factorial;
         }
 
-        void AddFractions(double numeratorOne, double denominatorOne, double numeratorTwo, double denominatorTwo, out double resultNumerator, out double resultDenominator)
-        {
-            if(numeratorOne != 0)
-            {
-                resultNumerator = numeratorOne * denominatorTwo + numeratorTwo * denominatorOne;
-                resultDenominator = denominatorOne * denominatorTwo;
-                return;
-            }
 
-            resultNumerator = numeratorTwo;
-            resultDenominator = denominatorTwo;
-
-            
-        }
     }
 }
+
