@@ -7,14 +7,14 @@ namespace Lottery
     public class LotteryTests
     {
         [TestMethod]
-        public void ChanceToWinForSixOutOfFortynine()
+        public void ChanceToWinAtSixOutOfFortynineInFirstCategory()
         {
 
-            Assert.AreEqual("1 / 13983816", CalculateProbabilityToWin(6, 49, 6));
+            Assert.AreEqual("7.15112384201852E-06%", CalculateProbabilityToWin(6, 49, 6));
         }
 
         [TestMethod]
-        public void ChanceToWinForAnyRules()
+        public void ChanceToWinAtSixOutOfFortynineInSecondCategory()
         {
 
             Assert.AreEqual("0.000332527258653861%", CalculateProbabilityToWin(6, 49, 5));
@@ -22,34 +22,36 @@ namespace Lottery
 
         string CalculateProbabilityToWin(int noOfExtractions, int totalNo, int noOfCorrectNo)
         {
-            double[] seqOfProbabilities = new double[noOfExtractions];
-
-            for(int i=0; i<noOfExtractions; i++)
-                seqOfProbabilities[i] = 1f / (totalNo - i);
-            
 
             double probability = 0;
             double probabilityOfSequence = 1;
 
-
-
-            for (int seqNo = 0; seqNo < noOfExtractions; seqNo++)
+            if (noOfCorrectNo == 6)
             {
+                probability = 1;
                 for (int i = 0; i < noOfExtractions; i++)
                 {
-                    if (i == seqNo)
-                        continue;
-                    probabilityOfSequence *= seqOfProbabilities[i];
+                    probability *= 1d / (totalNo - i);
                 }
-                probability += probabilityOfSequence;
-                probabilityOfSequence = 1;
             }
 
+            if (noOfCorrectNo == 5)
+            {
+                for (int seqNo = 0; seqNo < noOfExtractions; seqNo++)
+                {
+                    for (int i = 0; i < noOfExtractions; i++)
+                    {
+                        if (i == seqNo)
+                            continue;
+                        probabilityOfSequence *= 1d / (totalNo - i);
+                    }
+                    probability += probabilityOfSequence;
+                    probabilityOfSequence = 1;
+                }
+
+            }
             probability *= CalculateFactorial(noOfCorrectNo) * 100;
-
             return probability.ToString() + "%";
-
-
         }
 
         int CalculateFactorial(int no)
@@ -61,6 +63,8 @@ namespace Lottery
 
             return factorial;
         }
+
+
 
 
     }
