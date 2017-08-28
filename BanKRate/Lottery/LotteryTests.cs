@@ -20,6 +20,13 @@ namespace Lottery
             Assert.AreEqual("0.000332527258653861%", CalculateProbabilityToWin(6, 49, 5));
         }
 
+        [TestMethod]
+        public void ChanceToWinAtSixOutOfFortynineInThirdCategory()
+        {
+
+            Assert.AreEqual("0.00772917301924835%", CalculateProbabilityToWin(6, 49, 4));
+        }
+
         string CalculateProbabilityToWin(int noOfExtractions, int totalNo, int noOfCorrectNo)
         {
 
@@ -48,6 +55,23 @@ namespace Lottery
                     probability += probabilityOfSequence;
                     probabilityOfSequence = 1;
                 }
+
+            }
+
+            if (noOfCorrectNo == 4)
+            {
+                for (int i = 0; i < noOfExtractions - 1; i++)
+                    for (int j = i + 1; j < noOfExtractions; j++)
+                    {
+                        for (int k = 0; k < noOfExtractions; k++)
+                        {
+                            if (k == i || k == j)
+                                continue;
+                            probabilityOfSequence *= 1d / (totalNo - k);
+                        }
+                        probability += probabilityOfSequence;
+                        probabilityOfSequence = 1;
+                    }
 
             }
             probability *= CalculateFactorial(noOfCorrectNo) * 100;
