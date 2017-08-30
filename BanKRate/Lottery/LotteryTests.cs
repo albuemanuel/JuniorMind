@@ -23,60 +23,34 @@ namespace Lottery
         [TestMethod]
         public void ChanceToWinAtSixOutOfFortynineInThirdCategory()
         {
-
+            
             Assert.AreEqual("0.00772917301924835%", CalculateProbabilityToWin(6, 49, 4));
         }
 
         string CalculateProbabilityToWin(int noOfExtractions, int totalNo, int noOfCorrectNo)
         {
-
+            
+            string[] combinations = GenerateCombinations(noOfExtractions, noOfCorrectNo);
             double probability = 0;
             double probabilityOfSequence = 1;
-
-            if (noOfCorrectNo == 6)
+            
+            
+            foreach(string comb in combinations)
             {
-                probability = 1;
-                for (int i = 0; i < noOfExtractions; i++)
+                for(int i=0; i<noOfExtractions; i++)
                 {
-                    probability *= 1d / (totalNo - i);
-                }
-            }
-
-            if (noOfCorrectNo == 5)
-            {
-                for (int seqNo = 0; seqNo < noOfExtractions; seqNo++)
-                {
-                    for (int i = 0; i < noOfExtractions; i++)
-                    {
-                        if (i == seqNo)
-                            continue;
+                    if (comb[i] == '1')
                         probabilityOfSequence *= 1d / (totalNo - i);
-                    }
-                    probability += probabilityOfSequence;
-                    probabilityOfSequence = 1;
                 }
-
+                probability += probabilityOfSequence;
+                probabilityOfSequence = 1;
             }
 
-            if (noOfCorrectNo == 4)
-            {
-                for (int i = 0; i < noOfExtractions - 1; i++)
-                    for (int j = i + 1; j < noOfExtractions; j++)
-                    {
-                        for (int k = 0; k < noOfExtractions; k++)
-                        {
-                            if (k == i || k == j)
-                                continue;
-                            probabilityOfSequence *= 1d / (totalNo - k);
-                        }
-                        probability += probabilityOfSequence;
-                        probabilityOfSequence = 1;
-                    }
-
-            }
-            probability *= CalculateFactorial(noOfCorrectNo) * 100;
+            probability *= CalculateFactorial(noOfCorrectNo)*100;
             return probability.ToString() + "%";
         }
+        
+        
 
         int CalculateFactorial(int no)
         {
@@ -87,6 +61,49 @@ namespace Lottery
 
             return factorial;
         }
+
+        string[] GenerateCombinations(int n, int k)
+        {
+            string[] comb = new string[CalculateNrOfComb(n, k)];
+            int ct = 0;
+
+            for(int i=(int)Math.Pow(2, k)-1; i<Math.Pow(2, n); i++)
+            {
+                string nr_baseTwo = Convert.ToString(i, 2);
+                
+                if (GetNrOfOnes(nr_baseTwo) == k)
+                    comb[ct++] = nr_baseTwo.PadLeft(6, '0');
+            }
+            
+            return comb;
+        }
+
+        private int GetNrOfOnes(string nr_baseTwo)
+        {
+            int noOfOnes = 0;
+            foreach(char no in nr_baseTwo)
+            {
+                if (no == '1')
+                    noOfOnes++;
+            }
+            return noOfOnes;
+        }
+
+        int CalculateNrOfComb(int n, int k)
+        {
+            int nrOfCombNum = 1;
+            int nrOfCombDen = 1;
+            int ct = 1;
+            for(int i=n; i>n-k; i--)
+            {
+                nrOfCombNum *= i;
+                nrOfCombDen *= ct++;
+            }
+            return nrOfCombNum / nrOfCombDen;
+        }
+
+        
+
 
 
 
