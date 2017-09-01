@@ -10,24 +10,24 @@ namespace Lottery
         public void ChanceToWinAtSixOutOfFortynineInFirstCategory()
         {
 
-            Assert.AreEqual("7.15112384201852E-06%", CalculateProbabilityToWin(6, 49, 6));
+            Assert.AreEqual(7.151123842018516E-08, CalculateProbabilityToWin(6, 49, 6));
         }
 
         [TestMethod]
         public void ChanceToWinAtSixOutOfFortynineInSecondCategory()
         {
 
-            Assert.AreEqual("0.000332527258653861%", CalculateProbabilityToWin(6, 49, 5));
+            Assert.AreEqual(3.32527258653861E-06, CalculateProbabilityToWin(6, 49, 5));
         }
 
         [TestMethod]
         public void ChanceToWinAtSixOutOfFortynineInThirdCategory()
         {
             
-            Assert.AreEqual("0.00772917301924835%", CalculateProbabilityToWin(6, 49, 4));
+            Assert.AreEqual(7.7291730192483466E-05, CalculateProbabilityToWin(6, 49, 4));
         }
 
-        string CalculateProbabilityToWin(int noOfExtractions, int totalNo, int noOfCorrectNo)
+        double CalculateProbabilityToWin(int noOfExtractions, int totalNo, int noOfCorrectNo)
         {
             
             string[] combinations = GenerateCombinations(noOfExtractions, noOfCorrectNo);
@@ -46,8 +46,8 @@ namespace Lottery
                 probabilityOfSequence = 1;
             }
 
-            probability *= CalculateFactorial(noOfCorrectNo)*100;
-            return probability.ToString() + "%";
+            probability *= CalculateFactorial(noOfCorrectNo);
+            return probability;
         }
         
         
@@ -64,24 +64,24 @@ namespace Lottery
 
         string[] GenerateCombinations(int n, int k)
         {
-            string[] comb = new string[CalculateNrOfComb(n, k)];
+            string[] comb = new string[CalculateNoOfCombinations(n, k)];
             int ct = 0;
 
             for(int i=(int)Math.Pow(2, k)-1; i<Math.Pow(2, n); i++)
             {
-                string nr_baseTwo = Convert.ToString(i, 2);
+                string noInBaseTwo = Convert.ToString(i, 2);
                 
-                if (GetNrOfOnes(nr_baseTwo) == k)
-                    comb[ct++] = nr_baseTwo.PadLeft(6, '0');
+                if (GetNrOfOnes(noInBaseTwo) == k)
+                    comb[ct++] = noInBaseTwo.PadLeft(6, '0');
             }
             
             return comb;
         }
 
-        private int GetNrOfOnes(string nr_baseTwo)
+        private int GetNrOfOnes(string noInBaseTwo)
         {
             int noOfOnes = 0;
-            foreach(char no in nr_baseTwo)
+            foreach(char no in noInBaseTwo)
             {
                 if (no == '1')
                     noOfOnes++;
@@ -89,17 +89,14 @@ namespace Lottery
             return noOfOnes;
         }
 
-        int CalculateNrOfComb(int n, int k)
+        int CalculateNoOfCombinations(int n, int k)
         {
             int nrOfCombNum = 1;
-            int nrOfCombDen = 1;
-            int ct = 1;
+            
             for(int i=n; i>n-k; i--)
-            {
                 nrOfCombNum *= i;
-                nrOfCombDen *= ct++;
-            }
-            return nrOfCombNum / nrOfCombDen;
+                
+            return nrOfCombNum / CalculateFactorial(k);
         }
 
         
