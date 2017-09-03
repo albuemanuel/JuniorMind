@@ -17,44 +17,27 @@ namespace Lottery
         public void ChanceToWinAtSixOutOfFortynineInSecondCategory()
         {
 
-            Assert.AreEqual(3.32527258653861E-06, CalculateProbabilityToWin(6, 49, 5));
+            Assert.AreEqual(1.8878966942928881E-05, CalculateProbabilityToWin(6, 49, 5));
         }
 
         [TestMethod]
         public void ChanceToWinAtSixOutOfFortynineInThirdCategory()
         {
             
-            Assert.AreEqual(7.7291730192483466E-05, CalculateProbabilityToWin(6, 49, 4));
+            Assert.AreEqual(0.0010619418905397496, CalculateProbabilityToWin(6, 49, 4));
         }
+
+
+
 
         double CalculateProbabilityToWin(int noOfExtractions, int totalNo, int noOfCorrectNo)
         {
-            
-            string[] combinations = GenerateCombinations(noOfExtractions, noOfCorrectNo);
-            double probability = 0;
-            double probabilityOfSequence = 1;
-            
-            
-            foreach(string comb in combinations)
-            {
-                for(int i=0; i<noOfExtractions; i++)
-                {
-                    if (comb[i] == '1')
-                        probabilityOfSequence *= 1d / (totalNo - i);
-                }
-                probability += probabilityOfSequence;
-                probabilityOfSequence = 1;
-            }
-
-            probability *= CalculateFactorial(noOfCorrectNo);
-            return probability;
+            return (CalculateNoOfCombinations(noOfExtractions, noOfCorrectNo) * CalculateNoOfCombinations(totalNo - noOfCorrectNo, noOfExtractions - noOfCorrectNo)) / CalculateNoOfCombinations(totalNo, noOfExtractions);
         }
         
-        
-
-        int CalculateFactorial(int no)
+        double CalculateFactorial(int no)
         {
-            int factorial = 1;
+            double factorial = 1;
 
             for (int i = 2; i <= no; i++)
                 factorial *= i;
@@ -62,7 +45,17 @@ namespace Lottery
             return factorial;
         }
 
-        string[] GenerateCombinations(int n, int k)
+        double CalculateNoOfCombinations(int n, int k)
+        {
+            double nrOfCombNum = 1;
+
+            for (int i = n; i > n - k; i--)
+                nrOfCombNum *= i;
+
+            return nrOfCombNum / CalculateFactorial(k);
+        }
+
+        /*string[] GenerateCombinations(int n, int k)
         {
             string[] comb = new string[CalculateNoOfCombinations(n, k)];
             int ct = 0;
@@ -87,19 +80,11 @@ namespace Lottery
                     noOfOnes++;
             }
             return noOfOnes;
-        }
+        }*/
 
-        int CalculateNoOfCombinations(int n, int k)
-        {
-            int nrOfCombNum = 1;
-            
-            for(int i=n; i>n-k; i--)
-                nrOfCombNum *= i;
-                
-            return nrOfCombNum / CalculateFactorial(k);
-        }
 
-        
+
+
 
 
 
