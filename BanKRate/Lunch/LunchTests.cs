@@ -9,28 +9,23 @@ namespace Lunch
         [TestMethod]
         public void DayOfFirstSyncOccurence()
         {
-            Assert.AreEqual(20, CalculateDayWhenLunchIsSync(5, 4));
+            Assert.AreEqual(8, CalculateDayWhenLunchIsSync(4, 8));
         }
 
-        int CalculateDayWhenLunchIsSync(int first, int second)
+        int CalculateDayWhenLunchIsSync(int first, int second) => first * second / DetermineGreatestCommonDivisor(first, second);
+
+        int DetermineGreatestCommonDivisor(int a, int b)
         {
-            int countOne = 0;
-            int countTwo = 0;
-            int biggest = first > second ? first : second;
-            int smallest = first < second ? first : second;
+            int temp;
 
-
-
-            while (true)
+            while(b!=0)
             {
-                countOne += biggest;
-                while(countTwo<countOne)
-                {
-                    countTwo += smallest;
-                }
-                if (countOne == countTwo && countOne % biggest == 0)
-                    return countOne;
+                temp = b;
+                b = a % b;
+                a = temp;
             }
+            return a;
         }
+
     }
 }
