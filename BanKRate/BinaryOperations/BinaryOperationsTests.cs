@@ -10,7 +10,13 @@ namespace BinaryOperations
         [TestMethod]
         public void BinaryRepresentation()
         {
-            CollectionAssert.AreEqual(new byte[] { 1, 0, 0, 1 }, ConvertToBinary(9));
+            CollectionAssert.AreEqual(new byte[] { 1, 0, 1, 0 }, ConvertToBinary(10));
+        }
+
+        [TestMethod]
+        public void BitwiseNOT()
+        {
+            CollectionAssert.AreEqual(new byte[] { 0, 1, 0, 1, 0, 0 }, BitwiseNOT(new byte[] { 1, 0, 1, 0, 1, 1 }));
         }
 
         byte[] ConvertToBinary(byte n)
@@ -27,5 +33,20 @@ namespace BinaryOperations
             return binaryRepByte;
 
         }
+
+        byte[] BitwiseNOT(byte[] n)
+        {
+            for(int i=0; i<n.Length; i++)
+            {
+                if (n[i] == 0)
+                    n[i] = 1;
+                else
+                    n[i] = 0;
+            }
+
+            return n;
+
+        }
+
     }
 }
