@@ -20,15 +20,39 @@ namespace BinaryOperations
         }
 
         [TestMethod]
-        public void BitwiseANDWhenAddNotIncreasingNoOfBits()
+        public void BitwiseADDWhenAddNotIncreasingNoOfBits()
         {
-            CollectionAssert.AreEqual(new byte[] { 1, 1, 1, 0 }, BitwiseAND(ConvertToBinary(4), ConvertToBinary(10)));
+            CollectionAssert.AreEqual(new byte[] { 1, 1, 1, 0 }, BitwiseADD(ConvertToBinary(4), ConvertToBinary(10)));
+        }
+
+        [TestMethod]
+        public void BitwiseADD()
+        {
+            CollectionAssert.AreEqual(new byte[] { 1, 1, 1, 1, 0 }, BitwiseADD(ConvertToBinary(15), ConvertToBinary(15)));
         }
 
         [TestMethod]
         public void BitwiseAND()
         {
-            CollectionAssert.AreEqual(new byte[] { 1, 1, 1, 1, 0 }, BitwiseAND(ConvertToBinary(15), ConvertToBinary(15)));
+            CollectionAssert.AreEqual(new byte[] { 0, 1, 1, 0 }, BitwiseAND(ConvertToBinary(14), ConvertToBinary(6)));
+        }
+
+        byte[] BitwiseAND(byte[] a, byte[] b)
+        {
+            byte[] sum = a.Length > b.Length ? (byte[])a.Clone() : (byte[])b.Clone();
+            int sumLen = sum.Length;
+            byte[] smallNo = a.Length < b.Length ? (byte[])a.Clone() : (byte[])b.Clone();
+            int smallNoLen = smallNo.Length;
+
+            for (int i = 0; i < sumLen; i++)
+            {
+                if (i >= smallNoLen)
+                    sum[GetIndex(i, sumLen)] = 0;
+                else
+                    sum[GetIndex(i, sumLen)] *= smallNo[GetIndex(i, smallNoLen)];
+            }
+
+            return sum;
         }
 
         byte[] ConvertToBinary(byte n)
@@ -62,12 +86,12 @@ namespace BinaryOperations
 
         }
 
-        byte[] BitwiseAND(byte[] a, byte[] b)
+        byte[] BitwiseADD(byte[] a, byte[] b)
         {
-            int smallNoLen = a.Length < b.Length ? a.Length : b.Length;
-            int bigNoLen = a.Length > b.Length ? a.Length : b.Length;
             byte[] sum = a.Length > b.Length ? (byte[])a.Clone() : (byte[])b.Clone();
+            int bigNoLen = sum.Length;
             byte[] smallNo = a.Length < b.Length ? (byte[])a.Clone() : (byte[])b.Clone();
+            int smallNoLen = smallNo.Length;
             byte carry = 0;
 
             for (int i = 0; i < smallNoLen; i++)
