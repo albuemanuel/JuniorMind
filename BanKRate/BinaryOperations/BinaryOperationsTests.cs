@@ -43,6 +43,34 @@ namespace BinaryOperations
             CollectionAssert.AreEqual(new byte[] { 1, 1, 1 }, BitwiseOR(ConvertToBinary(4), ConvertToBinary(7)));
         }
 
+        [TestMethod]
+        public void BitwiseXOR()
+        {
+            CollectionAssert.AreEqual(new byte[] { 1, 0, 1 }, BitwiseXOR(ConvertToBinary(2), ConvertToBinary(7)));
+        }
+
+        byte[] BitwiseXOR(byte[] a, byte[] b)
+        {
+            byte[] result = a.Length > b.Length ? (byte[])a.Clone() : (byte[])b.Clone();
+            int resultLen = result.Length;
+            byte[] smallNo = a.Length < b.Length ? (byte[])a.Clone() : (byte[])b.Clone();
+            int smallNoLen = smallNo.Length;
+
+            for(int i=0; i<resultLen; i++)
+            {
+                if(i<smallNoLen)
+                {
+                    if (result[GetIndex(i, resultLen)] == smallNo[GetIndex(i, smallNoLen)])
+                        result[GetIndex(i, resultLen)] = 0;
+                    else
+                    {
+                        result[GetIndex(i, resultLen)] = 1;
+                    }
+                }
+            }
+            return result;
+        }
+
         byte[] BitwiseOR(byte[] a, byte[] b)
         {
             byte[] result = a.Length > b.Length ? (byte[])a.Clone() : (byte[])b.Clone();
@@ -52,8 +80,9 @@ namespace BinaryOperations
 
             for(int i=0; i<resultLen; i++)
             {
-                if (result[GetIndex(i, resultLen)] == 1 || smallNo[GetIndex(i, smallNoLen)] == 1)
-                    result[GetIndex(i, resultLen)] = 1;
+                if(i<smallNoLen)
+                    if (result[GetIndex(i, resultLen)] == 1 || smallNo[GetIndex(i, smallNoLen)] == 1)
+                        result[GetIndex(i, resultLen)] = 1;
                 if (i >= smallNoLen)
                     result[GetIndex(i, resultLen)] = 0;
             }
