@@ -25,6 +25,12 @@ namespace BinaryOperations
             CollectionAssert.AreEqual(new byte[] { 1, 1, 1, 0 }, BitwiseAND(ConvertToBinary(4), ConvertToBinary(10)));
         }
 
+        [TestMethod]
+        public void BitwiseAND()
+        {
+            CollectionAssert.AreEqual(new byte[] { 1, 1, 1, 1, 0 }, BitwiseAND(ConvertToBinary(15), ConvertToBinary(15)));
+        }
+
         byte[] ConvertToBinary(byte n)
         {
             string binaryRepString = Convert.ToString(n, 2);
@@ -67,11 +73,12 @@ namespace BinaryOperations
             for (int i = 0; i < smallNoLen; i++)
             {
                 sum[GetIndex(i, bigNoLen)] += (byte)(smallNo[GetIndex(i, smallNoLen)] + carry);
-                if (sum[GetIndex(i, bigNoLen)] == 2)
+                if (sum[GetIndex(i, bigNoLen)] > 1)
                 {
-                    sum[GetIndex(i, bigNoLen)] = 0;
+                    sum[GetIndex(i, bigNoLen)] %= 2;
                     carry = 1;
                 }
+                
                 else
                     carry = 0;
             }
@@ -85,6 +92,14 @@ namespace BinaryOperations
                 }
                 else
                     carry = 0;
+            }
+            if(carry==1)
+            {
+                byte[] newSum = new byte[bigNoLen + 1];
+                newSum[0] = 1;
+                Array.Copy(sum, 0, newSum, 1, bigNoLen);
+                sum = newSum;
+
             }
             return sum;
         }
