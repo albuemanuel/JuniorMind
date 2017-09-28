@@ -22,7 +22,7 @@ namespace BinaryOperations
         [TestMethod]
         public void BitwiseAND()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(10&6), BitwiseAND(ConvertToBinary(10), ConvertToBinary(6)));
+            CollectionAssert.AreEqual(ConvertToBinary(7 & 3), RemoveZeroes(BitwiseAND(ConvertToBinary(7), ConvertToBinary(3))));
         }
 
         [TestMethod]
@@ -34,7 +34,7 @@ namespace BinaryOperations
         [TestMethod]
         public void BitwiseXOR()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(5^23), BitwiseXOR(ConvertToBinary(5), ConvertToBinary(23)));
+            CollectionAssert.AreEqual(ConvertToBinary(10^14), RemoveZeroes(BitwiseXOR(ConvertToBinary(10), ConvertToBinary(14))));
         }
 
         [TestMethod]
@@ -58,24 +58,22 @@ namespace BinaryOperations
         [TestMethod]
         public void BitwiseADD()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(9), BitwiseADD(ConvertToBinary(7), ConvertToBinary(2)));
+            CollectionAssert.AreEqual(ConvertToBinary(14+10), BitwiseADD(ConvertToBinary(14), ConvertToBinary(10)));
         }
 
 
         byte[] BitwiseADD(byte[] a, byte[] b)
         {
-            byte[] carry = BitwiseAND(a, b);
+            byte[] carry = RemoveZeroes(BitwiseAND(a, b));
             byte[] result = BitwiseXOR(a, b);
 
             while (carry.Length != 1 && carry[0] != 0)
             {
                 byte[] shiftCarry = LeftHandShift(carry, 1);
-                carry = BitwiseAND(shiftCarry, result);
+                carry = RemoveZeroes(BitwiseAND(shiftCarry, result));
                 result = BitwiseXOR(result, shiftCarry);
 
-                RemoveZeroes(ref carry);
             }
-            RemoveZeroes(ref result);
             return result;
         }
 
@@ -119,39 +117,32 @@ namespace BinaryOperations
 
         byte[] BitwiseXOR(byte[] a, byte[] b)
         {
-            byte[] aORb = BitwiseOR(a, b);
-            byte[] aANDb = BitwiseAND(a, b);
-            int bigNoLen = a.Length > b.Length ? a.Length : b.Length;
-            byte[] result = new byte[bigNoLen];
-
-            for(int i=0; i<bigNoLen; i++)
-            {
-                result[bigNoLen - i - 1] = (byte)(GetAt(i, aORb) - GetAt(i, aANDb));
-            }
-            RemoveZeroes(ref result);
-            return result;
+            return BitwiseAND(BitwiseOR(a, b), RemoveZeroes(BitwiseNOT(BitwiseAND(a, b))));
         }
 
         byte[] BitwiseOR(byte[] a, byte[] b)
         {
-            int bigNoLen = a.Length > b.Length ? a.Length : b.Length;
-            byte[] result = new byte[bigNoLen];
+            if (a.Length < b.Length)
+                Swap(ref a, ref b);
+
+            byte[] result = new byte[a.Length];
             
-            for(int i=0; i<bigNoLen; i++)
-                result[bigNoLen-i-1] = GetAt(i, a) > GetAt(i, b) ? GetAt(i, a) : GetAt(i, b);
-            
+            for(int i=0; i<a.Length; i++)
+                result[a.Length-i-1] = GetAt(i, a) > GetAt(i, b) ? GetAt(i, a) : GetAt(i, b);
+
             return result;
         }
 
         byte[] BitwiseAND(byte[] a, byte[] b)
         {
-            int smallNoLen = a.Length < b.Length ? a.Length : b.Length;
-            byte[] result = new byte[smallNoLen];
+            if (a.Length < b.Length)
+                Swap(ref a, ref b);
 
-            for (int i=0; i<smallNoLen; i++)
-                result[smallNoLen - i - 1] = GetAt(i, a) < GetAt(i, b) ? GetAt(i, a) : GetAt(i, b);
+            byte[] result = new byte[a.Length];
 
-            RemoveZeroes(ref result);
+            for (int i=0; i<a.Length; i++)
+                result[a.Length - i - 1] = GetAt(i, a) < GetAt(i, b) ? GetAt(i, a) : GetAt(i, b);
+
             return result;
         }
 
@@ -170,7 +161,7 @@ namespace BinaryOperations
 
         }
 
-        void RemoveZeroes(ref byte[] no)
+        byte[] RemoveZeroes(byte[] no)
         {
             int noOfZeroes = 0;
             
@@ -186,12 +177,13 @@ namespace BinaryOperations
 
             else
             {
-
                 byte[] result = new byte[no.Length - noOfZeroes];
+
                 Array.Copy(no, noOfZeroes, result, 0, result.Length);
 
                 no = result;
             }
+            return no;
         }
 
         byte[] BitwiseNOT(byte[] n)
@@ -203,12 +195,16 @@ namespace BinaryOperations
                 result[i] = (byte)((n[i] + 1) % 2);
             }
 
-            RemoveZeroes(ref result);
-            return result;
+            return RemoveZeroes(result);
         }
 
         
-
+        void Swap(ref byte[] a, ref byte[] b)
+        {
+            byte[] temp = a;
+            a = b;
+            b = temp;
+        }
 
 
 
