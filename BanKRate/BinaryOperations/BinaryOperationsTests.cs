@@ -16,7 +16,7 @@ namespace BinaryOperations
         [TestMethod]
         public void BitwiseNOT()
         {
-            CollectionAssert.AreEqual(new byte[] { 1, 0, 1, 0, 0 }, BitwiseNOT(new byte[] { 1, 0, 1, 0, 1, 1 }));
+            CollectionAssert.AreEqual(new byte[] { 0, 1, 0, 1, 0, 0 }, BitwiseNOT(new byte[] { 1, 0, 1, 0, 1, 1 }));
         }
 
         [TestMethod]
@@ -58,19 +58,19 @@ namespace BinaryOperations
         [TestMethod]
         public void BitwiseADD()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(14+10), BitwiseADD(ConvertToBinary(14), ConvertToBinary(10)));
+            CollectionAssert.AreEqual(ConvertToBinary(24), RemoveZeroes(BitwiseADD(ConvertToBinary(14), ConvertToBinary(10))));
         }
 
 
         byte[] BitwiseADD(byte[] a, byte[] b)
         {
-            byte[] carry = RemoveZeroes(BitwiseAND(a, b));
+            byte[] carry = BitwiseAND(a, b);
             byte[] result = BitwiseXOR(a, b);
 
-            while (carry.Length != 1 && carry[0] != 0)
+            while (RemoveZeroes(carry)[0] != 0)
             {
                 byte[] shiftCarry = LeftHandShift(carry, 1);
-                carry = RemoveZeroes(BitwiseAND(shiftCarry, result));
+                carry = BitwiseAND(shiftCarry, result);
                 result = BitwiseXOR(result, shiftCarry);
 
             }
@@ -195,7 +195,7 @@ namespace BinaryOperations
                 result[i] = (byte)((n[i] + 1) % 2);
             }
 
-            return RemoveZeroes(result);
+            return result;
         }
 
         
