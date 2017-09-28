@@ -62,6 +62,8 @@ namespace BinaryOperations
         }
 
 
+
+
         byte[] BitwiseADD(byte[] a, byte[] b)
         {
             byte[] carry = BitwiseAND(a, b);
@@ -104,14 +106,11 @@ namespace BinaryOperations
             byte[] result;
 
             if (noOfBits >= no.Length)
-                result = new byte[] { 0 };
+                return new byte[] { 0 };
 
-            else
-            {
-                result = new byte[no.Length - noOfBits];
-                Array.Copy(no, 0, result, 0, result.Length);
-            }
-
+            result = new byte[no.Length - noOfBits];
+            Array.Copy(no, 0, result, 0, result.Length);
+            
             return result;
         }
 
@@ -161,29 +160,30 @@ namespace BinaryOperations
 
         }
 
-        byte[] RemoveZeroes(byte[] no)
+        int CountLeadingZeroes(byte[] no)
         {
             int noOfZeroes = 0;
-            
-            for(int i=0; i<no.Length; i++)
+
+            for (int i = 0; i < no.Length; i++)
             {
                 if (no[i] != 0)
                     break;
                 noOfZeroes++;
             }
+            return noOfZeroes;
+        }
 
+        byte[] RemoveZeroes(byte[] no)
+        {
+            int noOfZeroes = CountLeadingZeroes(no);
+            
             if (noOfZeroes == no.Length)
-                no = new byte[] { 0 };
-
-            else
-            {
-                byte[] result = new byte[no.Length - noOfZeroes];
-
-                Array.Copy(no, noOfZeroes, result, 0, result.Length);
-
-                no = result;
-            }
-            return no;
+                return new byte[] { 0 };
+           
+            byte[] result = new byte[no.Length - noOfZeroes];
+            Array.Copy(no, noOfZeroes, result, 0, result.Length);
+            no = result;
+            return result;
         }
 
         byte[] BitwiseNOT(byte[] n)
