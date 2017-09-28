@@ -22,19 +22,19 @@ namespace BinaryOperations
         [TestMethod]
         public void BitwiseAND()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(7 & 3), RemoveZeroes(BitwiseAND(ConvertToBinary(7), ConvertToBinary(3))));
+            CollectionAssert.AreEqual(ConvertToBinary(7 & 3), RemoveZeroes(BitwiseOP(ConvertToBinary(7), ConvertToBinary(3), "AND")));
         }
 
         [TestMethod]
         public void BitwiseOR()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(21 | 6), BitwiseOR(ConvertToBinary(21), ConvertToBinary(6)));
+            CollectionAssert.AreEqual(ConvertToBinary(21 | 6), BitwiseOP(ConvertToBinary(21), ConvertToBinary(6), "OR"));
         }
 
         [TestMethod]
         public void BitwiseXOR()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(10^14), RemoveZeroes(BitwiseXOR(ConvertToBinary(10), ConvertToBinary(14))));
+            CollectionAssert.AreEqual(ConvertToBinary(10 ^ 14), RemoveZeroes(BitwiseOP(ConvertToBinary(10), ConvertToBinary(14), "XOR")));
         }
 
         [TestMethod]
@@ -61,19 +61,40 @@ namespace BinaryOperations
             CollectionAssert.AreEqual(ConvertToBinary(24), RemoveZeroes(BitwiseADD(ConvertToBinary(14), ConvertToBinary(10))));
         }
 
+        [TestMethod]
+        public void Equals()
+        {
+            Assert.AreEqual(true, Equals(ConvertToBinary(4), BitwiseNOT(new byte[] { 0, 1, 1 })));
+        }
 
 
+        bool Equals(byte[] a, byte[] b)
+        {
+            RemoveZeroes(a);
+            RemoveZeroes(b);
+
+            if (a.Length != b.Length)
+                return false;
+            
+            for (int i = 0; i < a.Length; i++)
+            {
+                if (a[i] != b[i])
+                    return false;
+            }
+
+            return true;
+        }
 
         byte[] BitwiseADD(byte[] a, byte[] b)
         {
-            byte[] carry = BitwiseAND(a, b);
-            byte[] result = BitwiseXOR(a, b);
+            byte[] carry = BitwiseOP(a, b, "AND");
+            byte[] result = BitwiseOP(a, b, "XOR");
 
             while (RemoveZeroes(carry)[0] != 0)
             {
                 byte[] shiftCarry = LeftHandShift(carry, 1);
-                carry = BitwiseAND(shiftCarry, result);
-                result = BitwiseXOR(result, shiftCarry);
+                carry = BitwiseOP(shiftCarry, result, "AND");
+                result = BitwiseOP(result, shiftCarry, "XOR");
 
             }
             return result;
@@ -113,35 +134,30 @@ namespace BinaryOperations
             
             return result;
         }
+        
+        
 
-        byte[] BitwiseXOR(byte[] a, byte[] b)
-        {
-            return BitwiseAND(BitwiseOR(a, b), RemoveZeroes(BitwiseNOT(BitwiseAND(a, b))));
-        }
-
-        byte[] BitwiseOR(byte[] a, byte[] b)
-        {
-            if (a.Length < b.Length)
-                Swap(ref a, ref b);
-
-            byte[] result = new byte[a.Length];
-            
-            for(int i=0; i<a.Length; i++)
-                result[a.Length-i-1] = GetAt(i, a) > GetAt(i, b) ? GetAt(i, a) : GetAt(i, b);
-
-            return result;
-        }
-
-        byte[] BitwiseAND(byte[] a, byte[] b)
+        byte[] BitwiseOP(byte[] a, byte[] b, string op)
         {
             if (a.Length < b.Length)
                 Swap(ref a, ref b);
 
             byte[] result = new byte[a.Length];
 
-            for (int i=0; i<a.Length; i++)
-                result[a.Length - i - 1] = GetAt(i, a) < GetAt(i, b) ? GetAt(i, a) : GetAt(i, b);
-
+            if (op == "AND")
+            {
+                for (int i = 0; i < a.Length; i++)
+                    result[a.Length - i - 1] = (byte)(GetAt(i, a) * GetAt(i, b));
+            }
+            if(op=="OR")
+            {
+                for (int i = 0; i < a.Length; i++)
+                    result[a.Length - i - 1] = GetAt(i, a) > GetAt(i, b) ? GetAt(i, a) : GetAt(i, b);
+            }
+            if(op=="XOR")
+            {
+                result = BitwiseOP(BitwiseOP(a, b,"OR"), RemoveZeroes(BitwiseNOT(BitwiseOP(a, b, "AND"))), "AND");
+            }
             return result;
         }
 
@@ -197,7 +213,6 @@ namespace BinaryOperations
 
             return result;
         }
-
         
         void Swap(ref byte[] a, ref byte[] b)
         {
@@ -205,14 +220,30 @@ namespace BinaryOperations
             a = b;
             b = temp;
         }
-
-
-
+        
         byte GetAt(int normalIndex, byte[] no)
         {
             if (normalIndex >= no.Length)
                 return 0;
             return no[no.Length - normalIndex - 1];
         }
+
+        //byte[] BitwiseXOR(byte[] a, byte[] b)
+        //{
+        //    return BitwiseAND(BitwiseOR(a, b), RemoveZeroes(BitwiseNOT(BitwiseAND(a, b))));
+        //}
+
+        //byte[] BitwiseOR(byte[] a, byte[] b)
+        //{
+        //    if (a.Length < b.Length)
+        //        Swap(ref a, ref b);
+
+        //    byte[] result = new byte[a.Length];
+
+        //    for(int i=0; i<a.Length; i++)
+        //        result[a.Length-i-1] = GetAt(i, a) > GetAt(i, b) ? GetAt(i, a) : GetAt(i, b);
+
+        //    return result;
+        //}
     }
 }
