@@ -102,6 +102,9 @@ namespace BinaryOperations
 
         bool LessThan(byte[] a, byte[] b)
         {
+            a = RemoveZeroes(a);
+            b = RemoveZeroes(b);
+
             if (a.Length < b.Length)
                 return true;
             if (a.Length > b.Length)
