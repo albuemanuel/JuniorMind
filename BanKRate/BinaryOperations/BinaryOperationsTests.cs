@@ -70,8 +70,8 @@ namespace BinaryOperations
 
         bool Equals(byte[] a, byte[] b)
         {
-            RemoveZeroes(a);
-            RemoveZeroes(b);
+            a = RemoveZeroes(a);
+            b = RemoveZeroes(b);
 
             if (a.Length != b.Length)
                 return false;
@@ -90,7 +90,7 @@ namespace BinaryOperations
             byte[] carry = BitwiseOP(a, b, "AND");
             byte[] result = BitwiseOP(a, b, "XOR");
 
-            while (RemoveZeroes(carry)[0] != 0)
+            while (Equals(carry, new byte[] { 0 }) == false)
             {
                 byte[] shiftCarry = LeftHandShift(carry, 1);
                 carry = BitwiseOP(shiftCarry, result, "AND");
