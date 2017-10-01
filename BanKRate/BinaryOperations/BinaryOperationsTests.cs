@@ -67,6 +67,12 @@ namespace BinaryOperations
             Assert.AreEqual(true, Equals(ConvertToBinary(4), BitwiseNOT(new byte[] { 0, 1, 1 })));
         }
 
+        [TestMethod]
+        public void BitwiseSUB()
+        {
+            CollectionAssert.AreEqual(new byte[] { 1, 0, 0 }, RemoveZeroes(BitwiseSUB(new byte[] { 1, 0, 1, 0, 1 }, new byte[] { 1, 0, 0, 0, 1 })));
+        }
+
 
         bool Equals(byte[] a, byte[] b)
         {
@@ -98,6 +104,17 @@ namespace BinaryOperations
 
             }
             return result;
+        }
+
+        byte[] BitwiseSUB(byte[] a, byte[] b)
+        {
+            a = RemoveZeroes(a);
+            b = RemoveZeroes(b);
+
+            if (LessThan(a, b) == true)
+                Swap(ref a, ref b);
+
+            return BitwiseOP(a, b, "XOR");
         }
 
         bool LessThan(byte[] a, byte[] b)
