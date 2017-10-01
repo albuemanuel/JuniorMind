@@ -114,7 +114,29 @@ namespace BinaryOperations
             if (LessThan(a, b) == true)
                 Swap(ref a, ref b);
 
-            return BitwiseOP(a, b, "XOR");
+            byte[] borrow = new byte[a.Length];
+
+            for(int i=0; i<a.Length; i++)
+            {
+                if (a[i] < b[i])
+                    borrow[i] = 1;
+            }
+
+            byte[] result = BitwiseOP(a, b, "XOR");
+
+            while(Equals(borrow, new byte[] { 0})==false)
+            {
+                byte[] shiftBorrow = LeftHandShift(borrow, 1);
+
+                for (int i = 0; i < a.Length; i++)
+                {
+                    if (result[i] < shiftBorrow[i])
+                        borrow[i] = 1;
+                }
+
+                result = BitwiseOP(result, shiftBorrow, "XOR");
+            }
+            return result;
         }
 
         bool LessThan(byte[] a, byte[] b)
