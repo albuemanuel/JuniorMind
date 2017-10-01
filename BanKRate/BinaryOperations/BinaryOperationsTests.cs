@@ -70,7 +70,7 @@ namespace BinaryOperations
         [TestMethod]
         public void BitwiseSUB()
         {
-            CollectionAssert.AreEqual(new byte[] { 1, 0, 0 }, RemoveZeroes(BitwiseSUB(new byte[] { 1, 0, 1, 0, 1 }, new byte[] { 1, 0, 0, 0, 1 })));
+            CollectionAssert.AreEqual(ConvertToBinary(12), RemoveZeroes(BitwiseSUB(ConvertToBinary(19), ConvertToBinary(7))));
         }
 
 
@@ -106,6 +106,19 @@ namespace BinaryOperations
             return result;
         }
 
+        byte[] BitwiseLessThan(byte[] a, byte[] b)
+        {
+            byte[] result = new byte[a.Length < b.Length ? a.Length : b.Length];
+
+            for(int i=0; i<result.Length; i++)
+            {
+                if (GetAt(i, a) < GetAt(i, b))
+                    result[result.Length - i - 1] = 1;
+            }
+
+            return result;
+        }
+
         byte[] BitwiseSUB(byte[] a, byte[] b)
         {
             a = RemoveZeroes(a);
@@ -114,25 +127,15 @@ namespace BinaryOperations
             if (LessThan(a, b) == true)
                 Swap(ref a, ref b);
 
-            byte[] borrow = new byte[a.Length];
-
-            for(int i=0; i<a.Length; i++)
-            {
-                if (a[i] < b[i])
-                    borrow[i] = 1;
-            }
-
+            byte[] borrow = BitwiseLessThan(a, b);
+            
             byte[] result = BitwiseOP(a, b, "XOR");
 
-            while(Equals(borrow, new byte[] { 0})==false)
+            while (Equals(borrow, new byte[] { 0 }) == false)
             {
                 byte[] shiftBorrow = LeftHandShift(borrow, 1);
 
-                for (int i = 0; i < a.Length; i++)
-                {
-                    if (result[i] < shiftBorrow[i])
-                        borrow[i] = 1;
-                }
+                borrow = BitwiseLessThan(result, shiftBorrow);
 
                 result = BitwiseOP(result, shiftBorrow, "XOR");
             }
@@ -150,8 +153,12 @@ namespace BinaryOperations
                 return false;
 
             for (int i = 0; i < a.Length; i++)
+            {
                 if (a[i] < b[i])
                     return true;
+                if (a[i] > b[i])
+                    return false;
+            }
 
             return false;
         }
