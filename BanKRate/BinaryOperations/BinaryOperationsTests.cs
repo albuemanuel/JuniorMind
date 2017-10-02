@@ -184,29 +184,37 @@ namespace BinaryOperations
             return result;
         }
         
-        
+        byte BitwiseOp(byte a, byte b, string op)
+        {
+            if (op.ToLower() == "and")
+                return (byte)(a * b);
+
+            if (op.ToLower() == "or")
+                return Math.Max(a, b);
+
+            if (op.ToLower() == "xor")
+                return (byte)((a + b) % 2);
+
+            return 0;
+        }
 
         byte[] BitwiseOP(byte[] a, byte[] b, string op)
         {
-            if (a.Length < b.Length)
-                Swap(ref a, ref b);
 
-            byte[] result = new byte[a.Length];
+            byte[] result = new byte[Math.Max(a.Length, b.Length)];
 
-            if (op == "AND")
-            {
-                for (int i = 0; i < a.Length; i++)
-                    result[a.Length - i - 1] = (byte)(GetAt(i, a) * GetAt(i, b));
-            }
-            if(op=="OR")
-            {
-                for (int i = 0; i < a.Length; i++)
-                    result[a.Length - i - 1] = GetAt(i, a) > GetAt(i, b) ? GetAt(i, a) : GetAt(i, b);
-            }
-            if(op=="XOR")
-            {
-                result = BitwiseOP(BitwiseOP(a, b,"OR"), RemoveZeroes(BitwiseNOT(BitwiseOP(a, b, "AND"))), "AND");
-            }
+            if (op.ToLower() == "and")
+                for (int i = 0; i < result.Length; i++)
+                    result[result.Length - i - 1] = BitwiseOp(GetAt(i, a), GetAt(i, b), "and");
+            
+            if(op.ToLower()=="or")
+                for (int i = 0; i < result.Length; i++)
+                    result[result.Length - i - 1] = BitwiseOp(GetAt(i, a), GetAt(i, b), "or");
+
+            if (op.ToLower() == "xor")
+                for (int i = 0; i < result.Length; i++)
+                    result[result.Length - i - 1] = BitwiseOp(GetAt(i, a), GetAt(i, b), "xor");
+            
             return result;
         }
 
