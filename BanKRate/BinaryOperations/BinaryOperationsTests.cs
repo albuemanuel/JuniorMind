@@ -73,6 +73,25 @@ namespace BinaryOperations
             CollectionAssert.AreEqual(ConvertToBinary(12), RemoveZeroes(BitwiseSUB(ConvertToBinary(19), ConvertToBinary(7))));
         }
 
+        [TestMethod]
+        public void BitwiseMUL()
+        {
+            CollectionAssert.AreEqual(ConvertToBinary(35), RemoveZeroes(BitwiseMUL(ConvertToBinary(7), ConvertToBinary(5))));
+        }
+
+        
+
+        byte[] BitwiseMUL(byte[] a, byte[] b)
+        {
+            byte[] result = new byte[a.Length * b.Length];
+
+            for(int i=0; i<a.Length; i++)
+            {
+                if(a[i]==1)
+                    result = BitwiseADD(result, LeftHandShift(b, a.Length - i - 1));
+            }
+            return result;
+        }
 
         bool Equals(byte[] a, byte[] b)
         {
@@ -108,7 +127,7 @@ namespace BinaryOperations
 
         byte[] BitwiseLessThan(byte[] a, byte[] b)
         {
-            byte[] result = new byte[a.Length < b.Length ? a.Length : b.Length];
+            byte[] result = new byte[Math.Max(a.Length, b.Length)];
 
             for(int i=0; i<result.Length; i++)
             {
@@ -127,17 +146,18 @@ namespace BinaryOperations
             if (LessThan(a, b) == true)
                 Swap(ref a, ref b);
 
-            byte[] borrow = BitwiseLessThan(a, b);
+
+            byte[] borrow = BitwiseLessThan(a, b);  
             
-            byte[] result = BitwiseOP(a, b, "XOR");
+            byte[] result = BitwiseOP(a, b, "XOR");  
 
             while (Equals(borrow, new byte[] { 0 }) == false)
             {
-                byte[] shiftBorrow = LeftHandShift(borrow, 1);
-
+                byte[] shiftBorrow = LeftHandShift(borrow, 1);  
+                                                                      
                 borrow = BitwiseLessThan(result, shiftBorrow);
 
-                result = BitwiseOP(result, shiftBorrow, "XOR");
+                result = BitwiseOP(result, shiftBorrow, "XOR");  
             }
             return result;
         }
