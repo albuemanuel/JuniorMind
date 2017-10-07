@@ -91,6 +91,18 @@ namespace BinaryOperations
             CollectionAssert.AreEqual(ConvertToBinary(15), RemoveZeroes(BitwiseDIV(ConvertToBinary(225), ConvertToBinary(15))));
         }
 
+        [TestMethod]
+        public void GreaterThan()
+        {
+            Assert.AreEqual(false, GreaterThan(ConvertToBinary(5), ConvertToBinary(5)));
+        }
+
+        [TestMethod]
+        public void EqualsUsingLessThanAndGreaterThan()
+        {
+            Assert.AreEqual(true, Equals(ConvertToBinary(0), ConvertToBinary(0)));
+        }
+
 
         byte[] ConcatArray(byte[] a, byte[] b, int startIndex = 0)
         {
@@ -134,39 +146,6 @@ namespace BinaryOperations
             return ConvertToBinary((byte)result);
         }
 
-        //byte[] BitwiseDIV(byte[] a, byte[] b, int i=0, int noZeroes = 0)
-        //{
-
-        //    if (!Equals(a, new byte[] { 0 }))
-        //    {
-        //        byte[] subArray = null;
-
-        //        subArray = RightHandShift(a, a.Length - 1 - i);
-
-        //        if (LessThan(b, subArray) || Equals(b, subArray))
-        //        {
-        //            byte[] remainder = RemoveZeroes(BitwiseSUB(subArray, b));
-
-        //            a = ConcatArray(remainder, a, i + 1);
-
-        //            if (Equals(a, new byte[] { 0 }))
-        //                noZeroes = a.Length - 1;
-
-        //            a = RemoveZeroes(a);
-
-        //            int remainderLength = remainder.Length;
-
-        //            if (Equals(remainder, new byte[] { 0 }))
-        //                remainderLength = 0;
-
-        //            return ConcatArray(new byte[] { 1 }, BitwiseDIV(a, b, remainderLength, noZeroes));
-        //        }
-        //        else
-        //            return ConcatArray(new byte[] { 0 }, BitwiseDIV(a, b, ++i));
-        //    }
-        //    return new byte[noZeroes];
-        //}
-
         byte[] BitwiseMUL(byte[] a, byte[] b)
         {
             byte[] result = new byte[a.Length + b.Length];
@@ -177,23 +156,6 @@ namespace BinaryOperations
                     result = BitwiseADD(result, LeftHandShift(b, a.Length - i - 1));
             }
             return result;
-        }
-
-        bool Equals(byte[] a, byte[] b)
-        {
-            a = RemoveZeroes(a);
-            b = RemoveZeroes(b);
-
-            if (a.Length != b.Length)
-                return false;
-            
-            for (int i = 0; i < a.Length; i++)
-            {
-                if (a[i] != b[i])
-                    return false;
-            }
-
-            return true;
         }
 
         byte[] BitwiseADD(byte[] a, byte[] b)
@@ -211,7 +173,7 @@ namespace BinaryOperations
             return result;
         }
 
-        byte[] BitwiseLessThan(byte[] a, byte[] b)
+        byte[] BitwiseLessThan(byte[] a, byte[] b)  // (a[i] < b[i]) -> result[i] = 1
         {
             byte[] result = new byte[Math.Max(a.Length, b.Length)];
 
@@ -265,6 +227,22 @@ namespace BinaryOperations
                 if (a[i] > b[i])
                     return false;
             }
+
+            return false;
+        }
+
+        bool GreaterThan(byte[] a, byte[] b)
+        {
+            if (LessThan(b, a))
+                return true;
+
+            return false;
+        }
+
+        bool Equals(byte[] a, byte[] b)
+        {
+            if (!LessThan(a, b) && !GreaterThan(a, b))
+                return true;
 
             return false;
         }
@@ -391,6 +369,23 @@ namespace BinaryOperations
             return no[no.Length - normalIndex - 1];
         }
 
+        //bool Equals(byte[] a, byte[] b)
+        //{
+        //    a = RemoveZeroes(a);
+        //    b = RemoveZeroes(b);
+
+        //    if (a.Length != b.Length)
+        //        return false;
+
+        //    for (int i = 0; i < a.Length; i++)
+        //    {
+        //        if (a[i] != b[i])
+        //            return false;
+        //    }
+
+        //    return true;
+        //}
+
         //byte[] BitwiseXOR(byte[] a, byte[] b)
         //{
         //    return BitwiseAND(BitwiseOR(a, b), RemoveZeroes(BitwiseNOT(BitwiseAND(a, b))));
@@ -407,6 +402,39 @@ namespace BinaryOperations
         //        result[a.Length-i-1] = GetAt(i, a) > GetAt(i, b) ? GetAt(i, a) : GetAt(i, b);
 
         //    return result;
+        //}
+
+        //byte[] BitwiseDIV(byte[] a, byte[] b, int i=0, int noZeroes = 0)
+        //{
+
+        //    if (!Equals(a, new byte[] { 0 }))
+        //    {
+        //        byte[] subArray = null;
+
+        //        subArray = RightHandShift(a, a.Length - 1 - i);
+
+        //        if (LessThan(b, subArray) || Equals(b, subArray))
+        //        {
+        //            byte[] remainder = RemoveZeroes(BitwiseSUB(subArray, b));
+
+        //            a = ConcatArray(remainder, a, i + 1);
+
+        //            if (Equals(a, new byte[] { 0 }))
+        //                noZeroes = a.Length - 1;
+
+        //            a = RemoveZeroes(a);
+
+        //            int remainderLength = remainder.Length;
+
+        //            if (Equals(remainder, new byte[] { 0 }))
+        //                remainderLength = 0;
+
+        //            return ConcatArray(new byte[] { 1 }, BitwiseDIV(a, b, remainderLength, noZeroes));
+        //        }
+        //        else
+        //            return ConcatArray(new byte[] { 0 }, BitwiseDIV(a, b, ++i));
+        //    }
+        //    return new byte[noZeroes];
         //}
     }
 }
