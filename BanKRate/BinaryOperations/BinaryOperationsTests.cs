@@ -79,11 +79,84 @@ namespace BinaryOperations
             CollectionAssert.AreEqual(ConvertToBinary(35), RemoveZeroes(BitwiseMUL(ConvertToBinary(7), ConvertToBinary(5))));
         }
 
-        
+        [TestMethod]
+        public void ConcatArray()
+        {
+            CollectionAssert.AreEqual(ConvertToBinary(45), ConcatArray(ConvertToBinary(5), ConvertToBinary(5)));
+        }
+
+        [TestMethod]
+        public void BitwiseDIV()
+        {
+            CollectionAssert.AreEqual(ConvertToBinary(15), RemoveZeroes(BitwiseDIV(ConvertToBinary(225), ConvertToBinary(15))));
+        }
+
+
+        byte[] ConcatArray(byte[] a, byte[] b, int startIndex = 0)
+        {
+            if (b == null)
+                return a;
+
+            byte[] result;
+
+            if (startIndex > b.Length)
+                return a;
+
+             result = new byte[a.Length + b.Length - startIndex];
+
+
+
+            for (int i = 0; i < a.Length; i++)
+                result[i] = a[i];
+
+            int j = 0;
+            for (int i = a.Length; i < result.Length; i++)
+            {
+                if (i > result.Length)
+                    break;
+                result[i] = b[j + startIndex];
+                j++;
+            }
+
+            return result;
+        }
+
+        byte[] BitwiseDIV(byte[] a, byte[] b, int i=0, int noZeroes = 0)
+        {
+
+            if (!Equals(a, new byte[] { 0 }))
+            {
+                byte[] subArray = null;
+
+                subArray = RightHandShift(a, a.Length - 1 - i);
+                
+                if (LessThan(b, subArray) || Equals(b, subArray))
+                {
+                    byte[] remainder = RemoveZeroes(BitwiseSUB(subArray, b));
+                    
+                    a = ConcatArray(remainder, a, i + 1);
+
+                    if (Equals(a, new byte[] { 0 }))
+                        noZeroes = a.Length - 1;
+
+                    a = RemoveZeroes(a);
+
+                    int remainderLength = remainder.Length;
+
+                    if (Equals(remainder, new byte[] { 0 }))
+                        remainderLength = 0;
+
+                    return ConcatArray(new byte[] { 1 }, BitwiseDIV(a, b, remainderLength, noZeroes));
+                }
+                else
+                    return ConcatArray(new byte[] { 0 }, BitwiseDIV(a, b, ++i));
+            }
+            return new byte[noZeroes];
+        }
 
         byte[] BitwiseMUL(byte[] a, byte[] b)
         {
-            byte[] result = new byte[a.Length * b.Length];
+            byte[] result = new byte[a.Length + b.Length];
 
             for(int i=0; i<a.Length; i++)
             {
@@ -151,7 +224,7 @@ namespace BinaryOperations
             
             byte[] result = BitwiseOP(a, b, "XOR");  
 
-            while (Equals(borrow, new byte[] { 0 }) == false)
+            while (!Equals(borrow, new byte[] { 0 }))
             {
                 byte[] shiftBorrow = LeftHandShift(borrow, 1);  
                                                                       
