@@ -121,38 +121,51 @@ namespace BinaryOperations
             return result;
         }
 
-        byte[] BitwiseDIV(byte[] a, byte[] b, int i=0, int noZeroes = 0)
+        byte[] BitwiseDIV(byte[] a, byte[] b)
         {
+            int result = 1;
+            byte[] temp = b;
 
-            if (!Equals(a, new byte[] { 0 }))
+            while(!Equals(temp, a))
             {
-                byte[] subArray = null;
-
-                subArray = RightHandShift(a, a.Length - 1 - i);
-                
-                if (LessThan(b, subArray) || Equals(b, subArray))
-                {
-                    byte[] remainder = RemoveZeroes(BitwiseSUB(subArray, b));
-                    
-                    a = ConcatArray(remainder, a, i + 1);
-
-                    if (Equals(a, new byte[] { 0 }))
-                        noZeroes = a.Length - 1;
-
-                    a = RemoveZeroes(a);
-
-                    int remainderLength = remainder.Length;
-
-                    if (Equals(remainder, new byte[] { 0 }))
-                        remainderLength = 0;
-
-                    return ConcatArray(new byte[] { 1 }, BitwiseDIV(a, b, remainderLength, noZeroes));
-                }
-                else
-                    return ConcatArray(new byte[] { 0 }, BitwiseDIV(a, b, ++i));
+                temp = RemoveZeroes(BitwiseADD(temp, b));
+                result++;
             }
-            return new byte[noZeroes];
+            return ConvertToBinary((byte)result);
         }
+
+        //byte[] BitwiseDIV(byte[] a, byte[] b, int i=0, int noZeroes = 0)
+        //{
+
+        //    if (!Equals(a, new byte[] { 0 }))
+        //    {
+        //        byte[] subArray = null;
+
+        //        subArray = RightHandShift(a, a.Length - 1 - i);
+
+        //        if (LessThan(b, subArray) || Equals(b, subArray))
+        //        {
+        //            byte[] remainder = RemoveZeroes(BitwiseSUB(subArray, b));
+
+        //            a = ConcatArray(remainder, a, i + 1);
+
+        //            if (Equals(a, new byte[] { 0 }))
+        //                noZeroes = a.Length - 1;
+
+        //            a = RemoveZeroes(a);
+
+        //            int remainderLength = remainder.Length;
+
+        //            if (Equals(remainder, new byte[] { 0 }))
+        //                remainderLength = 0;
+
+        //            return ConcatArray(new byte[] { 1 }, BitwiseDIV(a, b, remainderLength, noZeroes));
+        //        }
+        //        else
+        //            return ConcatArray(new byte[] { 0 }, BitwiseDIV(a, b, ++i));
+        //    }
+        //    return new byte[noZeroes];
+        //}
 
         byte[] BitwiseMUL(byte[] a, byte[] b)
         {
