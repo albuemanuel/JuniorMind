@@ -10,7 +10,7 @@ namespace BinaryOperations
         [TestMethod]
         public void BinaryRepresentation()
         {
-            CollectionAssert.AreEqual(new byte[] { 1, 0, 1, 0 }, ConvertToBinary(10));
+            CollectionAssert.AreEqual(new byte[] { 1, 0, 1, 0 }, ConvertToBaseInByteArray(10));
         }
 
         [TestMethod]
@@ -22,85 +22,91 @@ namespace BinaryOperations
         [TestMethod]
         public void BitwiseAND()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(7 & 3), RemoveZeroes(BitwiseOP(ConvertToBinary(7), ConvertToBinary(3), "AND")));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(7 & 3), RemoveZeroes(BitwiseOP(ConvertToBaseInByteArray(7), ConvertToBaseInByteArray(3), "AND")));
         }
 
         [TestMethod]
         public void BitwiseOR()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(21 | 6), BitwiseOP(ConvertToBinary(21), ConvertToBinary(6), "OR"));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(21 | 6), BitwiseOP(ConvertToBaseInByteArray(21), ConvertToBaseInByteArray(6), "OR"));
         }
 
         [TestMethod]
         public void BitwiseXOR()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(10 ^ 14), RemoveZeroes(BitwiseOP(ConvertToBinary(10), ConvertToBinary(14), "XOR")));
+            CollectionAssert.AreEqual(RemoveZeroes(ConvertToBaseInByteArray(10 ^ 14)), RemoveZeroes(BitwiseOP(ConvertToBaseInByteArray(10), ConvertToBaseInByteArray(14), "XOR")));
         }
 
         [TestMethod]
         public void LeftHandShift()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(5 << 5), LeftHandShift(ConvertToBinary(5), 5));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(5 << 5), LeftHandShift(ConvertToBaseInByteArray(5), 5));
         }
 
         [TestMethod]
         public void RightHandShift()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(5 >> 10), RightHandShift(ConvertToBinary(5), 10));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(5 >> 10), RightHandShift(ConvertToBaseInByteArray(5), 10));
         }
 
         [TestMethod]
         public void LessThan()
         {
-            Assert.AreEqual(true, LessThan(ConvertToBinary(25), ConvertToBinary(26)));
+            Assert.AreEqual(true, LessThan(ConvertToBaseInByteArray(25), ConvertToBaseInByteArray(26)));
         }
 
         [TestMethod]
         public void BitwiseADD()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(24), RemoveZeroes(BitwiseADD(ConvertToBinary(14), ConvertToBinary(10))));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(24), RemoveZeroes(BitwiseADD(ConvertToBaseInByteArray(14), ConvertToBaseInByteArray(10))));
         }
 
         [TestMethod]
         public void Equals()
         {
-            Assert.AreEqual(true, Equals(ConvertToBinary(4), BitwiseNOT(new byte[] { 0, 1, 1 })));
+            Assert.AreEqual(true, Equals(ConvertToBaseInByteArray(4), BitwiseNOT(new byte[] { 0, 1, 1 })));
         }
 
         [TestMethod]
         public void BitwiseSUB()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(12), RemoveZeroes(BitwiseSUB(ConvertToBinary(19), ConvertToBinary(7))));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(12), RemoveZeroes(BitwiseSUB(ConvertToBaseInByteArray(19), ConvertToBaseInByteArray(7))));
         }
 
         [TestMethod]
         public void BitwiseMUL()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(35), RemoveZeroes(BitwiseMUL(ConvertToBinary(7), ConvertToBinary(5))));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(35), RemoveZeroes(BitwiseMUL(ConvertToBaseInByteArray(7), ConvertToBaseInByteArray(5))));
         }
 
         [TestMethod]
         public void ConcatArray()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(45), ConcatArray(ConvertToBinary(5), ConvertToBinary(5)));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(45), ConcatArray(ConvertToBaseInByteArray(5), ConvertToBaseInByteArray(5)));
         }
 
         [TestMethod]
         public void BitwiseDIV()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(15), RemoveZeroes(BitwiseDIV(ConvertToBinary(225), ConvertToBinary(15))));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(15), RemoveZeroes(BitwiseDIV(ConvertToBaseInByteArray(225), ConvertToBaseInByteArray(15))));
         }
 
         [TestMethod]
         public void GreaterThan()
         {
-            Assert.AreEqual(false, GreaterThan(ConvertToBinary(5), ConvertToBinary(5)));
+            Assert.AreEqual(false, GreaterThan(ConvertToBaseInByteArray(5), ConvertToBaseInByteArray(5)));
         }
 
         [TestMethod]
         public void EqualsUsingLessThanAndGreaterThan()
         {
-            Assert.AreEqual(true, Equals(ConvertToBinary(0), ConvertToBinary(0)));
+            Assert.AreEqual(true, Equals(ConvertToBaseInByteArray(0), ConvertToBaseInByteArray(0)));
+        }
+
+        [TestMethod]
+        public void ConvertToBaseByteArray()
+        {
+            CollectionAssert.AreEqual(new byte[] { 1, 1, 1 }, ConvertToBaseInByteArray(157, 12));
         }
 
 
@@ -143,7 +149,7 @@ namespace BinaryOperations
                 temp = RemoveZeroes(BitwiseADD(temp, b));
                 result++;
             }
-            return ConvertToBinary((byte)result);
+            return ConvertToBaseInByteArray((byte)result);
         }
 
         byte[] BitwiseMUL(byte[] a, byte[] b)
@@ -233,18 +239,12 @@ namespace BinaryOperations
 
         bool GreaterThan(byte[] a, byte[] b)
         {
-            if (LessThan(b, a))
-                return true;
-
-            return false;
+            return LessThan(b, a);
         }
 
         bool Equals(byte[] a, byte[] b)
         {
-            if (!LessThan(a, b) && !GreaterThan(a, b))
-                return true;
-
-            return false;
+            return (!LessThan(a, b) && !GreaterThan(a, b));
         }
 
         byte[] LeftHandShift(byte[] no, int noOfBits)
@@ -302,20 +302,48 @@ namespace BinaryOperations
             return result;
         }
 
-        byte[] ConvertToBinary(byte n)
-        {
-            string binaryRepString = Convert.ToString(n, 2);
-            byte[] binaryRepByte = new byte[binaryRepString.Length];
+        //string ConvertToBaseString(byte n, byte toBase)
+        //{
+        //    string result = "";
+        //    if (n / toBase != 0)
+        //        result += ConvertToBaseString((byte)(n / toBase), toBase) + (n % toBase).ToString().PadLeft(toBase.ToString().Length, '0');
+            
+        //    else
+        //        return (n % toBase).ToString();
+        //    return result;
+        //}
 
-            int count = 0;
-            foreach (char bit in binaryRepString)
+        byte[] ConvertToBaseInByteArray(byte n, byte toBase = 2)
+        {
+            if (n == 0)
+                return new byte[] { 0 };
+
+            byte[] result = new byte[(int)Math.Ceiling(Math.Log(n, toBase))+1];
+            int i = result.Length;
+
+            while(n != 0)
             {
-                binaryRepByte[count++] = (byte)Char.GetNumericValue(bit);
+                result[--i] = (byte)(n % toBase);
+                n /= toBase;
             }
 
-            return binaryRepByte;
-
+            return RemoveZeroes(result);
         }
+
+        //byte[] ConvertToBaseByteArray(byte n, byte toBase = 2)
+        //{
+        //    string binaryRepString = ConvertToBaseString(n, toBase);
+        //    byte[] binaryRepByte = new byte[binaryRepString.Length];
+
+        //    int count = 0;
+        //    foreach (char bit in binaryRepString)
+        //    {
+        //        binaryRepByte[count++] = (byte)Char.GetNumericValue(bit);
+        //    }
+
+        //    return binaryRepByte;
+
+        //}
 
         int CountLeadingZeroes(byte[] no)
         {
