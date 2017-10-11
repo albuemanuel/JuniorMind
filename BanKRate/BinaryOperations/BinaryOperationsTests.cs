@@ -53,6 +53,8 @@ namespace BinaryOperations
         public void LessThan()
         {
             Assert.AreEqual(true, LessThan(ConvertToBaseInByteArray(25), ConvertToBaseInByteArray(26)));
+            Assert.AreEqual(true, LessThan(ConvertToBaseInByteArray(25, 5), ConvertToBaseInByteArray(26, 5)));
+            Assert.AreEqual(true, LessThan(ConvertToBaseInByteArray(25, 8), ConvertToBaseInByteArray(26, 8)));
         }
 
         [TestMethod]
@@ -107,6 +109,7 @@ namespace BinaryOperations
         public void ConvertToBaseByteArray()
         {
             CollectionAssert.AreEqual(new byte[] { 1, 1, 1 }, ConvertToBaseInByteArray(157, 12));
+            CollectionAssert.AreEqual(new byte[] { 11, 1 }, ConvertToBaseInByteArray(133, 12));
         }
 
 
