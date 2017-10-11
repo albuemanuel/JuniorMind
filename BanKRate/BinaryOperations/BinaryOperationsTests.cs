@@ -60,7 +60,9 @@ namespace BinaryOperations
         [TestMethod]
         public void BitwiseADD()
         {
-            CollectionAssert.AreEqual(ConvertToBaseInByteArray(24), RemoveZeroes(BitwiseADD(ConvertToBaseInByteArray(14), ConvertToBaseInByteArray(10))));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(24), RemoveZeroes(ADD(ConvertToBaseInByteArray(14), ConvertToBaseInByteArray(10))));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(24, 5), RemoveZeroes(ADD(ConvertToBaseInByteArray(14, 5), ConvertToBaseInByteArray(10, 5), 5)));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(129, 7), RemoveZeroes(ADD(ConvertToBaseInByteArray(44, 7), ConvertToBaseInByteArray(85, 7), 7)));
         }
 
         [TestMethod]
@@ -123,7 +125,7 @@ namespace BinaryOperations
             if (startIndex > b.Length)
                 return a;
 
-             result = new byte[a.Length + b.Length - startIndex];
+            result = new byte[a.Length + b.Length - startIndex];
 
 
 
@@ -149,7 +151,7 @@ namespace BinaryOperations
 
             while(!Equals(temp, a))
             {
-                temp = RemoveZeroes(BitwiseADD(temp, b));
+                temp = RemoveZeroes(ADD(temp, b));
                 result++;
             }
             return ConvertToBaseInByteArray((byte)result);
@@ -162,22 +164,43 @@ namespace BinaryOperations
             for(int i=0; i<a.Length; i++)
             {
                 if(a[i]==1)
-                    result = BitwiseADD(result, LeftHandShift(b, a.Length - i - 1));
+                    result = ADD(result, LeftHandShift(b, a.Length - i - 1));
             }
             return result;
         }
 
-        byte[] BitwiseADD(byte[] a, byte[] b)
+        byte[] CalculateCarry(byte[] a, byte[] b, byte inBase)
         {
-            byte[] carry = BitwiseOP(a, b, "AND");
-            byte[] result = BitwiseOP(a, b, "XOR");
+            byte[] carry = new byte[Math.Max(a.Length, b.Length)];
+
+            for(int i=0; i<carry.Length; i++)
+            {
+                if (GetAt(i, a) + GetAt(i, b) >= inBase)
+                    carry[carry.Length - i - 1] = 1;
+            }
+            return carry;
+        }
+
+        byte[] CalculateResultWithoutCarry(byte[] a, byte[] b, byte inBase)
+        {
+            byte[] result = new byte[Math.Max(a.Length, b.Length)];
+
+            for(int i=0; i<result.Length; i++)
+                result[result.Length - i - 1] = (byte)((GetAt(i, a) + GetAt(i, b)) % inBase);
+
+            return result;
+        }
+
+        byte[] ADD(byte[] a, byte[] b, byte inBase = 2)
+        {
+            byte[] carry = CalculateCarry(a, b, inBase);
+            byte[] result = CalculateResultWithoutCarry(a, b, inBase);
 
             while (Equals(carry, new byte[] { 0 }) == false)
             {
                 byte[] shiftCarry = LeftHandShift(carry, 1);
-                carry = BitwiseOP(shiftCarry, result, "AND");
-                result = BitwiseOP(result, shiftCarry, "XOR");
-
+                carry = CalculateCarry(shiftCarry, result, inBase);
+                result = CalculateResultWithoutCarry(result, shiftCarry, inBase);
             }
             return result;
         }
