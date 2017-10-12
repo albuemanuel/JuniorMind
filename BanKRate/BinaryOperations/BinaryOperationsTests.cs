@@ -169,39 +169,63 @@ namespace BinaryOperations
             return result;
         }
 
-        byte[] CalculateCarry(byte[] a, byte[] b, byte inBase)
-        {
-            byte[] carry = new byte[Math.Max(a.Length, b.Length)];
+        //byte[] CalculateCarry(byte[] a, byte[] b, byte inBase)
+        //{
+        //    byte[] carry = new byte[Math.Max(a.Length, b.Length)];
 
-            for(int i=0; i<carry.Length; i++)
-            {
-                if (GetAt(i, a) + GetAt(i, b) >= inBase)
-                    carry[carry.Length - i - 1] = 1;
-            }
-            return carry;
-        }
+        //    for(int i=0; i<carry.Length; i++)
+        //    {
+        //        if (GetAt(i, a) + GetAt(i, b) >= inBase)
+        //            carry[carry.Length - i - 1] = 1;
+        //    }
+        //    return carry;
+        //}
 
-        byte[] CalculateResultWithoutCarry(byte[] a, byte[] b, byte inBase)
-        {
-            byte[] result = new byte[Math.Max(a.Length, b.Length)];
+        //byte[] CalculateResultWithoutCarry(byte[] a, byte[] b, byte inBase)
+        //{
+        //    byte[] result = new byte[Math.Max(a.Length, b.Length)];
 
-            for(int i=0; i<result.Length; i++)
-                result[result.Length - i - 1] = (byte)((GetAt(i, a) + GetAt(i, b)) % inBase);
+        //    for(int i=0; i<result.Length; i++)
+        //        result[result.Length - i - 1] = (byte)((GetAt(i, a) + GetAt(i, b)) % inBase);
 
-            return result;
-        }
+        //    return result;
+        //}
+
+        //byte[] ADD(byte[] a, byte[] b, byte inBase = 2)
+        //{
+        //    byte[] carry = CalculateCarry(a, b, inBase);
+        //    byte[] result = CalculateResultWithoutCarry(a, b, inBase);
+
+        //    while (Equals(carry, new byte[] { 0 }) == false)
+        //    {
+        //        byte[] shiftCarry = LeftHandShift(carry, 1);
+        //        carry = CalculateCarry(shiftCarry, result, inBase);
+        //        result = CalculateResultWithoutCarry(result, shiftCarry, inBase);
+        //    }
+        //    return result;
+        //}
 
         byte[] ADD(byte[] a, byte[] b, byte inBase = 2)
         {
-            byte[] carry = CalculateCarry(a, b, inBase);
-            byte[] result = CalculateResultWithoutCarry(a, b, inBase);
+            int maxLen = Math.Max(a.Length, b.Length);
+            byte[] result = new byte[maxLen];
+            byte carry = 0;
 
-            while (Equals(carry, new byte[] { 0 }) == false)
+            for(int i=0; i<maxLen; i++)
             {
-                byte[] shiftCarry = LeftHandShift(carry, 1);
-                carry = CalculateCarry(shiftCarry, result, inBase);
-                result = CalculateResultWithoutCarry(result, shiftCarry, inBase);
+                var sum = GetAt(i, a) + GetAt(i, b) + carry;
+                result[result.Length - i - 1] = (byte)(sum % inBase);
+                carry = (byte)(sum / inBase);
             }
+
+            if (carry != 0)
+            {
+                byte[] newResult = new byte[result.Length + 1];
+                newResult[0] = 1;
+                result.CopyTo(newResult, 1);
+                result = newResult;
+            }
+
             return result;
         }
 
