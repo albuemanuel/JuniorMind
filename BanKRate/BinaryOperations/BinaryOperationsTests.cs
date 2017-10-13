@@ -220,10 +220,9 @@ namespace BinaryOperations
 
             if (carry != 0)
             {
-                byte[] newResult = new byte[result.Length + 1];
-                newResult[0] = 1;
-                result.CopyTo(newResult, 1);
-                result = newResult;
+                Array.Resize(ref result, result.Length + 1);
+                Array.Copy(result, 0, result, 1, result.Length - 1);
+                result[0] = 1;
             }
 
             return result;
@@ -334,20 +333,10 @@ namespace BinaryOperations
 
         byte[] BitwiseOP(byte[] a, byte[] b, string op)
         {
-
             byte[] result = new byte[Math.Max(a.Length, b.Length)];
 
-            if (op.ToLower() == "and")
-                for (int i = 0; i < result.Length; i++)
-                    result[result.Length - i - 1] = BitwiseOp(GetAt(i, a), GetAt(i, b), "and");
-            
-            if(op.ToLower()=="or")
-                for (int i = 0; i < result.Length; i++)
-                    result[result.Length - i - 1] = BitwiseOp(GetAt(i, a), GetAt(i, b), "or");
-
-            if (op.ToLower() == "xor")
-                for (int i = 0; i < result.Length; i++)
-                    result[result.Length - i - 1] = BitwiseOp(GetAt(i, a), GetAt(i, b), "xor");
+            for (int i = 0; i < result.Length; i++)
+                result[result.Length - i - 1] = BitwiseOp(GetAt(i, a), GetAt(i, b), op);
             
             return result;
         }
