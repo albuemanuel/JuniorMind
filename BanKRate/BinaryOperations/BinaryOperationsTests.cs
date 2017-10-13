@@ -75,7 +75,7 @@ namespace BinaryOperations
         public void BitwiseSUB()
         {
             CollectionAssert.AreEqual(ConvertToBaseInByteArray(12), RemoveZeroes(BitwiseSUB(ConvertToBaseInByteArray(19), ConvertToBaseInByteArray(7))));
-            CollectionAssert.AreEqual(ConvertToBaseInByteArray(12,5), RemoveZeroes(BitwiseSUB(ConvertToBaseInByteArray(19, 5), ConvertToBaseInByteArray(7, 5))));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(99,5), RemoveZeroes(BitwiseSUB(ConvertToBaseInByteArray(212, 5), ConvertToBaseInByteArray(113, 5), 5)));
             CollectionAssert.AreEqual(ConvertToBaseInByteArray(12, 115), RemoveZeroes(BitwiseSUB(ConvertToBaseInByteArray(19,115), ConvertToBaseInByteArray(7,115))));
         }
 
@@ -279,7 +279,7 @@ namespace BinaryOperations
             return (byte)(a - b);
         }
 
-        byte[] BitwiseSUB(byte[] a, byte[] b, byte inBase = 2)
+        byte[] SUB(byte[] a, byte[] b, byte inBase = 2)
         {
             a = RemoveZeroes(a);
             b = RemoveZeroes(b);
