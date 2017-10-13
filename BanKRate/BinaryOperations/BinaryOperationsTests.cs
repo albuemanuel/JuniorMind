@@ -74,9 +74,9 @@ namespace BinaryOperations
         [TestMethod]
         public void BitwiseSUB()
         {
-            CollectionAssert.AreEqual(ConvertToBaseInByteArray(12), RemoveZeroes(BitwiseSUB(ConvertToBaseInByteArray(19), ConvertToBaseInByteArray(7))));
-            CollectionAssert.AreEqual(ConvertToBaseInByteArray(99,5), RemoveZeroes(BitwiseSUB(ConvertToBaseInByteArray(212, 5), ConvertToBaseInByteArray(113, 5), 5)));
-            CollectionAssert.AreEqual(ConvertToBaseInByteArray(12, 115), RemoveZeroes(BitwiseSUB(ConvertToBaseInByteArray(19,115), ConvertToBaseInByteArray(7,115))));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(12), RemoveZeroes(SUB(ConvertToBaseInByteArray(19), ConvertToBaseInByteArray(7))));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(99,5), RemoveZeroes(SUB(ConvertToBaseInByteArray(212, 5), ConvertToBaseInByteArray(113, 5), 5)));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(12, 115), RemoveZeroes(SUB(ConvertToBaseInByteArray(19,115), ConvertToBaseInByteArray(7,115))));
         }
 
         [TestMethod]
@@ -267,7 +267,7 @@ namespace BinaryOperations
         //    return result;
         //}
 
-        byte BitwiseSub(byte a, byte b, byte inBase, out byte borrow)
+        byte SUB(byte a, byte b, byte inBase, out byte borrow)
         {
             if (a < b)
             {
@@ -292,7 +292,7 @@ namespace BinaryOperations
 
             for (int i = 0; i < result.Length; i++)
             {
-                var diff = BitwiseSub((byte)(GetAt(i, a)), (byte)(GetAt(i, b)+borrow), inBase, out borrow);
+                var diff = SUB((byte)(GetAt(i, a)), (byte)(GetAt(i, b)+borrow), inBase, out borrow);
                 result[result.Length - i - 1] = diff;
             }
             return result;
@@ -350,7 +350,7 @@ namespace BinaryOperations
             return result;
         }
         
-        byte BitwiseOp(byte a, byte b, string op)
+        byte BitwiseOP(byte a, byte b, string op)
         {
             if (op.ToLower() == "and")
                 return (byte)(a * b);
@@ -369,7 +369,7 @@ namespace BinaryOperations
             byte[] result = new byte[Math.Max(a.Length, b.Length)];
 
             for (int i = 0; i < result.Length; i++)
-                result[result.Length - i - 1] = BitwiseOp(GetAt(i, a), GetAt(i, b), op);
+                result[result.Length - i - 1] = BitwiseOP(GetAt(i, a), GetAt(i, b), op);
             
             return result;
         }
