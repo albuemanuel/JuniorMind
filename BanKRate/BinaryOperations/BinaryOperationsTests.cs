@@ -75,6 +75,8 @@ namespace BinaryOperations
         public void BitwiseSUB()
         {
             CollectionAssert.AreEqual(ConvertToBaseInByteArray(12), RemoveZeroes(BitwiseSUB(ConvertToBaseInByteArray(19), ConvertToBaseInByteArray(7))));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(12,5), RemoveZeroes(BitwiseSUB(ConvertToBaseInByteArray(19, 5), ConvertToBaseInByteArray(7, 5))));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(12, 115), RemoveZeroes(BitwiseSUB(ConvertToBaseInByteArray(19,115), ConvertToBaseInByteArray(7,115))));
         }
 
         [TestMethod]
@@ -241,26 +243,57 @@ namespace BinaryOperations
             return result;
         }
 
-        byte[] BitwiseSUB(byte[] a, byte[] b)
+        //byte[] BitwiseSUB(byte[] a, byte[] b, byte inBase = 2)
+        //{
+        //    a = RemoveZeroes(a);
+        //    b = RemoveZeroes(b);
+
+        //    if (LessThan(a, b))
+        //        Swap(ref a, ref b);
+
+
+        //    byte[] borrow = BitwiseLessThan(a, b);
+
+        //    byte[] result = BitwiseOP(a, b, "XOR");
+
+        //    while (!Equals(borrow, new byte[] { 0 }))
+        //    {
+        //        byte[] shiftBorrow = LeftHandShift(borrow, 1);
+
+        //        borrow = BitwiseLessThan(result, shiftBorrow);
+
+        //        result = BitwiseOP(result, shiftBorrow, "XOR");
+        //    }
+        //    return result;
+        //}
+
+        byte BitwiseSub(byte a, byte b, byte inBase, out byte borrow)
+        {
+            if (a < b)
+            {
+                borrow = 1;
+                return (byte)(inBase - b + a);
+            }
+
+            borrow = 0;
+            return (byte)(a - b);
+        }
+
+        byte[] BitwiseSUB(byte[] a, byte[] b, byte inBase = 2)
         {
             a = RemoveZeroes(a);
             b = RemoveZeroes(b);
 
-            if (LessThan(a, b) == true)
+            if (LessThan(a, b))
                 Swap(ref a, ref b);
 
+            byte[] result = new byte[a.Length];
+            byte borrow = 0;
 
-            byte[] borrow = BitwiseLessThan(a, b);  
-            
-            byte[] result = BitwiseOP(a, b, "XOR");  
-
-            while (!Equals(borrow, new byte[] { 0 }))
+            for (int i = 0; i < result.Length; i++)
             {
-                byte[] shiftBorrow = LeftHandShift(borrow, 1);  
-                                                                      
-                borrow = BitwiseLessThan(result, shiftBorrow);
-
-                result = BitwiseOP(result, shiftBorrow, "XOR");  
+                var diff = BitwiseSub((byte)(GetAt(i, a)), (byte)(GetAt(i, b)+borrow), inBase, out borrow);
+                result[result.Length - i - 1] = diff;
             }
             return result;
         }
