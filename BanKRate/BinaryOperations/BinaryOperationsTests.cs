@@ -96,7 +96,9 @@ namespace BinaryOperations
         [TestMethod]
         public void BitwiseDIV()
         {
-            CollectionAssert.AreEqual(ConvertToBaseInByteArray(15), RemoveZeroes(BitwiseDIV(ConvertToBaseInByteArray(225), ConvertToBaseInByteArray(15))));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(15,5), RemoveZeroes(DIV(ConvertToBaseInByteArray(225,5), ConvertToBaseInByteArray(15,5),5)));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(15, 9), RemoveZeroes(DIV(ConvertToBaseInByteArray(225, 9), ConvertToBaseInByteArray(15, 9), 9)));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(27, 69), RemoveZeroes(DIV(ConvertToBaseInByteArray(243, 69), ConvertToBaseInByteArray(9, 69), 69)));
         }
 
         [TestMethod]
@@ -109,6 +111,7 @@ namespace BinaryOperations
         public void EqualsUsingLessThanAndGreaterThan()
         {
             Assert.AreEqual(true, Equals(ConvertToBaseInByteArray(0), ConvertToBaseInByteArray(0)));
+            Assert.AreEqual(true, Equals(ConvertToBaseInByteArray(6,5), ConvertToBaseInByteArray(6,5)));
         }
 
         [TestMethod]
@@ -148,17 +151,17 @@ namespace BinaryOperations
             return result;
         }
 
-        byte[] BitwiseDIV(byte[] a, byte[] b)
+        byte[] DIV(byte[] a, byte[] b, byte inBase = 2)
         {
             int result = 1;
             byte[] temp = b;
 
             while(!Equals(temp, a))
             {
-                temp = RemoveZeroes(ADD(temp, b));
+                temp = RemoveZeroes(ADD(temp, b, inBase));
                 result++;
             }
-            return ConvertToBaseInByteArray((byte)result);
+            return ConvertToBaseInByteArray((byte)result, inBase);
         }
 
         byte[] MUL(byte[] a, byte b, byte inBase)
