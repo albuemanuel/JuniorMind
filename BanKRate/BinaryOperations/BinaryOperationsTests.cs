@@ -82,7 +82,9 @@ namespace BinaryOperations
         [TestMethod]
         public void BitwiseMUL()
         {
-            CollectionAssert.AreEqual(ConvertToBaseInByteArray(35), RemoveZeroes(BitwiseMUL(ConvertToBaseInByteArray(7), ConvertToBaseInByteArray(5))));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(35, 5), RemoveZeroes(MUL(ConvertToBaseInByteArray(7, 5), ConvertToBaseInByteArray(5, 5), 5)));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(144, 5), RemoveZeroes(MUL(ConvertToBaseInByteArray(12, 5), ConvertToBaseInByteArray(12, 5), 5)));
+            CollectionAssert.AreEqual(ConvertToBaseInByteArray(48, 12), RemoveZeroes(MUL(ConvertToBaseInByteArray(6, 12), ConvertToBaseInByteArray(8, 12), 12)));
         }
 
         [TestMethod]
@@ -159,14 +161,23 @@ namespace BinaryOperations
             return ConvertToBaseInByteArray((byte)result);
         }
 
-        byte[] BitwiseMUL(byte[] a, byte[] b)
+        byte[] MUL(byte[] a, byte b, byte inBase)
+        {
+            byte[] result = new byte[a.Length + 1];
+
+            for (int i = 0; i < b; i++)
+                result = ADD(result, a, inBase);
+
+            return result;
+        }
+
+        byte[] MUL(byte[] a, byte[] b, byte inBase = 2)
         {
             byte[] result = new byte[a.Length + b.Length];
 
             for(int i=0; i<a.Length; i++)
             {
-                if(a[i]==1)
-                    result = ADD(result, LeftHandShift(b, a.Length - i - 1));
+                result = ADD(MUL(LeftHandShift(b, i), GetAt(i, a), inBase), result, inBase);
             }
             return result;
         }
