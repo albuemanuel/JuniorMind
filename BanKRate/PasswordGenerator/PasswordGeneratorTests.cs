@@ -10,7 +10,7 @@ namespace PasswordGenerator
         [TestMethod]
         public void OnlyLowercaseLettersPassword()
         {
-            Assert.IsTrue(GeneratePassword(PasswordFormat.Lowercase).Any(char.IsLower));
+            Assert.IsTrue(GeneratePassword(PasswordFormat.Lowercase, 25).Any(char.IsLower));
         }
 
         [Flags]
@@ -20,9 +20,19 @@ namespace PasswordGenerator
             Uppercase = 2
         }
 
-        string GeneratePassword(PasswordFormat format)
+        string GeneratePassword(PasswordFormat format, int noOfCharacters)
         {
-            return "";
+            Random rnd = new Random();
+            const string letters = "abcdefghijklmnopqrstuvwxyz";
+
+            string password = "";
+
+            for(int i=0; i<noOfCharacters; i++)
+            {
+                password += letters[rnd.Next(26)];
+            }
+
+            return password;
         }
     }
 
