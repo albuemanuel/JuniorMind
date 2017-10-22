@@ -9,35 +9,27 @@ namespace PasswordGenerator
     public class PasswordGeneratorTests
     {
         [TestMethod]
-        public void OnlyLowercaseLettersPassword()
+        public void PasswordFormatVerif()
         {
-            Assert.IsTrue(Regex.IsMatch(GeneratePassword(PasswordFormat.Uppercase, 6, 2), "[a-z]{4}[A-Z]{2}"));
+            Assert.AreEqual(new PasswordFormat(7, 4), DetFormatOfPassword("CoZoNaC"));
         }
 
-        [Flags]
-        enum PasswordFormat
+        [TestMethod]
+        public void UpperAndLowercasePassword()
         {
-            Lowercase = 1,
-            Uppercase = 2
+            Assert.AreEqual(new PasswordFormat(6, 2), DetFormatOfPassword(GeneratePassword(new PasswordFormat(6, 2))));
         }
 
-        bool HasUppercase(PasswordFormat format)
+        struct PasswordFormat
         {
-            return (format & PasswordFormat.Uppercase) !=0;
-        }
+            public int noOfChars;
+            public int noOfUpChars;
 
-        bool HasLowercase(PasswordFormat format)
-        {
-            return (format & PasswordFormat.Lowercase) != 0;
-        }
-
-        bool IsCharArrayEmpty(char[] arr)
-        {
-            for (int i = 0; i < arr.Length; i++)
-                if (arr[i] != '\0')
-                    return false;
-            
-            return true;
+            public PasswordFormat(int noOfChars, int noOfUpChars)
+            {
+                this.noOfChars = noOfChars;
+                this.noOfUpChars = noOfUpChars;
+            }
         }
 
         void AddChar(char[] arr, char newChar)
@@ -51,25 +43,33 @@ namespace PasswordGenerator
             arr[rand] = newChar;
         }
 
-        string GeneratePassword(PasswordFormat format, int noOfCharacters, int noOfUpLetters = 0)
+        PasswordFormat DetFormatOfPassword(string password)
+        {
+            PasswordFormat format = new PasswordFormat();
+
+            for(int i=0; i<password.Length; i++)
+            {
+                if (Char.IsUpper(password[i]))
+                    format.noOfUpChars++;
+                format.noOfChars++;
+            }
+            return format;
+        }
+
+        string GeneratePassword(PasswordFormat format)
         {
             Random rnd = new Random();
             
             const string letters = "abcdefghijklmnopqrstuvwxyz";
 
-            char[] password = new char[noOfCharacters];
+            char[] password = new char[format.noOfChars];
 
-            if (HasUppercase(format))
-            {
-                for (int i = 0; i < noOfUpLetters; i++)
-                    AddChar(password, Char.ToUpper(letters[rnd.Next(26)]));
-            }
+            
+            for (int i = 0; i < format.noOfUpChars; i++)
+                AddChar(password, Char.ToUpper(letters[rnd.Next(26)]));
+            for(int i=0; i<format.noOfChars-format.noOfUpChars; i++)
+                AddChar(password, letters[rnd.Next(26)]);
 
-            if(HasLowercase(format))
-            {
-                for (int i = 0; i < noOfCharacters-noOfUpLetters; i++)
-                    AddChar(password, letters[rnd.Next(26)]);
-            }
 
             string passwStr = new string(password);
             return passwStr;
