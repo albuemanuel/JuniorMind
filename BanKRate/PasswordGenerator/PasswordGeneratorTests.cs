@@ -20,16 +20,41 @@ namespace PasswordGenerator
             Assert.AreEqual(new PasswordFormat(6, 2), DetFormatOfPassword(GeneratePassword(new PasswordFormat(6, 2))));
         }
 
+        [TestMethod]
+        public void UpperLowerDigitPassword()
+        {
+            Assert.AreEqual(new PasswordFormat(6, 2, 3), DetFormatOfPassword(GeneratePassword(new PasswordFormat(6, 2, 3))));
+        }
+
         struct PasswordFormat
         {
             public int noOfChars;
             public int noOfUpChars;
+            public int noOfDigits;
 
-            public PasswordFormat(int noOfChars, int noOfUpChars)
+            public PasswordFormat(int noOfChars, int noOfUpChars = 0, int noOfDigits = 0)
             {
                 this.noOfChars = noOfChars;
                 this.noOfUpChars = noOfUpChars;
+                this.noOfDigits = noOfDigits;
             }
+            
+
+        }
+
+        PasswordFormat DetFormatOfPassword(string password)
+        {
+            PasswordFormat format = new PasswordFormat();
+
+            for (int i = 0; i < password.Length; i++)
+            {
+                if (Char.IsUpper(password[i]))
+                    format.noOfUpChars++;
+                if (Char.IsDigit(password[i]))
+                    format.noOfDigits++;
+                format.noOfChars++;
+            }
+            return format;
         }
 
         void AddChar(char[] arr, char newChar)
@@ -43,19 +68,6 @@ namespace PasswordGenerator
             arr[rand] = newChar;
         }
 
-        PasswordFormat DetFormatOfPassword(string password)
-        {
-            PasswordFormat format = new PasswordFormat();
-
-            for(int i=0; i<password.Length; i++)
-            {
-                if (Char.IsUpper(password[i]))
-                    format.noOfUpChars++;
-                format.noOfChars++;
-            }
-            return format;
-        }
-
         string GeneratePassword(PasswordFormat format)
         {
             Random rnd = new Random();
@@ -67,7 +79,9 @@ namespace PasswordGenerator
             
             for (int i = 0; i < format.noOfUpChars; i++)
                 AddChar(password, Char.ToUpper(letters[rnd.Next(26)]));
-            for(int i=0; i<format.noOfChars-format.noOfUpChars; i++)
+            for(int i=0; i<format.noOfDigits; i++)
+                AddChar(password, Convert.ToChar(rnd.Next(10).ToString()));
+            for (int i=0; i<format.noOfChars-format.noOfUpChars-format.noOfDigits; i++)
                 AddChar(password, letters[rnd.Next(26)]);
 
 
