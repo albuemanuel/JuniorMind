@@ -31,12 +31,14 @@ namespace PasswordGenerator
             public int noOfChars;
             public int noOfUpChars;
             public int noOfDigits;
+            public int noOfSymbols;
 
-            public PasswordFormat(int noOfChars, int noOfUpChars = 0, int noOfDigits = 0)
+            public PasswordFormat(int noOfChars, int noOfUpChars = 0, int noOfDigits = 0, int noOfSymbols = 0)
             {
                 this.noOfChars = noOfChars;
                 this.noOfUpChars = noOfUpChars;
                 this.noOfDigits = noOfDigits;
+                this.noOfSymbols = noOfSymbols;
             }
             
 
@@ -52,6 +54,7 @@ namespace PasswordGenerator
                     format.noOfUpChars++;
                 if (Char.IsDigit(password[i]))
                     format.noOfDigits++;
+                
                 format.noOfChars++;
             }
             return format;
@@ -68,21 +71,65 @@ namespace PasswordGenerator
             arr[rand] = newChar;
         }
 
+        //struct CharType
+        //{
+        //    public int 
+        //    public int setCard;
+
+        //    public CharType(char charType)
+        //    {
+        //        switch (charType)
+        //        {
+        //            case 'a':
+        //                symbolSet = 'a';
+        //                setCard = 26;
+        //                break;
+        //            case 'A':
+        //                symbolSet = 'A';
+        //                setCard = 26;
+        //                break;
+        //            case '0':
+        //                symbolSet = '0';
+        //                setCard = 10;
+        //                break;
+        //            default:
+        //                symbolSet = 'a';
+        //                setCard = 26;
+        //                break;
+        //        }
+        //    }
+        //}
+
+        //char GenerateChar(CharType charType)
+        //{
+        //    Random rnd = new Random();
+        //    int rand = rnd.Next(33, 80)
+        //    while()
+        //}
+
+        char GenerateChar(int limOne, int limTwo)
+        {
+            Random rnd = new Random();
+
+            return (char)(rnd.Next(limOne, limTwo + 1));
+        }
+
         string GeneratePassword(PasswordFormat format)
         {
             Random rnd = new Random();
             
-            const string letters = "abcdefghijklmnopqrstuvwxyz";
-
             char[] password = new char[format.noOfChars];
 
-            
+
+
             for (int i = 0; i < format.noOfUpChars; i++)
-                AddChar(password, Char.ToUpper(letters[rnd.Next(26)]));
-            for(int i=0; i<format.noOfDigits; i++)
-                AddChar(password, Convert.ToChar(rnd.Next(10).ToString()));
-            for (int i=0; i<format.noOfChars-format.noOfUpChars-format.noOfDigits; i++)
-                AddChar(password, letters[rnd.Next(26)]);
+                AddChar(password, GenerateChar(65, 90));
+
+            for (int i = 0; i < format.noOfDigits; i++)
+                AddChar(password, GenerateChar(48, 57));
+
+            for (int i = 0; i < format.noOfChars - format.noOfUpChars - format.noOfDigits; i++)
+                AddChar(password, GenerateChar(97, 122));
 
 
             string passwStr = new string(password);
