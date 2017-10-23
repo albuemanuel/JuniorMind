@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Text.RegularExpressions;
 
 
 namespace PasswordGenerator
@@ -71,45 +70,38 @@ namespace PasswordGenerator
             arr[rand] = newChar;
         }
 
-        //struct CharType
-        //{
-        //    public int 
-        //    public int setCard;
+        enum CharType 
+        {
+            Uppercase = 0,
+            Lowercase = 1,
+            Digit = 2
+        }
 
-        //    public CharType(char charType)
-        //    {
-        //        switch (charType)
-        //        {
-        //            case 'a':
-        //                symbolSet = 'a';
-        //                setCard = 26;
-        //                break;
-        //            case 'A':
-        //                symbolSet = 'A';
-        //                setCard = 26;
-        //                break;
-        //            case '0':
-        //                symbolSet = '0';
-        //                setCard = 10;
-        //                break;
-        //            default:
-        //                symbolSet = 'a';
-        //                setCard = 26;
-        //                break;
-        //        }
-        //    }
-        //}
-
-        //char GenerateChar(CharType charType)
-        //{
-        //    Random rnd = new Random();
-        //    int rand = rnd.Next(33, 80)
-        //    while()
-        //}
-
-        char GenerateChar(int limOne, int limTwo)
+        char GenerateChar(CharType no)
         {
             Random rnd = new Random();
+            int limOne;
+            int limTwo;
+
+            switch(no)
+            {
+                case CharType.Uppercase:
+                    limOne = 65;
+                    limTwo = 90;
+                    break;
+                case CharType.Lowercase:
+                    limOne = 48;
+                    limTwo = 57;
+                    break;
+                case CharType.Digit:
+                    limOne = 97;
+                    limTwo = 122;
+                    break;
+                default:
+                    limOne = 0;
+                    limTwo = 0;
+                    break;
+            }
 
             return (char)(rnd.Next(limOne, limTwo + 1));
         }
@@ -117,20 +109,16 @@ namespace PasswordGenerator
         string GeneratePassword(PasswordFormat format)
         {
             Random rnd = new Random();
-            
             char[] password = new char[format.noOfChars];
 
-
-
             for (int i = 0; i < format.noOfUpChars; i++)
-                AddChar(password, GenerateChar(65, 90));
+                AddChar(password, GenerateChar(CharType.Uppercase));
 
             for (int i = 0; i < format.noOfDigits; i++)
-                AddChar(password, GenerateChar(48, 57));
+                AddChar(password, GenerateChar(CharType.Lowercase));
 
             for (int i = 0; i < format.noOfChars - format.noOfUpChars - format.noOfDigits; i++)
-                AddChar(password, GenerateChar(97, 122));
-
+                AddChar(password, GenerateChar(CharType.Digit));
 
             string passwStr = new string(password);
             return passwStr;
