@@ -90,12 +90,12 @@ namespace PasswordGenerator
                     limTwo = 90;
                     break;
                 case CharType.Lowercase:
-                    limOne = 48;
-                    limTwo = 57;
-                    break;
-                case CharType.Digit:
                     limOne = 97;
                     limTwo = 122;
+                    break;
+                case CharType.Digit:
+                    limOne = 48;
+                    limTwo = 57;
                     break;
                 default:
                     limOne = 0;
@@ -106,20 +106,23 @@ namespace PasswordGenerator
             return (char)(rnd.Next(limOne, limTwo + 1));
         }
 
+        void AddChars(char[] arr, CharType charType, int noOfChars)
+        {
+
+            for (int i = 0; i < noOfChars; i++)
+                AddChar(arr, GenerateChar(charType));
+
+        }
+
         string GeneratePassword(PasswordFormat format)
         {
             Random rnd = new Random();
             char[] password = new char[format.noOfChars];
 
-            for (int i = 0; i < format.noOfUpChars; i++)
-                AddChar(password, GenerateChar(CharType.Uppercase));
-
-            for (int i = 0; i < format.noOfDigits; i++)
-                AddChar(password, GenerateChar(CharType.Lowercase));
-
-            for (int i = 0; i < format.noOfChars - format.noOfUpChars - format.noOfDigits; i++)
-                AddChar(password, GenerateChar(CharType.Digit));
-
+            AddChars(password, CharType.Uppercase, format.noOfUpChars);
+            AddChars(password, CharType.Digit, format.noOfDigits);
+            AddChars(password, CharType.Lowercase, format.noOfChars - format.noOfUpChars - format.noOfDigits);
+            
             string passwStr = new string(password);
             return passwStr;
         }
