@@ -25,6 +25,12 @@ namespace PasswordGenerator
             Assert.AreEqual(new PasswordFormat(6, 2, 3), DetFormatOfPassword(GeneratePassword(new PasswordFormat(6, 2, 3))));
         }
 
+        [TestMethod]
+        public void UpperLowerDigitSymbPassword()
+        {
+            Assert.AreEqual(new PasswordFormat(10, 2, 3, 4), DetFormatOfPassword(GeneratePassword(new PasswordFormat(10, 2, 3, 4))));
+        }
+
         struct PasswordFormat
         {
             public int noOfChars;
@@ -53,10 +59,22 @@ namespace PasswordGenerator
                     format.noOfUpChars++;
                 if (Char.IsDigit(password[i]))
                     format.noOfDigits++;
-                
+                if (IsSymbol(password[i]))
+                    format.noOfSymbols++;
+
                 format.noOfChars++;
             }
+
             return format;
+        }
+
+        bool IsSymbol(char a)
+        {
+            for (char i = '!'; i <= '/'; i++)
+                if (a == i)
+                    return true;
+
+            return false;
         }
 
         void AddChar(char[] arr, char newChar)
@@ -97,7 +115,7 @@ namespace PasswordGenerator
             Random rnd = new Random();
             string password = "";
 
-            password = GenerateChars('A', 'Z', format.noOfUpChars) + GenerateChars('0', '9', format.noOfDigits) + GenerateChars('a', 'z', format.noOfChars - format.noOfUpChars - format.noOfDigits);
+            password = GenerateChars('A', 'Z', format.noOfUpChars) + GenerateChars('0', '9', format.noOfDigits) + GenerateChars('!', '/', format.noOfSymbols) + GenerateChars('a', 'z', format.noOfChars - format.noOfUpChars - format.noOfDigits - format.noOfSymbols);
 
             return Shuffle(password);
         }
