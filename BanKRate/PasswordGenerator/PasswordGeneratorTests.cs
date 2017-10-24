@@ -81,27 +81,25 @@ namespace PasswordGenerator
             return result;
         }
 
-        void AddChars(char[] arr, char limOne, char limTwo, int noOfChars)
+        string Shuffle(string password)
         {
+            char[] arrPass = new char[password.Length];
 
-            string password = GenerateChars(limOne, limTwo, noOfChars);
+            for (int i = 0; i < arrPass.Length; i++)
+                AddChar(arrPass, password[i]);
 
-            for (int i = 0; i < noOfChars; i++)
-                AddChar(arr, password[i]);
-
+            string result = new string(arrPass);
+            return result;
         }
 
         string GeneratePassword(PasswordFormat format)
         {
             Random rnd = new Random();
-            char[] password = new char[format.noOfChars];
+            string password = "";
 
-            AddChars(password, 'A', 'Z', format.noOfUpChars);
-            AddChars(password, '0','9', format.noOfDigits);
-            AddChars(password, 'a', 'z', format.noOfChars - format.noOfUpChars - format.noOfDigits);
-            
-            string passwStr = new string(password);
-            return passwStr;
+            password = GenerateChars('A', 'Z', format.noOfUpChars) + GenerateChars('0', '9', format.noOfDigits) + GenerateChars('a', 'z', format.noOfChars - format.noOfUpChars - format.noOfDigits);
+
+            return Shuffle(password);
         }
     }
 
