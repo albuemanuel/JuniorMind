@@ -93,8 +93,16 @@ namespace PasswordGenerator
             Random rnd = new Random();
             string result = "";
 
-            for(int i=0; i<noOfChars; i++)
-                result += (char)(rnd.Next(limOne, limTwo + 1));
+            for (int i = 0; i < noOfChars; i++)
+            {
+                char randChar = (char)(rnd.Next(limOne, limTwo + 1));
+                if (randChar == 'l' || randChar == 'I' || randChar == 'o' || randChar == 'O' || randChar == '0' || randChar =='1' || randChar=='(' || randChar==')' || randChar=='/' || randChar=='\'' || randChar=='\"' || randChar==',' || randChar=='.')
+                {
+                    i -= 1;
+                    continue;
+                }
+                result += randChar;
+            }
 
             return result;
         }
