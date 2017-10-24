@@ -70,47 +70,24 @@ namespace PasswordGenerator
             arr[rand] = newChar;
         }
 
-        enum CharType 
-        {
-            Uppercase = 0,
-            Lowercase = 1,
-            Digit = 2
-        }
-
-        char GenerateChar(CharType no)
+        string GenerateChars(char limOne, char limTwo, int noOfChars)
         {
             Random rnd = new Random();
-            int limOne;
-            int limTwo;
+            string result = "";
 
-            switch(no)
-            {
-                case CharType.Uppercase:
-                    limOne = 65;
-                    limTwo = 90;
-                    break;
-                case CharType.Lowercase:
-                    limOne = 97;
-                    limTwo = 122;
-                    break;
-                case CharType.Digit:
-                    limOne = 48;
-                    limTwo = 57;
-                    break;
-                default:
-                    limOne = 0;
-                    limTwo = 0;
-                    break;
-            }
+            for(int i=0; i<noOfChars; i++)
+                result += (char)(rnd.Next(limOne, limTwo + 1));
 
-            return (char)(rnd.Next(limOne, limTwo + 1));
+            return result;
         }
 
-        void AddChars(char[] arr, CharType charType, int noOfChars)
+        void AddChars(char[] arr, char limOne, char limTwo, int noOfChars)
         {
 
+            string password = GenerateChars(limOne, limTwo, noOfChars);
+
             for (int i = 0; i < noOfChars; i++)
-                AddChar(arr, GenerateChar(charType));
+                AddChar(arr, password[i]);
 
         }
 
@@ -119,9 +96,9 @@ namespace PasswordGenerator
             Random rnd = new Random();
             char[] password = new char[format.noOfChars];
 
-            AddChars(password, CharType.Uppercase, format.noOfUpChars);
-            AddChars(password, CharType.Digit, format.noOfDigits);
-            AddChars(password, CharType.Lowercase, format.noOfChars - format.noOfUpChars - format.noOfDigits);
+            AddChars(password, 'A', 'Z', format.noOfUpChars);
+            AddChars(password, '0','9', format.noOfDigits);
+            AddChars(password, 'a', 'z', format.noOfChars - format.noOfUpChars - format.noOfDigits);
             
             string passwStr = new string(password);
             return passwStr;
