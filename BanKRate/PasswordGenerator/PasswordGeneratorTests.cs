@@ -31,27 +31,54 @@ namespace PasswordGenerator
             Assert.AreEqual(new PasswordFormat(10, 2, 3, 4), DetFormatOfPassword(GeneratePassword(new PasswordFormat(10, 2, 3, 4))));
         }
 
+        [TestMethod]
+        public void RemoveChars()
+        {
+            Assert.AreEqual("abcde", RemoveChars("abcdefghi", "ghif"));
+        }
+
+        [TestMethod]
+        public void IsSymbol()
+        {
+            Assert.IsTrue(IsSymbol('~'));
+        }
+
+        [TestMethod]
+        public void UpperLowerDigitSymbNotAllowedCharsPass()
+        {
+            Assert.AreEqual(new PasswordFormat(10, 2, 3, 4, "abcdef"), DetFormatOfPassword(GeneratePassword(new PasswordFormat(10, 2, 3, 4, "abcdef")), "abcdef"));
+        }
+
+        [TestMethod]
+        public void FormatOfPassword()
+        {
+            Assert.AreEqual(new PasswordFormat(10, 2, 3, 4, "abcdef"), DetFormatOfPassword("U23I1@#$%x", "abcdef"));
+        }
+
         struct PasswordFormat
         {
             public int noOfChars;
             public int noOfUpChars;
             public int noOfDigits;
             public int noOfSymbols;
+            public string notAllowedChars;
 
-            public PasswordFormat(int noOfChars, int noOfUpChars = 0, int noOfDigits = 0, int noOfSymbols = 0)
+            public PasswordFormat(int noOfChars, int noOfUpChars = 0, int noOfDigits = 0, int noOfSymbols = 0, string notAllowedChars = null)
             {
                 this.noOfChars = noOfChars;
                 this.noOfUpChars = noOfUpChars;
                 this.noOfDigits = noOfDigits;
                 this.noOfSymbols = noOfSymbols;
+                this.notAllowedChars = notAllowedChars;
             }
             
 
         }
 
-        PasswordFormat DetFormatOfPassword(string password)
+        PasswordFormat DetFormatOfPassword(string password, string notAllowedChars = null)
         {
             PasswordFormat format = new PasswordFormat();
+            bool hasNotAllowedChars = false;
 
             for (int i = 0; i < password.Length; i++)
             {
@@ -62,17 +89,25 @@ namespace PasswordGenerator
                 if (IsSymbol(password[i]))
                     format.noOfSymbols++;
 
+                if(notAllowedChars != null)
+                    if (notAllowedChars.IndexOf(password[i]) != -1)
+                        hasNotAllowedChars = true;
+
                 format.noOfChars++;
             }
+
+            if (!hasNotAllowedChars)
+                format.notAllowedChars = notAllowedChars;
 
             return format;
         }
 
         bool IsSymbol(char a)
         {
-            for (char i = '!'; i <= '/'; i++)
-                if (a == i)
-                    return true;
+            string symbolsString = RemoveChars(RemoveChars(RemoveChars(GenerateStringOfChars('!', '~'), GenerateStringOfChars('A', 'Z')), GenerateStringOfChars('a', 'z')), GenerateStringOfChars('0', '9'));
+
+            if (symbolsString.IndexOf(a) != -1)
+                return true;
 
             return false;
         }
@@ -88,21 +123,40 @@ namespace PasswordGenerator
             arr[rand] = newChar;
         }
 
-        string GenerateChars(char limOne, char limTwo, int noOfChars)
+        string GenerateStringOfChars(char limOne, char limTwo)
+        {
+            string stringOfChars = "";
+
+            for (char i = limOne; i <= limTwo; i++)
+                stringOfChars += i;
+
+            return stringOfChars;
+
+        }
+
+        string RemoveChars(string allChars, string charsToBeRemoved)
+        {
+            string result = "";
+
+            if (charsToBeRemoved == null)
+                return allChars;
+            for (int i = 0; i < allChars.Length; i++)
+            {
+                if (charsToBeRemoved.IndexOf(allChars[i]) != -1)
+                    continue;
+                result += allChars[i];
+            }
+            return result;
+        }
+
+        string GenerateChars(string allowedChars, int noOfChars)
         {
             Random rnd = new Random();
+
             string result = "";
 
             for (int i = 0; i < noOfChars; i++)
-            {
-                char randChar = (char)(rnd.Next(limOne, limTwo + 1));
-                if (randChar == 'l' || randChar == 'I' || randChar == 'o' || randChar == 'O' || randChar == '0' || randChar =='1' || randChar=='(' || randChar==')' || randChar=='/' || randChar=='\'' || randChar=='\"' || randChar==',' || randChar=='.')
-                {
-                    i -= 1;
-                    continue;
-                }
-                result += randChar;
-            }
+                result += allowedChars[rnd.Next(allowedChars.Length)];
 
             return result;
         }
@@ -123,7 +177,20 @@ namespace PasswordGenerator
             Random rnd = new Random();
             string password = "";
 
-            password = GenerateChars('A', 'Z', format.noOfUpChars) + GenerateChars('0', '9', format.noOfDigits) + GenerateChars('!', '/', format.noOfSymbols) + GenerateChars('a', 'z', format.noOfChars - format.noOfUpChars - format.noOfDigits - format.noOfSymbols);
+            if(format.noOfUpChars!=0)
+                password += GenerateChars(RemoveChars(GenerateStringOfChars('A', 'Z'), format.notAllowedChars), format.noOfUpChars);
+
+            if(format.noOfDigits!=0)
+                password += GenerateChars(RemoveChars(GenerateStringOfChars('0', '9'), format.notAllowedChars), format.noOfDigits);
+
+            if (format.noOfSymbols != 0)
+            {
+                string symbolsString = RemoveChars(RemoveChars(RemoveChars(RemoveChars(GenerateStringOfChars('!', '~'), GenerateStringOfChars('A', 'Z')), GenerateStringOfChars('a', 'z')), GenerateStringOfChars('0', '9')), format.notAllowedChars);
+                
+                password += GenerateChars(symbolsString, format.noOfSymbols);
+            }
+
+            password += GenerateChars(RemoveChars(GenerateStringOfChars('a', 'z'), format.notAllowedChars), format.noOfChars - format.noOfUpChars - format.noOfDigits - format.noOfSymbols);
 
             return Shuffle(password);
         }
