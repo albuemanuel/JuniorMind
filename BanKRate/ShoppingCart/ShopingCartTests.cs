@@ -88,14 +88,14 @@ namespace ShoppingCart
                     else
                         result += prods[i].GetName() + ',' + ' ';
                 }
-                
+
                 return result;
             }
 
         }
-        
 
-        
-        
+
+
+
     }
 }
