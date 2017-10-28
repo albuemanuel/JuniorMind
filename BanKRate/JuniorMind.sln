@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PasswordGenerator", "PasswordGenerator\PasswordGenerator.csproj", "{08A078BB-7AB9-42D4-AB09-159755E275A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCart", "ShoppingCart\ShoppingCart.csproj", "{336AFA05-498C-4949-894B-FDC6D99E5C8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{08A078BB-7AB9-42D4-AB09-159755E275A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08A078BB-7AB9-42D4-AB09-159755E275A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08A078BB-7AB9-42D4-AB09-159755E275A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08A078BB-7AB9-42D4-AB09-159755E275A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{336AFA05-498C-4949-894B-FDC6D99E5C8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{336AFA05-498C-4949-894B-FDC6D99E5C8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{336AFA05-498C-4949-894B-FDC6D99E5C8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{336AFA05-498C-4949-894B-FDC6D99E5C8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
