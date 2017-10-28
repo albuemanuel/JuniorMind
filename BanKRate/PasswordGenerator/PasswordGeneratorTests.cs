@@ -32,12 +32,6 @@ namespace PasswordGenerator
         }
 
         [TestMethod]
-        public void RemoveChars()
-        {
-            Assert.AreEqual("abcde", RemoveChars("abcdefghi", "ghif"));
-        }
-
-        [TestMethod]
         public void IsSymbol()
         {
             Assert.IsTrue(IsSymbol('~'));
@@ -104,7 +98,8 @@ namespace PasswordGenerator
 
         bool IsSymbol(char a)
         {
-            string symbolsString = RemoveChars(RemoveChars(RemoveChars(GenerateStringOfChars('!', '~'), GenerateStringOfChars('A', 'Z')), GenerateStringOfChars('a', 'z')), GenerateStringOfChars('0', '9'));
+            string symbolsString = GenerateStringOfChars('!', '@', '0', '9');
+            symbolsString += GenerateStringOfChars('[', '~', 'a', 'z');
 
             if (symbolsString.IndexOf(a) != -1)
                 return true;
@@ -123,33 +118,25 @@ namespace PasswordGenerator
             arr[rand] = newChar;
         }
 
-        string GenerateStringOfChars(char limOne, char limTwo)
+        string GenerateStringOfChars(char limOne, char limTwo, char limOneNotAllowed = '\0', char limTwoNotAllowed = '\0', string notAllowedChars = "")
         {
             string stringOfChars = "";
 
             for (char i = limOne; i <= limTwo; i++)
+            {
+                if (i <= limTwoNotAllowed && i >= limOneNotAllowed)
+                    continue;
+                if (notAllowedChars.IndexOf(i) != -1)
+                    continue;
+
                 stringOfChars += i;
+            }
 
             return stringOfChars;
 
         }
 
-        string RemoveChars(string allChars, string charsToBeRemoved)
-        {
-            string result = "";
-
-            if (charsToBeRemoved == null)
-                return allChars;
-            for (int i = 0; i < allChars.Length; i++)
-            {
-                if (charsToBeRemoved.IndexOf(allChars[i]) != -1)
-                    continue;
-                result += allChars[i];
-            }
-            return result;
-        }
-
-        string GenerateChars(string allowedChars, int noOfChars)
+        string PickRandomChars(string allowedChars, int noOfChars)
         {
             Random rnd = new Random();
 
@@ -177,20 +164,22 @@ namespace PasswordGenerator
             Random rnd = new Random();
             string password = "";
 
-            if(format.noOfUpChars!=0)
-                password += GenerateChars(RemoveChars(GenerateStringOfChars('A', 'Z'), format.notAllowedChars), format.noOfUpChars);
+            if (format.noOfUpChars != 0)
+                password += PickRandomChars(GenerateStringOfChars('A', 'Z', notAllowedChars: format.notAllowedChars ?? ""), format.noOfUpChars);
 
-            if(format.noOfDigits!=0)
-                password += GenerateChars(RemoveChars(GenerateStringOfChars('0', '9'), format.notAllowedChars), format.noOfDigits);
+            if (format.noOfDigits != 0)
+                password += PickRandomChars(GenerateStringOfChars('0', '9', notAllowedChars: format.notAllowedChars ?? ""), format.noOfDigits);
 
             if (format.noOfSymbols != 0)
             {
-                string symbolsString = RemoveChars(RemoveChars(RemoveChars(RemoveChars(GenerateStringOfChars('!', '~'), GenerateStringOfChars('A', 'Z')), GenerateStringOfChars('a', 'z')), GenerateStringOfChars('0', '9')), format.notAllowedChars);
+                string symbolsString = GenerateStringOfChars('!', '@', '0', '9', notAllowedChars: format.notAllowedChars ?? "");
+                symbolsString += GenerateStringOfChars('[', '~', 'a', 'z', notAllowedChars: format.notAllowedChars ?? "");
                 
-                password += GenerateChars(symbolsString, format.noOfSymbols);
+                password += PickRandomChars(symbolsString, format.noOfSymbols);
             }
 
-            password += GenerateChars(RemoveChars(GenerateStringOfChars('a', 'z'), format.notAllowedChars), format.noOfChars - format.noOfUpChars - format.noOfDigits - format.noOfSymbols);
+            int noOfLowChars = format.noOfChars - format.noOfUpChars - format.noOfDigits - format.noOfSymbols;
+            password += PickRandomChars(GenerateStringOfChars('a', 'z', notAllowedChars: format.notAllowedChars??""), noOfLowChars);
 
             return Shuffle(password);
         }
