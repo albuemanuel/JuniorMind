@@ -17,6 +17,16 @@ namespace ShoppingCart
             Assert.AreEqual("cozonac, mamaliga", cart.GetProdsNames());
         }
 
+        [TestMethod]
+        public void TotalPrice()
+        {
+            ShoppingCart cart = new ShoppingCart();
+            cart.AddProduct(new Product(30, "Cozonac"));
+            cart.AddProduct(new Product(20, "Mamaliga"));
+
+            Assert.AreEqual(50, cart.GetTotal());
+        }
+
         struct Product
         {
             decimal price;
@@ -93,6 +103,8 @@ namespace ShoppingCart
             }
 
         }
+
+        
 
 
 
