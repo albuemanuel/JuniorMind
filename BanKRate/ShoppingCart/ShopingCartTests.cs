@@ -127,7 +127,16 @@ namespace ShoppingCart
             CollectionAssert.AreEqual(cart2.GetAllProducts(), cart.GetAllProducts());
         }
 
+        [TestMethod]
+        public void MeanPrice()
+        {
 
+            ShoppingCart cart = new ShoppingCart();
+            cart.AddProduct(new Product(30, "Cozonac"));
+            cart.AddProduct(new Product(20, "mamaliga"));
+
+            Assert.AreEqual(25, cart.CalculateMeanPrice());
+        }
 
         struct Product
         {
@@ -154,7 +163,6 @@ namespace ShoppingCart
         struct ShoppingCart
         {
             Product[] prods;
-            decimal total;
 
             public void AddProduct(Product prod)
             {
@@ -168,6 +176,10 @@ namespace ShoppingCart
 
             }
 
+            public decimal CalculateMeanPrice()
+            {
+                return GetTotal() / prods.Length;
+            }
 
             public Product[] GetAllProducts()
             {
@@ -181,6 +193,8 @@ namespace ShoppingCart
 
             public decimal GetTotal()
             {
+                decimal total = 0;
+
                 foreach (Product p in prods)
                     total += p.GetPrice();
                 return total;
