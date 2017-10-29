@@ -78,6 +78,16 @@ namespace ShoppingCart
             Assert.AreEqual(1 ,cart.FindCheapestProd());
         }
 
+        [TestMethod]
+        public void MostExpensiveProduct()
+        {
+            ShoppingCart cart = new ShoppingCart();
+            cart.AddProduct(new Product(30, "Cozonac"));
+            cart.AddProduct(new Product(20, "mamaliga"));
+
+            Assert.AreEqual(0, cart.FindMostExpProd());
+        }
+
         struct Product
         {
             decimal price;
@@ -141,14 +151,30 @@ namespace ShoppingCart
 
             public int FindCheapestProd()
             {
-                int indexOfChepestProd = 0;
+                int indOfChepestProd = 0;
                 for(int i=1; i<prods.Length; i++)
                 {
-                    if (prods[i].GetPrice() < prods[indexOfChepestProd].GetPrice())
-                        indexOfChepestProd = i;
+                    if (prods[i].GetPrice() < prods[indOfChepestProd].GetPrice())
+                        indOfChepestProd = i;
                 }
-                return indexOfChepestProd;
+                return indOfChepestProd;
             }
+
+            public int FindMostExpProd()
+            {
+                int indOfMostExpProd = 0;
+                for (int i = 0; i < prods.Length; i++)
+                {
+                    if (prods[i].GetPrice() > prods[indOfMostExpProd].GetPrice())
+                        indOfMostExpProd = i;
+                }
+                return indOfMostExpProd;
+            }
+
+            //public void RemoveMostExpProd()
+            //{
+                
+            //}
 
             //public string GetProdsNames()
             //{
