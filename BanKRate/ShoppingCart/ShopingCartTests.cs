@@ -113,6 +113,20 @@ namespace ShoppingCart
             CollectionAssert.AreEqual(new Product[] { new Product(30, "cozonac"), new Product(20, "mamaliga") }, cart.GetAllProducts());
         }
 
+        [TestMethod]
+        public void RemoveMostExpensiveProduct()
+        {
+            ShoppingCart cart = new ShoppingCart();
+            cart.AddProduct(new Product(30, "Cozonac"));
+            cart.AddProduct(new Product(20, "mamaliga"));
+            cart.RemoveProdAtInd(cart.FindMostExpProd());
+
+            ShoppingCart cart2 = new ShoppingCart();
+            cart2.AddProduct(new Product(20, "mamaliga"));
+
+            CollectionAssert.AreEqual(cart2.GetAllProducts(), cart.GetAllProducts());
+        }
+
 
 
         struct Product
