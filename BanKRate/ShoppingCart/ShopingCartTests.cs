@@ -88,6 +88,33 @@ namespace ShoppingCart
             Assert.AreEqual(0, cart.FindMostExpProd());
         }
 
+        [TestMethod]
+        public void RemoveProduct()
+        {
+            ShoppingCart cart = new ShoppingCart();
+            cart.AddProduct(new Product(30, "Cozonac"));
+            cart.AddProduct(new Product(20, "mamaliga"));
+            cart.RemoveProdAtInd(1);
+
+            ShoppingCart cart2 = new ShoppingCart();
+            cart2.AddProduct(new Product(30, "Cozonac"));
+            
+            CollectionAssert.AreEqual(cart2.GetAllProducts(), cart.GetAllProducts());
+        }
+
+        [TestMethod]
+        public void GetAllProducts()
+        {
+
+            ShoppingCart cart = new ShoppingCart();
+            cart.AddProduct(new Product(30, "Cozonac"));
+            cart.AddProduct(new Product(20, "mamaliga"));
+
+            CollectionAssert.AreEqual(new Product[] { new Product(30, "cozonac"), new Product(20, "mamaliga") }, cart.GetAllProducts());
+        }
+
+
+
         struct Product
         {
             decimal price;
@@ -125,6 +152,12 @@ namespace ShoppingCart
                     prods[prods.Length - 1] = prod;
                 }
 
+            }
+
+
+            public Product[] GetAllProducts()
+            {
+                return prods;
             }
 
             public Product GetProductAtIndex(int index)
@@ -171,10 +204,18 @@ namespace ShoppingCart
                 return indOfMostExpProd;
             }
 
-            //public void RemoveMostExpProd()
-            //{
-                
-            //}
+            public void RemoveProdAtInd(int index)
+            {
+                int ct = 0;
+                Product[] newProds = new Product[prods.Length - 1];
+                for(int i=0; i<prods.Length; i++)
+                {
+                    if (i == index)
+                        continue;
+                    newProds[ct++] = prods[i];
+                }
+                prods = newProds;
+            }
 
             //public string GetProdsNames()
             //{
