@@ -68,6 +68,16 @@ namespace ShoppingCart
             Assert.IsTrue(cart.IsLastProduct(1));
         }
 
+        [TestMethod]
+        public void CheapestProduct()
+        {
+            ShoppingCart cart = new ShoppingCart();
+            cart.AddProduct(new Product(30, "Cozonac"));
+            cart.AddProduct(new Product(20, "mamaliga"));
+
+            Assert.AreEqual(1 ,cart.FindCheapestProd());
+        }
+
         struct Product
         {
             decimal price;
@@ -127,6 +137,17 @@ namespace ShoppingCart
             public bool IsLastProduct(int index)
             {
                 return index == prods.Length - 1;
+            }
+
+            public int FindCheapestProd()
+            {
+                int indexOfChepestProd = 0;
+                for(int i=1; i<prods.Length; i++)
+                {
+                    if (prods[i].GetPrice() < prods[indexOfChepestProd].GetPrice())
+                        indexOfChepestProd = i;
+                }
+                return indexOfChepestProd;
             }
 
             //public string GetProdsNames()
