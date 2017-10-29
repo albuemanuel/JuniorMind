@@ -14,7 +14,8 @@ namespace ShoppingCart
             cart.AddProduct(new Product(30, "Cozonac"));
             cart.AddProduct(new Product(20, "Mamaliga"));
 
-            Assert.AreEqual("cozonac, mamaliga", cart.GetProdsNames());
+            Assert.AreEqual(new Product(30, "cozonac"), cart.GetProductAtIndex(0));
+            Assert.AreEqual(new Product(20, "mamaliga"), cart.GetProductAtIndex(1));
         }
 
         [TestMethod]
@@ -25,6 +26,46 @@ namespace ShoppingCart
             cart.AddProduct(new Product(20, "Mamaliga"));
 
             Assert.AreEqual(50, cart.GetTotal());
+        }
+
+        [TestMethod]
+        public void ProductPrice()
+        {
+            Assert.AreEqual(30, new Product(30, "cozonac").GetPrice());
+        }
+
+        [TestMethod]
+        public void ProductName()
+        {
+            Assert.AreEqual("cozonac", new Product(30, "cozonac").GetName());
+        }
+
+        [TestMethod]
+        public void GetProduct()
+        {
+            ShoppingCart cart = new ShoppingCart();
+            cart.AddProduct(new Product(30, "Cozonac"));
+            cart.AddProduct(new Product(20, "mamaliga"));
+
+            Assert.AreEqual(new Product(20, "mamaliga"), cart.GetProductAtIndex(1));
+        }
+
+        [TestMethod]
+        public void CartIsEmpty()
+        {
+            ShoppingCart cart = new ShoppingCart();
+
+            Assert.IsTrue(cart.IsEmpty());
+        }
+
+        [TestMethod]
+        public void IsLastProduct()
+        {
+            ShoppingCart cart = new ShoppingCart();
+            cart.AddProduct(new Product(30, "Cozonac"));
+            cart.AddProduct(new Product(20, "mamaliga"));
+
+            Assert.IsTrue(cart.IsLastProduct(1));
         }
 
         struct Product
@@ -66,6 +107,11 @@ namespace ShoppingCart
 
             }
 
+            public Product GetProductAtIndex(int index)
+            {
+                return prods[index];
+            }
+
             public decimal GetTotal()
             {
                 foreach (Product p in prods)
@@ -73,34 +119,34 @@ namespace ShoppingCart
                 return total;
             }
 
-            bool IsEmpty()
+            public bool IsEmpty()
             {
                 return prods == null;
             }
 
-            bool IsLastProduct(int index)
+            public bool IsLastProduct(int index)
             {
                 return index == prods.Length - 1;
             }
 
-            public string GetProdsNames()
-            {
+            //public string GetProdsNames()
+            //{
 
-                string result = "";
+            //    string result = "";
 
-                if (IsEmpty())
-                    return "Shopping cart empty";
+            //    if (IsEmpty())
+            //        return "Shopping cart empty";
 
-                for (int i = 0; i < prods.Length; i++)
-                {
-                    if (IsLastProduct(i))
-                        result += prods[i].GetName();
-                    else
-                        result += prods[i].GetName() + ',' + ' ';
-                }
+            //    for (int i = 0; i < prods.Length; i++)
+            //    {
+            //        if (IsLastProduct(i))
+            //            result += prods[i].GetName();
+            //        else
+            //            result += prods[i].GetName() + ',' + ' ';
+            //    }
 
-                return result;
-            }
+            //    return result;
+            //}
 
         }
 
