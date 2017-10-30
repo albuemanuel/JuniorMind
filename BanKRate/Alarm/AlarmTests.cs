@@ -39,7 +39,19 @@ namespace Alarm
         public void AlarmTriggered()
         {
             AlarmSettings alarms = new AlarmSettings(new AlarmDate(Days.Mon | Days.Fri, 8));
+
+            Assert.IsTrue(TriggerAlarm(alarms, new AlarmDate(Days.Fri, 8)));
             Assert.IsTrue(TriggerAlarm(alarms, new AlarmDate(Days.Mon, 8)));
+        }
+
+        [TestMethod]
+        public void AlarmNotTriggered()
+        {
+            AlarmSettings alarms = new AlarmSettings(new AlarmDate(Days.Mon | Days.Fri, 8));
+
+            Assert.IsFalse(TriggerAlarm(alarms, new AlarmDate(Days.Tue, 3)));
+            Assert.IsFalse(TriggerAlarm(alarms, new AlarmDate(Days.Mon, 3)));
+            Assert.IsFalse(TriggerAlarm(alarms, new AlarmDate(Days.Wed, 8)));
         }
 
         [Flags]
