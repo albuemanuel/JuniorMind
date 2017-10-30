@@ -6,13 +6,47 @@ namespace Alarm
     [TestClass]
     public class AlarmTests
     {
+        //[TestMethod]
+        //public void CreateAlarm()
+        //{
+        //    Assert.IsTrue(TriggerAlarm());
+        //}
+
         [TestMethod]
-        public void TestMethod1()
+        public void GetHour()
         {
-            Assert.IsTrue(TriggerAlarm());
+            Assert.AreEqual(8, new AlarmDate(Days.Mon, 8).GetHour());
         }
 
-        
+        [TestMethod]
+        public void GetDays()
+        {
+            Assert.AreEqual(Days.Mon, new AlarmDate(Days.Mon, 8).GetDays());
+        }
+
+        [TestMethod]
+        public void GetAlarms()
+        {
+            AlarmSettings alarms = new AlarmSettings(new AlarmDate(Days.Mon, 8));
+
+            CollectionAssert.AreEqual(new AlarmDate[] { new AlarmDate(Days.Mon, 8) }, alarms.GetAlarms());
+        }
+
+        [TestMethod]
+        public void AddAlarm()
+        {
+            AlarmSettings alarms = new AlarmSettings(new AlarmDate(Days.Mon, 8));
+            alarms.AddAlarm(new AlarmDate(Days.Fri, 6));
+
+            CollectionAssert.AreEqual(new AlarmDate[] { new AlarmDate(Days.Mon, 8), new AlarmDate(Days.Fri, 6) }, alarms.GetAlarms());
+        }
+
+        [TestMethod]
+        public void AlarmTriggered()
+        {
+            AlarmSettings alarms = new AlarmSettings(new AlarmDate(Days.Mon | Days.Fri, 8));
+            Assert.IsTrue(TriggerAlarm(alarms, new AlarmDate(Days.Mon, 8)));
+        }
 
         [Flags]
         enum Days
@@ -25,23 +59,67 @@ namespace Alarm
             Sat = 32,
             Sun = 64
         }
-
-        struct AlarmSettings
+        
+        struct AlarmDate
         {
             Days days;
             byte hour;
-            byte minutes;
 
-            public AlarmSettings(Days days, byte hour, byte minutes)
+            public AlarmDate(Days days, byte hour)
             {
                 this.days = days;
                 this.hour = hour;
-                this.minutes = minutes;
+            }
+
+            public byte GetHour()
+            {
+                return hour;
+            }
+
+            public Days GetDays()
+            {
+                return days;
             }
         }
 
-        bool TriggerAlarm()
+        struct AlarmSettings
         {
+            AlarmDate[] alarms;
+
+            public AlarmSettings(AlarmDate alarm)
+            {
+                alarms = new AlarmDate[] { alarm };
+            }
+
+            public AlarmDate[] GetAlarms()
+            {
+                return alarms;
+            }
+
+            public void AddAlarm(AlarmDate alarm)
+            {
+                Array.Resize(ref alarms, alarms.Length + 1);
+                alarms[alarms.Length - 1] = alarm;
+            }
+        }
+
+        int GetIndOfDay(Days day)
+        {
+            int index = 0;
+            for(Days i=day; i!=0; i = (Days)((int)(i)>>1))
+            {
+                index++;
+            }
+            return index;
+        }
+
+        bool TriggerAlarm(AlarmSettings settings, AlarmDate toCompare)
+        {
+            foreach(AlarmDate alarm in settings.GetAlarms())
+            {
+                if (((alarm.GetDays() & toCompare.GetDays()) !=0) && (alarm.GetHour() == toCompare.GetHour()))
+                    return true;
+            }
             return false;
         }
     }
