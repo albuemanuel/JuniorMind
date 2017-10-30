@@ -6,12 +6,6 @@ namespace Alarm
     [TestClass]
     public class AlarmTests
     {
-        //[TestMethod]
-        //public void CreateAlarm()
-        //{
-        //    Assert.IsTrue(TriggerAlarm());
-        //}
-
         [TestMethod]
         public void GetHour()
         {
@@ -101,16 +95,6 @@ namespace Alarm
                 Array.Resize(ref alarms, alarms.Length + 1);
                 alarms[alarms.Length - 1] = alarm;
             }
-        }
-
-        int GetIndOfDay(Days day)
-        {
-            int index = 0;
-            for(Days i=day; i!=0; i = (Days)((int)(i)>>1))
-            {
-                index++;
-            }
-            return index;
         }
 
         bool TriggerAlarm(AlarmSettings settings, AlarmDate toCompare)
