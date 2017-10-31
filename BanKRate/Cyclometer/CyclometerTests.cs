@@ -79,7 +79,7 @@ namespace Cyclometer
 
             BicycleReadings[] bicycles = new BicycleReadings[] { bicycle, bicycle1, bicycle2 };
 
-            Assert.AreEqual(35, CalculateTopMeanSpeed(bicycles));
+            Assert.AreEqual("Maria", DetermineTopMeanSpeedBiker(bicycles));
         }
 
         struct BicycleReadings
@@ -165,15 +165,19 @@ namespace Cyclometer
             second = topSpeedBike.GetTopSpeedAndTime()[0];
         }
 
-        int CalculateTopMeanSpeed(BicycleReadings[] bicycles)
+        string DetermineTopMeanSpeedBiker(BicycleReadings[] bicycles)
         {
+            string nameOfBiker = "";
             int topMeanSpeed = 0;
             foreach(BicycleReadings readings in bicycles)
             {
                 if (readings.GetMeanSpeed() > topMeanSpeed)
+                {
                     topMeanSpeed = readings.GetMeanSpeed();
+                    nameOfBiker = readings.GetName();
+                }
             }
-            return topMeanSpeed;
+            return nameOfBiker;
         }
     }
 }
