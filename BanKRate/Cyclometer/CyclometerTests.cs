@@ -63,6 +63,25 @@ namespace Cyclometer
             
         }
 
+        [TestMethod]
+        public void MeanSpeedPerBike()
+        {
+            BicycleReadings bicycle = new BicycleReadings(new int[] { 10, 20 }, 10, "Iulia");
+            Assert.AreEqual(15, bicycle.GetMeanSpeed());
+        }
+
+        [TestMethod]
+        public void TopMeanSpeed()
+        {
+            BicycleReadings bicycle = new BicycleReadings(new int[] { 10, 20 }, 10, "Iulia");
+            BicycleReadings bicycle1 = new BicycleReadings(new int[] { 25, 30 }, 10, "Mihai");
+            BicycleReadings bicycle2 = new BicycleReadings(new int[] { 30, 40 }, 5, "Maria");
+
+            BicycleReadings[] bicycles = new BicycleReadings[] { bicycle, bicycle1, bicycle2 };
+
+            Assert.AreEqual(35, CalculateTopMeanSpeed(bicycles));
+        }
+
         struct BicycleReadings
         {
             int[] rotations;
@@ -112,6 +131,16 @@ namespace Cyclometer
                 return name;
             }
 
+            public int GetMeanSpeed()
+            {
+                int meanSpeed = 0;
+                foreach(int rot in rotations)
+                {
+                    meanSpeed += rot;
+                }
+                return meanSpeed / rotations.Length;
+            }
+
         }
 
         int CalculateTotalDistance(BicycleReadings[] bicycles)
@@ -134,6 +163,17 @@ namespace Cyclometer
             }
             name = topSpeedBike.GetName();
             second = topSpeedBike.GetTopSpeedAndTime()[0];
+        }
+
+        int CalculateTopMeanSpeed(BicycleReadings[] bicycles)
+        {
+            int topMeanSpeed = 0;
+            foreach(BicycleReadings readings in bicycles)
+            {
+                if (readings.GetMeanSpeed() > topMeanSpeed)
+                    topMeanSpeed = readings.GetMeanSpeed();
+            }
+            return topMeanSpeed;
         }
     }
 }
