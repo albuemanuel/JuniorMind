@@ -30,14 +30,14 @@ namespace Cyclometer
         }
 
         [TestMethod]
-        public void TopSpeedAndTimePerBike()
+        public void TimeOfTopSpeedPerBike()
         {
             BicycleReadings bicycle = new BicycleReadings(new int[] { 10, 20 }, 10, "Gheorghe");
             BicycleReadings bicycle2 = new BicycleReadings(new int[] { 30, 40 }, 5, "Maria");
 
-            CollectionAssert.AreEqual(new int[] { 2, 40 }, bicycle2.GetTopSpeedAndTime());
-            CollectionAssert.AreEqual(new int[] { 2, 20 }, bicycle.GetTopSpeedAndTime());
-            CollectionAssert.AreEqual(new int[] { 0, 0 }, new BicycleReadings().GetTopSpeedAndTime());
+            Assert.AreEqual(2, bicycle2.GetTimeOfTopSpeed());
+            Assert.AreEqual(2, bicycle.GetTimeOfTopSpeed());
+            Assert.AreEqual(0, new BicycleReadings().GetTimeOfTopSpeed());
         }
 
         [TestMethod]
@@ -48,26 +48,22 @@ namespace Cyclometer
         }
 
         [TestMethod]
-        public void TopSpeedAndTime()
+        public void FastestBiker()
         {
             BicycleReadings bicycle = new BicycleReadings(new int[] { 10, 20 }, 10, "Gheorghe");
             BicycleReadings bicycle2 = new BicycleReadings(new int[] { 30, 40 }, 5, "Maria");
 
-            int second;
-            string name;
+            BicycleReadings[] bicycles = new BicycleReadings[] { bicycle, bicycle2 };
 
-            CalculateTopSpeed(new BicycleReadings[] { bicycle, bicycle2 }, out second, out name);
+            Assert.AreEqual(new TopSpeedBiker(2, "Gheorghe"), DetermineFastestBiker(bicycles));
 
-            Assert.AreEqual(2, second);
-            Assert.AreEqual("Maria", name);
-            
         }
 
         [TestMethod]
         public void MeanSpeedPerBike()
         {
             BicycleReadings bicycle = new BicycleReadings(new int[] { 10, 20 }, 10, "Iulia");
-            Assert.AreEqual(15, bicycle.GetMeanSpeed());
+            Assert.AreEqual(465, bicycle.GetMeanSpeed());
         }
 
         [TestMethod]
@@ -79,7 +75,15 @@ namespace Cyclometer
 
             BicycleReadings[] bicycles = new BicycleReadings[] { bicycle, bicycle1, bicycle2 };
 
-            Assert.AreEqual("Maria", DetermineTopMeanSpeedBiker(bicycles));
+            Assert.AreEqual("Mihai", DetermineTopMeanSpeedBiker(bicycles));
+        }
+
+        [TestMethod]
+        public void TopSpeedPerBike()
+        {
+            BicycleReadings bicycle = new BicycleReadings(new int[] { 10, 20 }, 10, "Iulia");
+
+            Assert.AreEqual(620, bicycle.GetTopSpeed());
         }
 
         struct BicycleReadings
@@ -110,20 +114,25 @@ namespace Cyclometer
                 return rotations * GetCircumference();
             }
 
-            public int[] GetTopSpeedAndTime()
+            public int GetTimeOfTopSpeed()
             {
-                int[] maxRot = new int[2];
+                int maxRot = 0;
 
                 if (rotations == null)
-                    return new int[] { 0, 0 };
+                    return 0;
 
                 for (int i = 0; i < rotations.Length; i++)
-                    if (rotations[i] > maxRot[1])
-                    {
-                        maxRot[1] = rotations[i];
-                        maxRot[0] = i + 1;
-                    }
+                    if (rotations[i] > maxRot)
+                        maxRot = i + 1;
                 return maxRot;
+            }
+
+            public int GetTopSpeed()
+            {
+                if (rotations == null)
+                    return 0;
+
+                return rotations[GetTimeOfTopSpeed() - 1] * GetCircumference();
             }
 
             public string GetName()
@@ -138,7 +147,7 @@ namespace Cyclometer
                 {
                     meanSpeed += rot;
                 }
-                return meanSpeed / rotations.Length;
+                return (meanSpeed / rotations.Length) * GetCircumference();
             }
 
         }
@@ -153,23 +162,35 @@ namespace Cyclometer
             return totalDistance;
         }
 
-        void CalculateTopSpeed(BicycleReadings[] bicycles, out int second, out string name)
+        struct TopSpeedBiker
         {
-            BicycleReadings topSpeedBike = new BicycleReadings();
-            foreach (BicycleReadings readings in bicycles)
+            public int second;
+            public string name;
+
+            public TopSpeedBiker(int second, string name)
             {
-                if (readings.GetTopSpeedAndTime()[1] > topSpeedBike.GetTopSpeedAndTime()[1])
-                    topSpeedBike = readings;
+                this.second = second;
+                this.name = name;
             }
-            name = topSpeedBike.GetName();
-            second = topSpeedBike.GetTopSpeedAndTime()[0];
+        }
+
+        TopSpeedBiker DetermineFastestBiker(BicycleReadings[] bikers)
+        {
+            BicycleReadings topSpeedBiker = new BicycleReadings();
+
+            foreach (BicycleReadings biker in bikers)
+            {
+                if (biker.GetTopSpeed() > topSpeedBiker.GetTopSpeed())
+                    topSpeedBiker = biker;
+            }
+            return new TopSpeedBiker(topSpeedBiker.GetTimeOfTopSpeed(), topSpeedBiker.GetName());
         }
 
         string DetermineTopMeanSpeedBiker(BicycleReadings[] bicycles)
         {
             string nameOfBiker = "";
             int topMeanSpeed = 0;
-            foreach(BicycleReadings readings in bicycles)
+            foreach (BicycleReadings readings in bicycles)
             {
                 if (readings.GetMeanSpeed() > topMeanSpeed)
                 {
