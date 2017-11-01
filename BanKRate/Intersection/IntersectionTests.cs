@@ -6,27 +6,60 @@ namespace Intersection
     [TestClass]
     public class IntersectionTests
     {
-        [TestMethod]
-        public void FirstIntersectionPoint()
-        {
-            Section section1 = new Section(new byte[] { 0, 0, 0, 1, 1, 1 });
-            Section section2 = new Section(new byte[] { 1, 1, 1, 0, 0, 0 });
-            Section[] sections = new Section[] { section1, section2 };
+        //[TestMethod]
+        //public void FirstIntersectionPoint()
+        //{
+        //    Section section1 = new Section(new byte[] { 0, 0, 0, 1, 1, 1 });
+        //    Section section2 = new Section(new byte[] { 1, 1, 1, 0, 0, 0 });
+        //    Section[] sections = new Section[] { section1, section2 };
 
-            Assert.AreEqual(new Point(3,3), DetermineFirstIntersectionPoint(new Map(sections)));
-        }
+        //    Assert.AreEqual(new Point(3,3), DetermineFirstIntersectionPoint(new Map(sections)));
+        //}
+
+        
 
         struct Section
         {
-            byte[] section;
+            Point[] sectionPoints;
 
-
-            public Section(byte[] section)
+            
+            public Section(string section, Point startPos)
             {
-                this.section = section;
+                sectionPoints = new Point[section.Length + 1];
+                sectionPoints[0] = startPos;
 
+                for(int i=0; i<section.Length; i++)
+                {
+                    sectionPoints[i + 1] = TransformToPoint(sectionPoints[i], section[i]);
+
+                }
             }
+
+            Point TransformToPoint(Point a, char direction)
+            {
+                switch (direction)
+                {
+                    case 'l':
+                        a.x--;
+                        break;
+                    case 'r':
+                        a.x++;
+                        break;
+                    case 'd':
+                        a.y--;
+                        break;
+                    case 'u':
+                        a.y++;
+                        break;
+                }
+                return a;
+            }
+
+            public 
+
         }
+
+        
 
         struct Map
         {
@@ -36,25 +69,27 @@ namespace Intersection
             {
                 this.sections = sections;
             }
-           
+
+            public Section[] Sections => sections;
+
         }
 
         struct Point
         {
-            byte x;
-            byte y;
+            public int x;
+            public int y;
 
-            public Point(byte x, byte y)
+            public Point(int x, int y)
             {
                 this.x = x;
                 this.y = y;
             }
         }
 
-        Point DetermineFirstIntersectionPoint(Map map)
-        {
-            return new Point(0, 0);
-        }
+        //Point DetermineFirstIntersectionPoint(Section[] sections)
+        //{
+        //    return
+        //}
 
     }
 }
