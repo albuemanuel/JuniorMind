@@ -41,6 +41,15 @@ namespace Intersection
                 }
             }
 
+            public Point[] SectionPoints => sectionPoints;
+
+            
+
+            public Point PointAtInd(int index)
+            {
+                return sectionPoints[index];
+            }
+
             Point TransformToPoint(Point a, char direction)
             {
                 switch (direction)
@@ -76,18 +85,20 @@ namespace Intersection
 
         }
 
-        struct Map
-        {
-            Section[] sections;
+        //struct Map
+        //{
+        //    Section[] sections;
             
-            public Map(Section[] sections)
-            {
-                this.sections = sections;
-            }
+        //    public Map(Section[] sections)
+        //    {
+        //        this.sections = sections;
+        //    }
 
-            public Section[] Sections => sections;
+        //    public Section[] Sections => sections;
 
-        }
+        //}
+
+
 
         struct Point
         {
@@ -101,12 +112,17 @@ namespace Intersection
             }
         }
 
-        //Point DetermineFirstIntersectionPoint(Section[] sections)
-        //{
-        //    return
-        //}
+        Point DetermineFirstIntersectionPoint(Section[] sections)
+        {
+            Section firstSection = sections[0];
 
-        
+            for (int i = 0; i < firstSection.SectionPoints.Length; i++)
+            {
+                IsIntersection(firstSection.PointAtInd(i)
+            }
+        }
+
+
 
     }
 }
