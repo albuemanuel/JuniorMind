@@ -16,7 +16,13 @@ namespace Intersection
         //    Assert.AreEqual(new Point(3,3), DetermineFirstIntersectionPoint(new Map(sections)));
         //}
 
-        
+        [TestMethod]
+        public void SectionInit()
+        {
+            Section section = new Section("rrruuu", new Point(0, 0));
+
+            Assert.AreEqual("(0, 0), (1, 0), (2, 0), (3, 0), (3, 1), (3, 2), (3, 3)", section.ToString());
+        }
 
         struct Section
         {
@@ -55,11 +61,20 @@ namespace Intersection
                 return a;
             }
 
-            public 
+            override public string ToString()
+            {
+                string sectionString = "";
+                for(int i=0; i<sectionPoints.Length; i++)
+                {
+                    if (i == sectionPoints.Length - 1)
+                        sectionString += "(" + sectionPoints[i].x + ", " + sectionPoints[i].y + ")";
+                    else
+                        sectionString += "(" + sectionPoints[i].x + ", " + sectionPoints[i].y + "), ";
+                }
+                return sectionString;
+            }
 
         }
-
-        
 
         struct Map
         {
@@ -90,6 +105,8 @@ namespace Intersection
         //{
         //    return
         //}
+
+        
 
     }
 }
