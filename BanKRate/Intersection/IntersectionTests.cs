@@ -6,15 +6,17 @@ namespace Intersection
     [TestClass]
     public class IntersectionTests
     {
-        //[TestMethod]
-        //public void FirstIntersectionPoint()
-        //{
-        //    Section section1 = new Section(new byte[] { 0, 0, 0, 1, 1, 1 });
-        //    Section section2 = new Section(new byte[] { 1, 1, 1, 0, 0, 0 });
-        //    Section[] sections = new Section[] { section1, section2 };
+        [TestMethod]
+        public void FirstIntersectionPoint()
+        {
+            Section section1 = new Section("rrruuu", new Point(0, 0));
+            Section section2 = new Section("uurrr", new Point(0, 1));
+            Section[] sections = new Section[] { section1, section2 };
+            Point intPoint;
 
-        //    Assert.AreEqual(new Point(3,3), DetermineFirstIntersectionPoint(new Map(sections)));
-        //}
+            Assert.IsTrue(DetermineFirstIntersectionPoint(sections, out intPoint));
+            Assert.AreEqual(new Point(3, 3), intPoint);
+        }
 
         [TestMethod]
         public void SectionInit()
@@ -22,6 +24,15 @@ namespace Intersection
             Section section = new Section("rrruuu", new Point(0, 0));
 
             Assert.AreEqual("(0, 0), (1, 0), (2, 0), (3, 0), (3, 1), (3, 2), (3, 3)", section.ToString());
+        }
+
+        [TestMethod]
+        public void PointIsPartOfSection()
+        {
+            Section section = new Section("rrruuu", new Point(0, 0));
+
+            Assert.IsTrue(section.HasPoint(new Point(2, 0)));
+            Assert.IsFalse(section.HasPoint(new Point(2, 1)));
         }
 
         struct Section
@@ -43,11 +54,14 @@ namespace Intersection
 
             public Point[] SectionPoints => sectionPoints;
 
-            
-
-            public Point PointAtInd(int index)
+            public bool HasPoint(Point point)
             {
-                return sectionPoints[index];
+                for(int i=0; i<sectionPoints.Length; i++)
+                {
+                    if (point.Equals(sectionPoints[i]))
+                        return true;
+                }
+                return false;
             }
 
             Point TransformToPoint(Point a, char direction)
@@ -85,21 +99,6 @@ namespace Intersection
 
         }
 
-        //struct Map
-        //{
-        //    Section[] sections;
-            
-        //    public Map(Section[] sections)
-        //    {
-        //        this.sections = sections;
-        //    }
-
-        //    public Section[] Sections => sections;
-
-        //}
-
-
-
         struct Point
         {
             public int x;
@@ -112,14 +111,22 @@ namespace Intersection
             }
         }
 
-        Point DetermineFirstIntersectionPoint(Section[] sections)
+        bool DetermineFirstIntersectionPoint(Section[] sections, out Point intPoint)
         {
             Section firstSection = sections[0];
 
             for (int i = 0; i < firstSection.SectionPoints.Length; i++)
             {
-                IsIntersection(firstSection.PointAtInd(i)
+                for (int j = 1; j < sections.Length; j++)
+                {
+                    if (!(sections[j].HasPoint(firstSection.SectionPoints[i])))
+                        break;
+                    intPoint = firstSection.SectionPoints[i];
+                    return true;
+                }
             }
+            intPoint = new Point();
+            return false;
         }
 
 
