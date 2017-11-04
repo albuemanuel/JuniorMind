@@ -14,7 +14,13 @@ namespace StringReversal
 
         string ReverseString(string str)
         {
-            return "";
+            char[] charArray = str.ToCharArray();
+            Array.Resize(ref charArray, charArray.Length - 1);
+
+            if(str.Length == 1)
+                return str;
+
+            return str[str.Length - 1] + ReverseString(new string(charArray));
         }
     }
 }
