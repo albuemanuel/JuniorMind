@@ -15,11 +15,10 @@ namespace StringReversal
 
         string ReverseString(string str, string result = "")
         {
-            if (str.Length == 1)
-                return result + str;
+            if (str.Length == 0)
+                return result;
 
-            return ReverseString(str.Substring(0, str.Length - 1), result + str[str.Length - 1].ToString());
-            
+            return ReverseString(str.Substring(1), str[0] + result);
         }
     }
 }
