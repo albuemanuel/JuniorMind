@@ -17,14 +17,12 @@ namespace CharacterReplacement
             if (str.Length == 0)
                 return result;
 
-            //if (str[0] == toBeReplaced)
-            //    return ReplaceCharacter(str.Substring(1), toBeReplaced, replacement, result + replacement);
-            string temp = "";
+            string temp = str[0].ToString();
 
             if (str[0] == toBeReplaced)
                 temp = replacement;
 
-            return ReplaceCharacter(str.Substring(1), toBeReplaced, replacement, result + (temp != "" ? temp : str[0].ToString()));
+            return ReplaceCharacter(str.Substring(1), toBeReplaced, replacement, result + temp));
         }
     }
 }
