@@ -12,15 +12,15 @@ namespace StringReversal
             Assert.AreEqual("nadgob", ReverseString("bogdan"));
         }
 
-        string ReverseString(string str)
+
+        string ReverseString(string str, string result = "")
         {
-            char[] charArray = str.ToCharArray();
-            Array.Resize(ref charArray, charArray.Length - 1);
+            if (str.Length == 1)
+                return result + str;
 
-            if(str.Length == 1)
-                return str;
-
-            return str[str.Length - 1] + ReverseString(new string(charArray));
+            string finalRes = result;
+            result = ReverseString(str.Substring(0, str.Length - 1), str[str.Length - 1].ToString());
+            return finalRes + result;
         }
     }
 }

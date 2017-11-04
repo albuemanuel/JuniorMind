@@ -10,7 +10,5 @@ namespace CharacterReplacement
         public void TestMethod1()
         {
         }
-
-
     }
 }
