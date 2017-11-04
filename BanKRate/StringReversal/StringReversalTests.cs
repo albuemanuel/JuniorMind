@@ -18,8 +18,8 @@ namespace StringReversal
             if (str.Length == 1)
                 return result + str;
 
-            result += ReverseString(str.Substring(0, str.Length - 1), str[str.Length - 1].ToString());
-            return result;
+            return ReverseString(str.Substring(0, str.Length - 1), result + str[str.Length - 1].ToString());
+            
         }
     }
 }
