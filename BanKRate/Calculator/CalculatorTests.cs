@@ -16,15 +16,24 @@ namespace Calculator
         [TestMethod]
         public void NumberReading()
         {
-            Assert.AreEqual("23.6", ReadNo("23.6 234 *"));
+            int index = 0;
+            Assert.AreEqual("23.65", ReadNo("23.65 234 *", ref index));
+            Assert.AreEqual(4, index);
         }
 
         [TestMethod]
         public void Operation()
         {
-            string op = "/-*+";
-            Assert.AreEqual(19, Operate(10, 9, ref op));
-            Assert.AreEqual(40, Operate(20, 2, ref op));
+            Assert.AreEqual(19, Operate(10, 9, '+'));
+            Assert.AreEqual(40, Operate(20, 2, '*'));
+        }
+
+        [TestMethod]
+        public void ExpressionEvaluation()
+        {
+            int index = 0;
+            Assert.AreEqual(19, EvalExpr("+ 10 9", ref index));
+            
         }
 
         bool IsOperator(char op)
@@ -37,24 +46,20 @@ namespace Calculator
             return false;
         }
 
-        string ReadNo(string expr)
+        string ReadNo(string expr, int index)
         {
             string no = "";
-            for (int i = 0; i < expr.Length; i++)
+            for (int i = index; expr[i]!= ' '; i++)
             {
-                if (expr[i] == ' ')
-                    break;
                 no += expr[i];
+                index = i;
             }
-
+            
             return no;
         }
 
-        double Operate(double termOne, double termTwo, ref string operators)
+        double Operate(double termOne, double termTwo, char op)
         {
-            char op = operators[operators.Length - 1];
-            operators = operators.Substring(0, operators.Length - 1);
-
             switch (op)
             {
                 case '+':
@@ -66,30 +71,28 @@ namespace Calculator
                 case '/':
                     return termOne / termTwo;
             }
-            
-
             return 0;
         }
 
-        double EvalExpr(string expr, string operators = "", double result = 0)
+        double EvalExpr(string expr, ref int index)
         {
-            if (IsOperator(expr[0]))
+            if (index == expr.Length - 1)
+                return 0;
+
+            if (index != 0)
+                if (char.IsDigit(expr[index - 1]) || expr[index] == ' ')
+                {
+                    index++;
+                    return EvalExpr(expr, ref index);
+                }
+
+            if (char.IsDigit(expr[index]))
             {
-                operators += expr[0];
-                return EvalExpr(expr.Substring(2), operators);
+                return Convert.ToDouble(ReadNo(expr, ref index));
             }
 
-            if (char.IsDigit(expr[0]))
-            {
-                string term = ReadNo(expr);
-
-                if (result == 0)
-                    result = Convert.ToDouble(term);
-                else
-                    result = Operate(result, Convert.ToDouble(term), ref operators);
-
-                return EvalExpr(expr.Substring(term.Length), operators, result);
-            }
+            
+            return Operate(EvalExpr(expr, 2), EvalExpr(expr, 4), expr[index]);
 
         }
 
