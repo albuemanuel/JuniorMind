@@ -71,15 +71,19 @@ namespace Calculator
             return 0;
         }
 
-        double EvalExpr(string expr)
+
+
+        double EvalExpr(string expr, out int index)
         {
-            if (expr[0] == ' ')
-                return EvalExpr(expr.Substring(1));
-
+            
             if (char.IsDigit(expr[0]))
-                return Convert.ToDouble(ReadNo(expr));
+            {
+                index = expr.IndexOf(' ');
+                return Convert.ToDouble(expr.Substring(0, index));
+            }
 
-            return Operate(EvalExpr(expr.Substring(2)), EvalExpr(expr.Substring(5)), expr[0]);
+            index = 0;
+            return Operate(EvalExpr(expr.Substring(1), out index), EvalExpr(expr.Substring(2), out index), expr[0]);
 
         }
 
