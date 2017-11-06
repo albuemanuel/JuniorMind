@@ -16,7 +16,7 @@ namespace Calculator
         [TestMethod]
         public void NumberReading()
         {
-            Assert.AreEqual("23.65", ReadNo("23.65 234 *"));
+            Assert.AreEqual(23.65, ReadNo("23.65 234 *"));
         }
 
         [TestMethod]
@@ -27,10 +27,15 @@ namespace Calculator
         }
 
         [TestMethod]
-        public void ExpressionEvaluation()
+        public void ExpressionEvaluationForTwoTerms()
         {
             Assert.AreEqual(19, EvalExpr("+ 10 9"));
-            
+        }
+
+        [TestMethod]
+        public void ExpressionEvaluationForThreeTerms()
+        {
+            Assert.AreEqual(70, EvalExpr("* + 34 1 2"));
         }
 
         bool IsOperator(char op)
@@ -43,16 +48,16 @@ namespace Calculator
             return false;
         }
 
-        string ReadNo(string expr)
+        double ReadNo(string expr, int index = 0)
         {
             string no = "";
-            for (int i = 0; i<expr.Length; i++)
+            for (int i = index; i<expr.Length; i++)
             {
                 if (expr[i] == ' ')
                     break;
                 no += expr[i];
             }
-            return no;
+            return Convert.ToDouble(no);
         }
 
         double Operate(double termOne, double termTwo, char op)
@@ -71,20 +76,26 @@ namespace Calculator
             return 0;
         }
 
-
-
-        double EvalExpr(string expr, out int index)
+        int GetIndexOf(string expr, int order, int index = 0)
         {
-            
-            if (char.IsDigit(expr[0]))
+            for(int i=index; i<expr.Length; i++)
             {
-                index = expr.IndexOf(' ');
-                return Convert.ToDouble(expr.Substring(0, index));
+                if (order == 0)
+                    return i;
+
+                if (expr[i] == ' ')
+                    order--;
             }
+            return 0;
+        }
 
-            index = 0;
-            return Operate(EvalExpr(expr.Substring(1), out index), EvalExpr(expr.Substring(2), out index), expr[0]);
+        double EvalExpr(string expr, int index = 0)
+        {
+            if (char.IsDigit(expr[index]))
+                return ReadNo(expr, index);
 
+            
+            return Operate(EvalExpr(expr, GetIndexOf(expr, 1, index)), EvalExpr(expr, GetIndexOf(expr, 2, index)), expr[index]);
         }
 
     }
