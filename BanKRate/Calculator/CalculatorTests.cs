@@ -16,9 +16,7 @@ namespace Calculator
         [TestMethod]
         public void NumberReading()
         {
-            int index = 0;
-            Assert.AreEqual("23.65", ReadNo("23.65 234 *", ref index));
-            Assert.AreEqual(4, index);
+            Assert.AreEqual("23.65", ReadNo("23.65 234 *"));
         }
 
         [TestMethod]
@@ -31,8 +29,7 @@ namespace Calculator
         [TestMethod]
         public void ExpressionEvaluation()
         {
-            int index = 0;
-            Assert.AreEqual(19, EvalExpr("+ 10 9", ref index));
+            Assert.AreEqual(19, EvalExpr("+ 10 9"));
             
         }
 
@@ -46,15 +43,15 @@ namespace Calculator
             return false;
         }
 
-        string ReadNo(string expr, int index)
+        string ReadNo(string expr)
         {
             string no = "";
-            for (int i = index; expr[i]!= ' '; i++)
+            for (int i = 0; i<expr.Length; i++)
             {
+                if (expr[i] == ' ')
+                    break;
                 no += expr[i];
-                index = i;
             }
-            
             return no;
         }
 
@@ -74,25 +71,15 @@ namespace Calculator
             return 0;
         }
 
-        double EvalExpr(string expr, ref int index)
+        double EvalExpr(string expr)
         {
-            if (index == expr.Length - 1)
-                return 0;
+            if (expr[0] == ' ')
+                return EvalExpr(expr.Substring(1));
 
-            if (index != 0)
-                if (char.IsDigit(expr[index - 1]) || expr[index] == ' ')
-                {
-                    index++;
-                    return EvalExpr(expr, ref index);
-                }
+            if (char.IsDigit(expr[0]))
+                return Convert.ToDouble(ReadNo(expr));
 
-            if (char.IsDigit(expr[index]))
-            {
-                return Convert.ToDouble(ReadNo(expr, ref index));
-            }
-
-            
-            return Operate(EvalExpr(expr, 2), EvalExpr(expr, 4), expr[index]);
+            return Operate(EvalExpr(expr.Substring(2)), EvalExpr(expr.Substring(5)), expr[0]);
 
         }
 
