@@ -16,7 +16,8 @@ namespace Calculator
         [TestMethod]
         public void NumberReading()
         {
-            Assert.AreEqual(23.65, ReadNo("23.65 234 *"));
+            int index = 0;
+            Assert.AreEqual(23.65, ReadNo("23.65 234 *", ref index));
         }
 
         [TestMethod]
@@ -29,13 +30,22 @@ namespace Calculator
         [TestMethod]
         public void ExpressionEvaluationForTwoTerms()
         {
-            Assert.AreEqual(19, EvalExpr("+ 10 9"));
+            int index = 0;
+            Assert.AreEqual(19, EvalExpr("+ 10 9", ref index));
         }
 
         [TestMethod]
         public void ExpressionEvaluationForThreeTerms()
         {
-            Assert.AreEqual(70, EvalExpr("* + 34 1 2"));
+            int index = 0;
+            Assert.AreEqual(70, EvalExpr("* + 34 1 2", ref index));
+        }
+
+        [TestMethod]
+        public void ExpressionEvaluationForCompoundTerms()
+        {
+            int index = 0;
+            Assert.AreEqual(63, EvalExpr("- * + 34 1 2 + 5 2", ref index));
         }
 
         bool IsOperator(char op)
@@ -48,7 +58,7 @@ namespace Calculator
             return false;
         }
 
-        double ReadNo(string expr, int index = 0)
+        double ReadNo(string expr, ref int index)
         {
             string no = "";
             for (int i = index; i<expr.Length; i++)
@@ -89,13 +99,20 @@ namespace Calculator
             return 0;
         }
 
-        double EvalExpr(string expr, int index = 0)
+        double EvalExpr(string expr, ref int index)
         {
             if (char.IsDigit(expr[index]))
-                return ReadNo(expr, index);
+                return ReadNo(expr, ref index);
 
-            
-            return Operate(EvalExpr(expr, GetIndexOf(expr, 1, index)), EvalExpr(expr, GetIndexOf(expr, 2, index)), expr[index]);
+            char op = expr[index];
+
+            index = GetIndexOf(expr, 1, index);
+            double term1 = EvalExpr(expr, ref index);
+            index = GetIndexOf(expr, 1, index);
+            double term2 = EvalExpr(expr, ref index);
+
+            return Operate(term1, term2, op);
+
         }
 
     }
