@@ -17,7 +17,7 @@ namespace Calculator
         public void NumberReading()
         {
             int index = 0;
-            Assert.AreEqual(23.65, ReadNo("23.65 234 *", ref index));
+            Assert.AreEqual(23.65, ReadNo("23.65 234 *"));
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace Calculator
             return false;
         }
 
-        double ReadNo(string expr, ref int index)
+        double ReadNo(string expr, int index = 0)
         {
             string no = "";
             for (int i = index; i<expr.Length; i++)
@@ -102,12 +102,13 @@ namespace Calculator
         double EvalExpr(string expr, ref int index)
         {
             if (char.IsDigit(expr[index]))
-                return ReadNo(expr, ref index);
+                return ReadNo(expr, index);
 
             char op = expr[index];
 
             index = GetIndexOf(expr, 1, index);
             double term1 = EvalExpr(expr, ref index);
+
             index = GetIndexOf(expr, 1, index);
             double term2 = EvalExpr(expr, ref index);
 
