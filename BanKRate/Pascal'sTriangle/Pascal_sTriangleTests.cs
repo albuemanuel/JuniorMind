@@ -7,9 +7,10 @@ namespace Pascal_sTriangle
     public class Pascal_sTriangleTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void PascTriForAnyLevel()
         {
-            Assert.AreEqual(new int[2][] { new int[] { 1 }, new int[] { 1, 1 } }, GeneratePascalsTriangle(1));
+            CollectionAssert.AreEqual(new int[] { 1 }, GeneratePascalsTriangle(1).values[0]);
+            CollectionAssert.AreEqual(new int[] { 1, 1 }, GeneratePascalsTriangle(1).values[1]);
         }
 
         struct PascalsTriangle
@@ -29,14 +30,19 @@ namespace Pascal_sTriangle
         {
             PascalsTriangle paTri = new PascalsTriangle(level);
 
-            GeneratePascalsTriangle(ref paTri);
+            for (int i = 0; i < paTri.values.Length; i++)
+                for (int j = 0; j < paTri.values[i].Length; j++)
+                    paTri.values[i][j] = CalculateBinCoef(i, j);
 
             return paTri;
         }
 
-        void GeneratePascalsTriangle(ref PascalsTriangle paTri)
+        int CalculateBinCoef(int n, int k)
         {
+            if (k == 0 || k == n)
+                return 1;
 
+            return CalculateBinCoef(n - 1, k - 1) + CalculateBinCoef(n - 1, k);
         }
     }
 }
