@@ -49,28 +49,13 @@ namespace Pascal_sTriangle
 
         int CalculateBinCoef(PascalsTriangle paTri, int n, int k)
         {
-            int left, right;
-
             if (k == 0 || k == n)
                 return 1;
 
-            if (paTri.values[n - 1][k - 1] != 0)
-                left = paTri.values[n - 1][k - 1];
-            else
-            {
-                left = CalculateBinCoef(paTri, n - 1, k - 1);
-                paTri.values[n - 1][k - 1] = left;
-            }
+            paTri.values[n - 1][k - 1] = CalculateBinCoef(paTri, n - 1, k - 1);
+            paTri.values[n - 1][k] = CalculateBinCoef(paTri, n - 1, k);
 
-            if (paTri.values[n - 1][k] != 0)
-                right = paTri.values[n - 1][k];
-            else
-            {
-                right = CalculateBinCoef(paTri, n - 1, k);
-                paTri.values[n - 1][k] = right;
-            }
-
-            return left + right;
+            return paTri.values[n - 1][k - 1] + paTri.values[n - 1][k];
         }
     }
 }
