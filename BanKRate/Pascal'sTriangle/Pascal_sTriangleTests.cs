@@ -49,9 +49,6 @@ namespace Pascal_sTriangle
 
         int CalculateBinCoef(PascalsTriangle paTri, int n, int k)
         {
-            if (k == 0 || k == n)
-                return 1;
-
             if (paTri.values[n][k] != 0)
                 return paTri.values[n][k];
 
