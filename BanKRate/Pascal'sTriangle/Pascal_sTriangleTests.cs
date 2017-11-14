@@ -9,8 +9,12 @@ namespace Pascal_sTriangle
         [TestMethod]
         public void PascTriForAnyLevel()
         {
-            CollectionAssert.AreEqual(new int[] { 1 }, GeneratePascalsTriangle(1).values[0]);
-            CollectionAssert.AreEqual(new int[] { 1, 1 }, GeneratePascalsTriangle(1).values[1]);
+            PascalsTriangle paTri = GeneratePascalsTriangle(2);
+
+            CollectionAssert.AreEqual(new int[] { 1 }, paTri.values[0]);
+            CollectionAssert.AreEqual(new int[] { 1, 1 }, paTri.values[1]);
+            CollectionAssert.AreEqual(new int[] { 1, 2, 1 }, paTri.values[2]);
+
         }
 
         struct PascalsTriangle
@@ -23,6 +27,14 @@ namespace Pascal_sTriangle
 
                 for(int i=0; i<=level; i++)
                     values[i] = new int[i + 1];
+
+
+                for (int i = 0; i <= level; i++)
+                {
+                    int j = values[i].Length - 1;
+                    values[i][0] = 1;
+                    values[i][j] = 1;
+                }
             }
         }
 
@@ -30,19 +42,35 @@ namespace Pascal_sTriangle
         {
             PascalsTriangle paTri = new PascalsTriangle(level);
 
-            for (int i = 0; i < paTri.values.Length; i++)
-                for (int j = 0; j < paTri.values[i].Length; j++)
-                    paTri.values[i][j] = CalculateBinCoef(i, j);
-
+            for (int i = 0; i < paTri.values[paTri.values.Length - 1].Length; i++)
+                paTri.values[paTri.values.Length-1][i] = CalculateBinCoef(paTri, paTri.values.Length - 1, i);
             return paTri;
         }
 
-        int CalculateBinCoef(int n, int k)
+        int CalculateBinCoef(PascalsTriangle paTri, int n, int k)
         {
+            int left, right;
+
             if (k == 0 || k == n)
                 return 1;
 
-            return CalculateBinCoef(n - 1, k - 1) + CalculateBinCoef(n - 1, k);
+            if (paTri.values[n - 1][k - 1] != 0)
+                left = paTri.values[n - 1][k - 1];
+            else
+            {
+                left = CalculateBinCoef(paTri, n - 1, k - 1);
+                paTri.values[n - 1][k - 1] = left;
+            }
+
+            if (paTri.values[n - 1][k] != 0)
+                right = paTri.values[n - 1][k];
+            else
+            {
+                right = CalculateBinCoef(paTri, n - 1, k);
+                paTri.values[n - 1][k] = right;
+            }
+
+            return left + right;
         }
     }
 }
