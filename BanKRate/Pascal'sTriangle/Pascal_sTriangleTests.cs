@@ -52,6 +52,9 @@ namespace Pascal_sTriangle
             if (k == 0 || k == n)
                 return 1;
 
+            if (paTri.values[n][k] != 0)
+                return paTri.values[n][k];
+
             paTri.values[n - 1][k - 1] = CalculateBinCoef(paTri, n - 1, k - 1);
             paTri.values[n - 1][k] = CalculateBinCoef(paTri, n - 1, k);
 
