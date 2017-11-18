@@ -12,6 +12,8 @@ namespace LotteryDraws
             CollectionAssert.AreEqual(new int[] {2, 3, 5, 6, 7, 9, 10, 11, 12, 14  }, QuickSort(new int[] { 9, 7, 5, 11, 12, 2, 14, 3, 10, 6 }));
 
             CollectionAssert.AreEqual(new int[] { 4, 8, 15, 16, 23, 42 }, QuickSort(new int[] { 16, 23, 8, 4, 15, 42 }));
+
+            CollectionAssert.AreEqual(new int[] { 0, 2, 3, 3, 4, 5, 5, 6, 7, 8 }, QuickSort(new int[] { 3, 5, 2, 7, 5, 6, 8, 0, 4, 3 }));
         }
 
         [TestMethod]
