@@ -7,7 +7,7 @@ namespace RepairCenter
     public class RepairCenterTests
     {
         [TestMethod]
-        public void CaseOrderByPriority()
+        public void CaseOrderdedByPriority()
         {
             Case[] cases = new Case[] { new Case("frigider", Priority.Low), new Case("masina", Priority.High), new Case("masina de spalat", Priority.Medium), new Case("tractor", Priority.High), new Case("buldozer", Priority.Low) };
             CollectionAssert.AreEqual(new int[] { 3, 1, 2, 0, 4 }, SortCases(cases));
@@ -21,6 +21,15 @@ namespace RepairCenter
             CollectionAssert.AreEqual(new int[] { 2, 3, 5, 4, 10 }, PlaceIntAtIndex(new int[] { 2, 3, 5, 4 }, 10, 4));
         }
 
+        [TestMethod]
+        public void DescriptionsOfCasesOrderedByPriority()
+        {
+            Case[] cases = new Case[] { new Case("frigider", Priority.Low), new Case("masina", Priority.High), new Case("masina de spalat", Priority.Medium), new Case("tractor", Priority.High), new Case("buldozer", Priority.Low) };
+            int[] indexes = SortCases(cases);
+            
+            Assert.AreEqual("tractor, masina, masina de spalat, frigider, buldozer", DisplayListOfCasesInGivenOrder(cases, indexes));
+        }
+
         struct Case
         {
             public Priority priority;
@@ -30,6 +39,11 @@ namespace RepairCenter
             {
                 this.priority = priority;
                 this.description = description;
+            }
+
+            public override string ToString()
+            {
+                return description;
             }
         }
 
@@ -59,6 +73,16 @@ namespace RepairCenter
             Array.Copy(arr, index, newArr, index + 1, arr.Length - index);
 
             return newArr;
+        }
+
+        string DisplayListOfCasesInGivenOrder(Case[] cases, int[] indexes)
+        {
+            string casesDescriptions = "";
+            for (int i = 0; i < indexes.Length - 1; i++)
+                casesDescriptions += cases[indexes[i]] + ", ";
+            casesDescriptions += cases[indexes[indexes.Length - 1]];
+
+            return casesDescriptions;
         }
 
         int[] SortCases(Case[] cases)
