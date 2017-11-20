@@ -9,43 +9,43 @@ namespace WordSorting
         [TestMethod]
         public void OccurenceInit()
         {
-            Assert.IsTrue(new Occurence(new string[] { "masina", "cozonac", "brad" }, new int[] { 3, 2, 5 }).Equals(new Occurence("masina cozonac brad masina masina brad cozonac brad brad brad")));
+            Assert.IsTrue(new Occurences(new string[] { "masina", "cozonac", "brad" }, new int[] { 3, 2, 5 }).Equals(new Occurences("masina cozonac brad masina masina brad cozonac brad brad brad")));
         }
 
         [TestMethod]
         public void WordCheck()
         {
-            Assert.IsTrue(new Occurence("masina cozonac brad masina masina brad cozonac brad brad brad").CheckWord("brad"));
+            Assert.IsTrue(new Occurences("masina cozonac brad masina masina brad cozonac brad brad brad").CheckWord("brad"));
         }
 
         [TestMethod]
         public void EqualityOfOccurences()
         {
-            Assert.IsTrue(new Occurence("brad verde in zapada").Equals(new Occurence("brad verde in zapada")));
+            Assert.IsTrue(new Occurences("brad verde in zapada").Equals(new Occurences("brad verde in zapada")));
         }
 
         [TestMethod]
         public void Swapping()
         {
-            Occurence occ = new Occurence(new string[] { "masina", "cozonac", "brad" }, new int[] { 3, 2, 5 });
+            Occurences occ = new Occurences(new string[] { "masina", "cozonac", "brad" }, new int[] { 3, 2, 5 });
             occ.Swap(1, 2);
-            Assert.IsTrue(new Occurence(new string[] { "masina", "brad", "cozonac" }, new int[] { 3, 5, 2 }).Equals(occ));
+            Assert.IsTrue(new Occurences(new string[] { "masina", "brad", "cozonac" }, new int[] { 3, 5, 2 }).Equals(occ));
         }
 
         [TestMethod]
         public void SortedList()
         {
-            Occurence occ = new Occurence("masina cozonac brad masina masina brad cozonac brad brad brad");
+            Occurences occ = new Occurences("masina cozonac brad masina masina brad cozonac brad brad brad");
             occ.SortByOccurenceOfWords();
-            Assert.IsTrue(new Occurence(new string[] { "brad", "masina", "cozonac" }, new int[] { 5, 3, 2 }).Equals(occ));
+            Assert.IsTrue(new Occurences(new string[] { "brad", "masina", "cozonac" }, new int[] { 5, 3, 2 }).Equals(occ));
         }
 
-        struct Occurence
+        struct Occurences
         {
             string[] words;
             int[] noOfOccurences;
 
-            public Occurence(string[] words, int[] noOfOccurences)
+            public Occurences(string[] words, int[] noOfOccurences)
             {
                 this.words = words;
                 this.noOfOccurences = noOfOccurences;
@@ -66,7 +66,7 @@ namespace WordSorting
                 }
             }
 
-            public Occurence(string text)
+            public Occurences(string text)
             {
                 words = new string[0];
                 noOfOccurences = new int[0];
@@ -89,7 +89,7 @@ namespace WordSorting
                 return wordsAndNo;
             }
 
-            public bool Equals(Occurence occ)
+            public bool Equals(Occurences occ)
             {
                 if (words.Length != occ.words.Length)
                     return false;
@@ -118,17 +118,40 @@ namespace WordSorting
                 words[b] = tempString;
             }
 
+            void QuickSort(int st, int end)
+            {
+                if (end - st < 1)
+                    return;
+
+                int indPiv = Divide(st, end);
+
+                QuickSort(st, indPiv - 1);
+                QuickSort(indPiv + 1, end);
+            }
+
+            int Divide(int st, int end)
+            {
+                int q = st;
+
+                for (int i = st; i <= end - 1; i++)
+                {
+                    if (noOfOccurences[i] >= noOfOccurences[end])
+                    {
+                        Swap(q, i);
+                        q++;
+                    }
+                }
+                Swap(q, end);
+
+                return q;
+            }
+
             public void SortByOccurenceOfWords()
             {
-                int indOfMax = 0;
-                for(int i=0; i<noOfOccurences.Length - 1; i++)
-                {
-                    for (int j = i + 1; j < noOfOccurences.Length; j++)
-                        if (noOfOccurences[i] < noOfOccurences[j])
-                            indOfMax = j;
-                    Swap(i, indOfMax);
-                }
+                QuickSort(0, noOfOccurences.Length - 1);
             }
+
+            
         }
 
         
