@@ -15,7 +15,7 @@ namespace WordSorting
         [TestMethod]
         public void WordCheck()
         {
-            Assert.IsTrue(new Occurences("masina cozonac brad masina masina brad cozonac brad brad brad").CheckWord("brad"));
+            Assert.AreEqual(4, new Occurences(new string[] { "animal", "cozonac", "floare", "piper", "peperoni" }, new int[] { 1, 1, 1, 1 }).CheckWord("peperoni"));
         }
 
         [TestMethod]
@@ -51,6 +51,24 @@ namespace WordSorting
                 this.noOfOccurences = noOfOccurences;
             }
 
+            public int CheckWord(string word)
+            {
+                return CheckWord(word, 0, words.Length - 1);
+            }
+
+            public int CheckWord(string word, int index)
+            {
+                while (word[0] == words[index][0])
+                    index--;
+
+                for(int i=index+1; words[i][0] == word[0]; i++)
+                {
+                    if (words[i] == word)
+                        return i;
+                }
+                return -1;
+            }
+
             public int CheckWord(string word, int st, int end)
             {
                 if (st > end)
@@ -61,13 +79,19 @@ namespace WordSorting
                 if (words[mid] == word)
                     return mid;
 
-                return words[mid][0] < word[0] ? CheckWord(word, mid + 1, end) : CheckWord(word, st, mid);
+                if (words[mid][0] == word[0])
+                    return CheckWord(word, mid);
+
+                return words[mid][0] < word[0] ? CheckWord(word, mid + 1, end) : CheckWord(word, st, mid - 1);
             }
 
             public void Add(string word)
             {
-                if (CheckWord(word))
-                    noOfOccurences[Array.IndexOf(words, word)]++;
+                int indexOfWord = CheckWord(word);
+
+                if (indexOfWord != -1)
+                    noOfOccurences[indexOfWord]++;
+
                 else
                 {
                     Array.Resize(ref noOfOccurences, noOfOccurences.Length + 1);
