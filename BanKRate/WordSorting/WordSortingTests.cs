@@ -51,7 +51,18 @@ namespace WordSorting
                 this.noOfOccurences = noOfOccurences;
             }
 
-            public bool CheckWord(string word) => Array.IndexOf(words, word) != -1;
+            public int CheckWord(string word, int st, int end)
+            {
+                if (st > end)
+                    return -1;
+
+                var mid = (st + end) / 2;
+
+                if (words[mid] == word)
+                    return mid;
+
+                return words[mid][0] < word[0] ? CheckWord(word, mid + 1, end) : CheckWord(word, st, mid);
+            }
 
             public void Add(string word)
             {
