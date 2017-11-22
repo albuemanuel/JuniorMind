@@ -9,13 +9,19 @@ namespace WordSorting
         [TestMethod]
         public void OccurenceInit()
         {
-            Assert.IsTrue(new Occurences(new string[] { "masina", "cozonac", "brad" }, new int[] { 3, 2, 5 }).Equals(new Occurences("masina cozonac brad masina masina brad cozonac brad brad brad")));
+            Assert.IsTrue(new Occurences(new string[] { "brad", "cozonac", "masina" }, new int[] { 5, 2, 3 }).Equals(new Occurences("masina cozonac brad masina masina brad cozonac brad brad brad")));
         }
 
         [TestMethod]
         public void WordCheck()
         {
             Assert.AreEqual(4, new Occurences(new string[] { "animal", "cozonac", "floare", "piper", "peperoni" }, new int[] { 1, 1, 1, 1 }).CheckWord("peperoni"));
+        }
+
+        [TestMethod]
+        public void LetterCheck()
+        {
+            Assert.AreEqual(5, new Occurences(new string[] { "animal", "cozonac", "floare", "piper", "peperoni" }, new int[] { 1, 1, 1, 1 }).CheckWord("p", true));
         }
 
         [TestMethod]
@@ -40,10 +46,20 @@ namespace WordSorting
             Assert.IsTrue(new Occurences(new string[] { "brad", "masina", "cozonac" }, new int[] { 5, 3, 2 }).Equals(occ));
         }
 
+        [TestMethod]
+        public void WordAdding()
+        {
+            Occurences occ = new Occurences(new string[] { "animal", "cozonac", "floare", "piper", "peperoni" }, new int[] { 1, 1, 1, 1, 1 });
+            occ.Add("macaroane", 2);
+
+            CollectionAssert.AreEqual(new string[] { "animal", "cozonac", "macaroane", "floare", "piper", "peperoni" }, occ.words);
+            CollectionAssert.AreEqual(new int[] { 1, 1, 1, 1, 1, 1 }, occ.noOfOccurences);
+        }
+
         struct Occurences
         {
-            string[] words;
-            int[] noOfOccurences;
+            public string[] words;
+            public int[] noOfOccurences;
 
             public Occurences(string[] words, int[] noOfOccurences)
             {
@@ -51,17 +67,40 @@ namespace WordSorting
                 this.noOfOccurences = noOfOccurences;
             }
 
-            public int CheckWord(string word)
+            public int CheckWord(string word, bool letter = false)
             {
-                return CheckWord(word, 0, words.Length - 1);
+                return CheckWord(word, 0, words.Length - 1, letter);
             }
 
-            public int CheckWord(string word, int index)
+            public int CheckWord(string word, int index, bool letter=false)
             {
-                while (word[0] == words[index][0])
-                    index--;
+                switch(letter)
+                {
+                    case false:
+                        {
+                            while (word[0] == words[index][0])
+                                index--;
+                            break;
+                        }
+                    case true:
+                        {
+                            while (word[0] == words[index][0])
+                            {
+                                index++;
+                                if (index == words.Length)
+                                    break;
+                            }
+                                
+                            return index;
+                        }
+                }
+                //while (word[0] == words[index][0])
+                //    index--;
 
-                for(int i=index+1; words[i][0] == word[0]; i++)
+                //if (letter)
+                //    return index+1;
+
+                for (int i = index + 1; words[i][0] == word[0]; i++)
                 {
                     if (words[i] == word)
                         return i;
@@ -69,7 +108,7 @@ namespace WordSorting
                 return -1;
             }
 
-            public int CheckWord(string word, int st, int end)
+            public int CheckWord(string word, int st, int end, bool letter = false)
             {
                 if (st > end)
                     return -1;
@@ -80,13 +119,45 @@ namespace WordSorting
                     return mid;
 
                 if (words[mid][0] == word[0])
-                    return CheckWord(word, mid);
+                    return CheckWord(word, mid, letter);
 
-                return words[mid][0] < word[0] ? CheckWord(word, mid + 1, end) : CheckWord(word, st, mid - 1);
+                return words[mid][0] < word[0] ? CheckWord(word, mid + 1, end, letter) : CheckWord(word, st, mid - 1, letter);
+            }
+
+            void ShiftArray(int st, int end)
+            {
+                for (int i = end; i > st; i--)
+                {
+                    words[i] = words[i - 1];
+                    noOfOccurences[i] = noOfOccurences[i - 1];
+                }
+            }
+
+            public void Add(string word, int index)
+            {
+                Array.Resize(ref words, words.Length + 1);
+                Array.Resize(ref noOfOccurences, noOfOccurences.Length + 1);
+
+                if (index == words.Length - 1)
+                {
+                    words[words.Length - 1] = word;
+                    noOfOccurences[noOfOccurences.Length - 1] = 1;
+
+                    return;
+                }
+                ShiftArray(index, words.Length - 1);
+                words[index] = word;
+                noOfOccurences[index] = 1;
             }
 
             public void Add(string word)
             {
+                if (words.Length == 0)
+                {
+                    Add(word, 0);
+                    return;
+                }
+
                 int indexOfWord = CheckWord(word);
 
                 if (indexOfWord != -1)
@@ -94,10 +165,27 @@ namespace WordSorting
 
                 else
                 {
-                    Array.Resize(ref noOfOccurences, noOfOccurences.Length + 1);
-                    noOfOccurences[noOfOccurences.Length - 1] = 1;
-                    Array.Resize(ref words, words.Length + 1);
-                    words[words.Length - 1] = word;
+                    char letter = word[0];
+                    int indexOfLetter = CheckWord(letter.ToString(), true);
+
+                    if (letter > words[words.Length - 1][0])
+                        Add(word, words.Length);
+                    else
+                    {
+                        while (indexOfLetter == -1)
+                        {
+                            letter--;
+
+                            if (letter < 'a')
+                            {
+                                Add(word, 0);
+                                return;
+                            }
+                            indexOfLetter = CheckWord(letter.ToString(), true);
+                        }
+                        Add(word, indexOfLetter);
+                    }
+
                 }
             }
 
