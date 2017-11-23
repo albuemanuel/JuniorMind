@@ -23,13 +23,13 @@ namespace WordSorting
             
             if(!letter)
             {
-                while (word[0] == words[index].Value[0])
+                while (word[0] == words[index].GetFirstLetterOfWord())
                     index--;
                         
             }
             else
             {
-                while (word[0] == words[index].Value[0])
+                while (word[0] == words[index].GetFirstLetterOfWord())
                 {
                     index++;
                     if (index == words.Length)
@@ -39,9 +39,9 @@ namespace WordSorting
                 return index;
             }
             
-            for (int i = index + 1; words[i].Value[0] == word[0]; i++)
+            for (int i = index + 1; words[i].GetFirstLetterOfWord() == word[0]; i++)
             {
-                if (words[i].Value == word)
+                if (words[i].Equals(word))
                     return i;
             }
             return -1;
@@ -54,13 +54,13 @@ namespace WordSorting
 
             var mid = (st + end) / 2;
 
-            if (words[mid].Value == word)
+            if (words[mid].Equals(word))
                 return mid;
 
-            if (words[mid].Value[0] == word[0])
+            if (words[mid].GetFirstLetterOfWord() == word[0])
                 return CheckWord(word, mid, letter);
 
-            return words[mid].Value[0] < word[0] ? CheckWord(word, mid + 1, end, letter) : CheckWord(word, st, mid - 1, letter);
+            return words[mid].GetFirstLetterOfWord() < word[0] ? CheckWord(word, mid + 1, end, letter) : CheckWord(word, st, mid - 1, letter);
         }
 
         void ShiftArray(int st, int end)
@@ -68,7 +68,6 @@ namespace WordSorting
             for (int i = end; i > st; i--)
             {
                 words[i] = words[i - 1];
-                words[i].NoOfOccurences = words[i - 1].NoOfOccurences;
             }
         }
 
@@ -79,14 +78,12 @@ namespace WordSorting
 
             if (index == words.Length - 1)
             {
-                words[words.Length - 1].Value = word;
-                words[words.Length - 1].NoOfOccurences = 1;
+                words[words.Length - 1] = new Word(word, 1);
 
                 return;
             }
             ShiftArray(index, words.Length - 1);
-            words[index].Value = word;
-            words[index].NoOfOccurences = 1;
+            words[index] = new Word(word, 1);
         }
 
         public int SearchForAlphabeticalPosition(string word)
@@ -94,7 +91,7 @@ namespace WordSorting
             char letter = word[0];
             int indexOfLetter = CheckWord(letter.ToString(), true);
 
-            if (letter > words[words.Length - 1].Value[0])
+            if (letter > words[words.Length - 1].GetFirstLetterOfWord())
                 return words.Length;
             else
             {
@@ -123,7 +120,7 @@ namespace WordSorting
             int indexOfWord = CheckWord(word);
 
             if (indexOfWord != -1)
-                words[indexOfWord].NoOfOccurences++;
+                words[indexOfWord].IncreaseNumberOfOccurences();
 
             else
                 Add(word, SearchForAlphabeticalPosition(word));
@@ -155,14 +152,10 @@ namespace WordSorting
         {
             if (words.Length != occ.words.Length)
                 return false;
+
             for (int i = 0; i < words.Length; i++)
             {
-                if (words[i].Value != occ.words[i].Value)
-                    return false;
-            }
-            for (int i = 0; i < words.Length; i++)
-            {
-                if (words[i].NoOfOccurences != occ.words[i].NoOfOccurences)
+                if (!words[i].Equals(occ.words[i]))
                     return false;
             }
             return true;
@@ -193,7 +186,7 @@ namespace WordSorting
 
             for (int i = st; i <= end - 1; i++)
             {
-                if (words[i].NoOfOccurences >= words[end].NoOfOccurences)
+                if (words[i].IsNoOfOccurencesGreaterThan(words[end]))
                 {
                     Swap(q, i);
                     q++;
@@ -212,7 +205,7 @@ namespace WordSorting
             {
                 int[] noOfOccurences = new int[words.Length];
                 for (int i = 0; i < words.Length; i++)
-                    noOfOccurences[i] = words[i].NoOfOccurences;
+                    noOfOccurences[i] = words[i].GetNoOfOccurences();
 
                 return noOfOccurences;
 
@@ -226,7 +219,7 @@ namespace WordSorting
                 string[] words = new string[this.words.Length];
 
                 for (int i = 0; i < words.Length; i++)
-                    words[i] = this.words[i].Value;
+                    words[i] = this.words[i].GetWord();
 
                 return words;
             }

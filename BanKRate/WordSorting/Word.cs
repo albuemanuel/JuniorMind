@@ -18,16 +18,19 @@ namespace WordSorting
             return word + ": " + noOfOccurences.ToString();
         }
 
-        public string Value
-        {
-            get => word;
-            set => word = value;
-        }
+        public string GetWord() => word;
 
-        public int NoOfOccurences
-        {
-            get => noOfOccurences;
-            set => noOfOccurences = value;
-        }
+        public int GetNoOfOccurences() => noOfOccurences;
+
+        public bool IsNoOfOccurencesGreaterThan(Word word) => noOfOccurences > word.noOfOccurences;
+
+        public bool Equals(Word word) => this.word == word.word && noOfOccurences == word.noOfOccurences;
+
+        public bool Equals(string word) => this.word == word;
+
+        public void IncreaseNumberOfOccurences() => noOfOccurences++;
+
+        public char GetFirstLetterOfWord() => word[0];
+
     }
 }
