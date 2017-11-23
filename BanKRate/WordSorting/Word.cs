@@ -12,5 +12,10 @@ namespace WordSorting
             this.word = word;
             this.noOfOccurences = noOfOccurences;
         }
+
+        public override string ToString()
+        {
+            return word + ": " + noOfOccurences.ToString();
+        }
     }
 }

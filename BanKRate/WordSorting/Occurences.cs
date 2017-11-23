@@ -21,32 +21,25 @@ namespace WordSorting
 
         public int CheckWord(string word, int index, bool letter = false)
         {
-            switch (letter)
+            
+            if(!letter)
             {
-                case false:
-                    {
-                        while (word[0] == words[index].word[0])
-                            index--;
-                        break;
-                    }
-                case true:
-                    {
-                        while (word[0] == words[index].word[0])
-                        {
-                            index++;
-                            if (index == words.Length)
-                                break;
-                        }
-
-                        return index;
-                    }
+                while (word[0] == words[index].word[0])
+                    index--;
+                        
             }
-            //while (word[0] == words[index][0])
-            //    index--;
+            else
+            {
+                while (word[0] == words[index].word[0])
+                {
+                    index++;
+                    if (index == words.Length)
+                        break;
+                }
 
-            //if (letter)
-            //    return index+1;
-
+                return index;
+            }
+            
             for (int i = index + 1; words[i].word[0] == word[0]; i++)
             {
                 if (words[i].word == word)
@@ -97,6 +90,29 @@ namespace WordSorting
             words[index].noOfOccurences = 1;
         }
 
+        public int SearchForAlphabeticalPosition(string word)
+        {
+            char letter = word[0];
+            int indexOfLetter = CheckWord(letter.ToString(), true);
+
+            if (letter > words[words.Length - 1].word[0])
+                return words.Length;
+            else
+            {
+                while (indexOfLetter == -1)
+                {
+                    letter--;
+
+                    if (letter < 'a')
+                    {
+                        return 0;
+                    }
+                    indexOfLetter = CheckWord(letter.ToString(), true);
+                }
+                return indexOfLetter;
+            }
+        }
+
         public void Add(string word)
         {
             if (words.Length == 0)
@@ -111,29 +127,7 @@ namespace WordSorting
                 words[indexOfWord].noOfOccurences++;
 
             else
-            {
-                char letter = word[0];
-                int indexOfLetter = CheckWord(letter.ToString(), true);
-
-                if (letter > words[words.Length - 1].word[0])
-                    Add(word, words.Length);
-                else
-                {
-                    while (indexOfLetter == -1)
-                    {
-                        letter--;
-
-                        if (letter < 'a')
-                        {
-                            Add(word, 0);
-                            return;
-                        }
-                        indexOfLetter = CheckWord(letter.ToString(), true);
-                    }
-                    Add(word, indexOfLetter);
-                }
-
-            }
+                Add(word, SearchForAlphabeticalPosition(word));
         }
 
         public Occurences(string text)
@@ -153,7 +147,7 @@ namespace WordSorting
             string wordsAndNo = "";
             for (int i = 0; i < words.Length; i++)
             {
-                wordsAndNo += words[i] + ": " + words[i].noOfOccurences.ToString() + '\n';
+                wordsAndNo += words[i].ToString() + '\n';
             }
             return wordsAndNo;
         }
