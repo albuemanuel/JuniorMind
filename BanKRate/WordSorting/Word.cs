@@ -4,8 +4,8 @@ namespace WordSorting
 {
     struct Word
     {
-        public string word;
-        public int noOfOccurences;
+        string word;
+        int noOfOccurences;
 
         public Word(string word, int noOfOccurences)
         {
@@ -16,6 +16,18 @@ namespace WordSorting
         public override string ToString()
         {
             return word + ": " + noOfOccurences.ToString();
+        }
+
+        public string Value
+        {
+            get => word;
+            set => word = value;
+        }
+
+        public int NoOfOccurences
+        {
+            get => noOfOccurences;
+            set => noOfOccurences = value;
         }
     }
 }
