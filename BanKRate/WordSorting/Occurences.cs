@@ -186,7 +186,7 @@ namespace WordSorting
 
             for (int i = st; i <= end - 1; i++)
             {
-                if (words[i].IsNoOfOccurencesGreaterThan(words[end]))
+                if (words[i].IsNoOfOccurencesGreaterThan(words[end]) || words[i].IsNoOfOccEqualWith(words[end]))
                 {
                     Swap(q, i);
                     q++;

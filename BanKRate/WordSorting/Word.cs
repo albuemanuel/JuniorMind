@@ -24,6 +24,8 @@ namespace WordSorting
 
         public bool IsNoOfOccurencesGreaterThan(Word word) => noOfOccurences > word.noOfOccurences;
 
+        public bool IsNoOfOccEqualWith(Word word) => noOfOccurences == word.noOfOccurences;
+
         public bool Equals(Word word) => this.word == word.word && noOfOccurences == word.noOfOccurences;
 
         public bool Equals(string word) => this.word == word;
