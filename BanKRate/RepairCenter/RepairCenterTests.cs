@@ -7,27 +7,20 @@ namespace RepairCenter
     public class RepairCenterTests
     {
         [TestMethod]
-        public void CaseOrderdedByPriority()
+        public void PlacementAtIndex()
         {
             Case[] cases = new Case[] { new Case("frigider", Priority.Low), new Case("masina", Priority.High), new Case("masina de spalat", Priority.Medium), new Case("tractor", Priority.High), new Case("buldozer", Priority.Low) };
-            CollectionAssert.AreEqual(new int[] { 3, 1, 2, 0, 4 }, SortCases(cases));
-        }
-
-        [TestMethod]
-        public void PlacementOfIntAtIndex()
-        {
-            CollectionAssert.AreEqual(new int[] { 2, 3, 10, 5, 4 }, PlaceIntAtIndex(new int[] { 2, 3, 5, 4 }, 10, 2));
-            CollectionAssert.AreEqual(new int[] { 2, 3, 5, 10, 4 }, PlaceIntAtIndex(new int[] { 2, 3, 5, 4 }, 10, 3));
-            CollectionAssert.AreEqual(new int[] { 2, 3, 5, 4, 10 }, PlaceIntAtIndex(new int[] { 2, 3, 5, 4 }, 10, 4));
+            PlaceAtIndex(cases, 1, 0);
+            Assert.AreEqual("masina, frigider, masina de spalat, tractor, buldozer", DisplayListOfCases(cases));
         }
 
         [TestMethod]
         public void DescriptionsOfCasesOrderedByPriority()
         {
             Case[] cases = new Case[] { new Case("frigider", Priority.Low), new Case("masina", Priority.High), new Case("masina de spalat", Priority.Medium), new Case("tractor", Priority.High), new Case("buldozer", Priority.Low) };
-            int[] indexes = SortCases(cases);
-            
-            Assert.AreEqual("tractor, masina, masina de spalat, frigider, buldozer", DisplayListOfCasesInGivenOrder(cases, indexes));
+            //int[] indexes = SortCases(cases);
+
+            Assert.AreEqual("tractor, masina, masina de spalat, frigider, buldozer", DisplayListOfCases(SortCases(cases)));
         }
 
         struct Case
@@ -54,60 +47,64 @@ namespace RepairCenter
             High
         }
 
-        int[] PlaceIntAtIndex(int[] arr, int value, int index)
+        void PlaceAtIndex(Case[] cases, int current, int index)
         {
-            if (arr == null)
-                return new int[1] { value };
+            if (current == index)
+                return;
 
-            int[] newArr = new int[arr.Length + 1];
-
-            if (index == arr.Length)
+            if(current < index)
             {
-                Array.Copy(arr, newArr, arr.Length);
-                newArr[index] = value;
-                return newArr;
+                for (int i = current; i < index; i++)
+                    Swap(ref cases[i], ref cases[i + 1]);
             }
 
-            Array.Copy(arr, newArr, index);
-            newArr[index] = value;
-            Array.Copy(arr, index, newArr, index + 1, arr.Length - index);
-
-            return newArr;
+            if(current >index)
+            {
+                for (int i = current; i > index; i--)
+                    Swap(ref cases[i], ref cases[i - 1]);
+            }
         }
 
-        string DisplayListOfCasesInGivenOrder(Case[] cases, int[] indexes)
+        string DisplayListOfCases(Case[] cases)
         {
             string casesDescriptions = "";
-            for (int i = 0; i < indexes.Length - 1; i++)
-                casesDescriptions += cases[indexes[i]] + ", ";
-            casesDescriptions += cases[indexes[indexes.Length - 1]];
+
+            for (int i = 0; i < cases.Length - 1; i++)
+                casesDescriptions += cases[i] + ", ";
+            casesDescriptions += cases[cases.Length - 1];
 
             return casesDescriptions;
         }
 
-        int[] SortCases(Case[] cases)
+        void Swap(ref Case a, ref Case b)
         {
-            int[] indexes = new int[0];
+            Case temp = a;
+            a = b;
+            b = temp;
+        }
+
+        Case[] SortCases(Case[] cases)
+        {
             int p = 0;
 
             for(int i = 0; i<cases.Length; i++)
             {
                 if (cases[i].priority == Priority.Low)
                 {
-                    indexes = PlaceIntAtIndex(indexes, i, indexes.Length);
+                    PlaceAtIndex(cases, i, cases.Length - 1);
                 }
                 if (cases[i].priority == Priority.Medium)
                 {
-                    indexes = PlaceIntAtIndex(indexes, i, p);
+                    PlaceAtIndex(cases, i, p);
                 }
                 if(cases[i].priority == Priority.High)
                 {
-                    indexes = PlaceIntAtIndex(indexes, i, 0);
+                    PlaceAtIndex(cases, i, 0);
                     p++;
                 }
             }
 
-            return indexes;
+            return cases;
         }
     }
 }
