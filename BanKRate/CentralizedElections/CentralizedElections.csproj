@@ -48,7 +48,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Candidate.cs" />
     <Compile Include="CentralizedElectionsTests.cs" />
+    <Compile Include="CentralizedVotes.cs" />
+    <Compile Include="ListOfCandidates.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
