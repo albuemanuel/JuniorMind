@@ -79,12 +79,11 @@ namespace Catalogue
             Student studentThree = new Student("Cristina", new Subject[] { course7, course8, course9 });
 
             Catalogue catalogue = new Catalogue(new Student[] { student, studentTwo, studentThree });
+            Catalogue expected = new Catalogue(new Student[] { studentThree, student, studentTwo });
 
             catalogue.OrderStudentsAlphabetically();
 
-
-
-            
+            Assert.AreEqual(expected.ToString(), catalogue.ToString());
         }
 
 
