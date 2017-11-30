@@ -50,10 +50,8 @@ namespace Catalogue
             return q;
         }
 
-        public void OrderStudentsAlphabetically()
-        {
-            QuickSort(0, students.Length - 1, Student.Comparer.Name);
-        }
+        public void OrderStudentsAlphabetically() => QuickSort(0, students.Length - 1, Student.Comparer.Name);
+        public void OrderStudentsByOverallAvg() => QuickSort(0, students.Length - 1, Student.Comparer.Grades);
 
         public override string ToString()
         {

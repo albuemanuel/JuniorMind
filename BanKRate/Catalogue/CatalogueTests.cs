@@ -86,6 +86,31 @@ namespace Catalogue
             Assert.AreEqual(expected.ToString(), catalogue.ToString());
         }
 
+        [TestMethod]
+        public void OrderedStudentsByOverallAverageGrades()
+        {
+            Subject course1 = new Subject("math", new double[] { 1, 3, 5.5, 7 });
+            Subject course2 = new Subject("english", new double[] { 2, 5, 4, 3, 6 });
+            Subject course3 = new Subject("physics", new double[] { 7, 4, 1, 2, 5 });
+            Subject course4 = new Subject("logicDesign", new double[] { 2,2,2,2,2});
+            Subject course5 = new Subject("french", new double[] { 2,2,2,2 });
+            Subject course6 = new Subject("biochemistry", new double[] { 2,2,2,2,2 });
+            Subject course7 = new Subject("informationTheory", new double[] { 3,3,3,3,3,3 });
+            Subject course8 = new Subject("norwegian", new double[] { 3,3,3,3,3,3});
+            Subject course9 = new Subject("electricalEngineering", new double[] { 3,3,3,3,3,3,3});
+
+            Student student = new Student("Marian", new Subject[] { course1, course2, course3 });
+            Student studentTwo = new Student("Stefana", new Subject[] { course4, course5, course6 });
+            Student studentThree = new Student("Cristina", new Subject[] { course7, course8, course9 });
+
+            Catalogue catalogue = new Catalogue(new Student[] { student, studentTwo, studentThree });
+            Catalogue expected = new Catalogue(new Student[] { student, studentThree, studentTwo });
+
+            catalogue.OrderStudentsByOverallAvg();
+
+            Assert.AreEqual(expected.ToString(), catalogue.ToString());
+        }
+
 
     }
 }
