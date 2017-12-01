@@ -17,13 +17,13 @@ namespace Catalogue
         [TestMethod]
         public void AverageOverallGradesPerStudent()
         {
-            Subject math = new Subject("math", new double[] { 1, 3, 5.5, 7 });
-            Subject english = new Subject("english", new double[] { 2, 5, 4, 3, 6 });
-            Subject physics = new Subject("physics", new double[] { 7, 4, 1, 2, 5, 10, 3 });
+            Subject math = new Subject("math", new double[] { 2,2,2,2,2});
+            Subject english = new Subject("english", new double[] { 4,4,4,4,4,4,4 });
+            Subject physics = new Subject("physics", new double[] { 6,6,6,6,6,6,6,6 });
 
             Student student = new Student("Marian", new Subject[] { math, english, physics });
 
-            Assert.AreEqual(4.232142857142857, student.GetOverallAvg());
+            Assert.AreEqual(4, student.GetOverallAvg());
         }
 
         [TestMethod]
@@ -109,6 +109,84 @@ namespace Catalogue
             catalogue.OrderStudentsByOverallAvg();
 
             Assert.AreEqual(expected.ToString(), catalogue.ToString());
+        }
+
+        [TestMethod]
+        public void IsOrderedByAverage()
+        {
+            Subject course1 = new Subject("math", new double[] { 1, 3, 5.5, 7 });
+            Subject course2 = new Subject("english", new double[] { 2, 5, 4, 3, 6 });
+            Subject course3 = new Subject("physics", new double[] { 7, 4, 1, 2, 5 });
+            Subject course4 = new Subject("logicDesign", new double[] { 2, 2, 2, 2, 2 });
+            Subject course5 = new Subject("french", new double[] { 2, 2, 2, 2 });
+            Subject course6 = new Subject("biochemistry", new double[] { 2, 2, 2, 2, 2 });
+            Subject course7 = new Subject("informationTheory", new double[] { 3, 3, 3, 3, 3, 3 });
+            Subject course8 = new Subject("norwegian", new double[] { 3, 3, 3, 3, 3, 3 });
+            Subject course9 = new Subject("electricalEngineering", new double[] { 3, 3, 3, 3, 3, 3, 3 });
+
+            Student student = new Student("Marian", new Subject[] { course1, course2, course3 });
+            Student studentTwo = new Student("Stefana", new Subject[] { course4, course5, course6 });
+            Student studentThree = new Student("Cristina", new Subject[] { course7, course8, course9 });
+
+            Catalogue catalogue = new Catalogue(new Student[] { student, studentTwo, studentThree });
+
+            Assert.IsFalse(catalogue.IsOrderedByAvg());
+
+            catalogue.OrderStudentsByOverallAvg();
+
+            Assert.IsTrue(catalogue.IsOrderedByAvg());
+        }
+
+        [TestMethod]
+        public void BinarySearch()
+        {
+            Subject course1 = new Subject("math", new double[] { 4,4,4,4,4 });
+            Subject course2 = new Subject("english", new double[] { 4,4,4,4,4,4 });
+            Subject course3 = new Subject("physics", new double[] {4,4,4,4,4,4 });
+            Subject course4 = new Subject("logicDesign", new double[] { 2, 2, 2, 2, 2 });
+            Subject course5 = new Subject("french", new double[] { 2, 2, 2, 2 });
+            Subject course6 = new Subject("biochemistry", new double[] { 2, 2, 2, 2, 2 });
+            Subject course7 = new Subject("informationTheory", new double[] { 2, 2, 2, 2, 2 });
+            Subject course8 = new Subject("norwegian", new double[] { 2, 2, 2, 2, 2 });
+            Subject course9 = new Subject("electricalEngineering", new double[] { 2, 2, 2, 2, 2 });
+
+            Student student = new Student("Marian", new Subject[] { course1, course2, course3 });
+            Student studentTwo = new Student("Stefana", new Subject[] { course4, course5, course6 });
+            Student studentThree = new Student("Cristina", new Subject[] { course7, course8, course9 });
+
+            Catalogue catalogue = new Catalogue(new Student[] { student, studentTwo, studentThree });
+
+            catalogue.OrderStudentsByOverallAvg();
+
+            Assert.AreEqual(-1, catalogue.BinarySearch(3, 0, 2));
+            Assert.AreEqual(1, catalogue.BinarySearch(2, 0, 2));
+            Assert.AreEqual(0, catalogue.BinarySearch(4, 0, 2));
+
+        }
+
+        [TestMethod]
+        public void StudentsWithSpecAvg()
+        {
+            Subject course1 = new Subject("math", new double[] { 1, 3, 5.5, 7 });
+            Subject course2 = new Subject("english", new double[] { 2, 5, 4, 3, 6 });
+            Subject course3 = new Subject("physics", new double[] { 7, 4, 1, 2, 5 });
+            Subject course4 = new Subject("logicDesign", new double[] { 2, 2, 2, 2, 2 });
+            Subject course5 = new Subject("french", new double[] { 2, 2, 2, 2 });
+            Subject course6 = new Subject("biochemistry", new double[] { 2, 2, 2, 2, 2 });
+            Subject course7 = new Subject("informationTheory", new double[] { 2, 2, 2, 2, 2 });
+            Subject course8 = new Subject("norwegian", new double[] { 2, 2, 2, 2, 2 });
+            Subject course9 = new Subject("electricalEngineering", new double[] { 2, 2, 2, 2, 2 });
+
+            Student student = new Student("Marian", new Subject[] { course1, course2, course3 });
+            Student studentTwo = new Student("Stefana", new Subject[] { course4, course5, course6 });
+            Student studentThree = new Student("Cristina", new Subject[] { course7, course8, course9 });
+
+            Catalogue catalogue = new Catalogue(new Student[] { student, studentTwo, studentThree });
+
+            catalogue.OrderStudentsByOverallAvg();
+
+            CollectionAssert.AreEqual(new Student[] { student }, catalogue.GetStudentsWithSpecAvg(3.975));
+            CollectionAssert.AreEqual(new Student[] { studentTwo, studentThree }, catalogue.GetStudentsWithSpecAvg(2));
         }
 
 
