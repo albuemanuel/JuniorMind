@@ -125,7 +125,6 @@ namespace Catalogue
                     if (students[i].GetOverallAvg() == avg)
                         AddStudentToList(ref wantedStudents, i);
                 }
-
             return wantedStudents;
         }
 
@@ -138,8 +137,19 @@ namespace Catalogue
                 if (student.GetNoOfSpecGrade(grade) > highestNoOfSpecGrade)
                     highestNoOfSpecGrade = student.GetNoOfSpecGrade(grade);
             }
-
             return highestNoOfSpecGrade;
+        }
+
+        public double GetLowestOverallAvg()
+        {
+            double grade = students[0].GetOverallAvg();
+
+            foreach(Student student in students)
+            {
+                if (student.GetOverallAvg() < grade)
+                    grade = student.GetOverallAvg();
+            }
+            return grade;
         }
 
         public Student[] GetStudentsWithHighestNoOfSpecGrade(double grade)
@@ -152,7 +162,6 @@ namespace Catalogue
                 if (students[i].GetNoOfSpecGrade(grade) == highestNoOfSpecGrade)
                     AddStudentToList(ref wantedStudents, i);
             }
-
             return wantedStudents;
         }
 
