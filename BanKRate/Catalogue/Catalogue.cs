@@ -63,7 +63,7 @@ namespace Catalogue
             return result;
         }
 
-        void AddStudent(ref Student[] list, int index)
+        void AddStudentToList(ref Student[] list, int index)
         {
             Array.Resize(ref list, list.Length + 1);
 
@@ -117,14 +117,41 @@ namespace Catalogue
                 int index = BinarySearch(avg, 0, students.Length - 1);
                 if (index != -1)
                     for (int i = index; i < students.Length && students[i].GetOverallAvg() == avg; i++)
-                        AddStudent(ref wantedStudents, i);
+                        AddStudentToList(ref wantedStudents, i);
             }
             else
                 for (int i = 0; i < students.Length; i++)
                 {
                     if (students[i].GetOverallAvg() == avg)
-                        AddStudent(ref wantedStudents, i);
+                        AddStudentToList(ref wantedStudents, i);
                 }
+
+            return wantedStudents;
+        }
+
+        public int GetHighestNoOfSpecGrade(double grade)
+        {
+            int highestNoOfSpecGrade = 0;
+
+            foreach (Student student in students)
+            {
+                if (student.GetNoOfSpecGrade(grade) > highestNoOfSpecGrade)
+                    highestNoOfSpecGrade = student.GetNoOfSpecGrade(grade);
+            }
+
+            return highestNoOfSpecGrade;
+        }
+
+        public Student[] GetStudentsWithHighestNoOfSpecGrade(double grade)
+        {
+            Student[] wantedStudents = new Student[0];
+            int highestNoOfSpecGrade = GetHighestNoOfSpecGrade(grade);
+
+            for(int i=0; i<students.Length; i++)
+            {
+                if (students[i].GetNoOfSpecGrade(grade) == highestNoOfSpecGrade)
+                    AddStudentToList(ref wantedStudents, i);
+            }
 
             return wantedStudents;
         }

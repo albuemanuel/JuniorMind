@@ -50,6 +50,16 @@ namespace Catalogue
             }
         }
 
+        public int GetNoOfSpecGrade(double grade)
+        {
+            int count = 0;
+
+            foreach (Subject sub in subs)
+                count += sub.GetNoOfSpecGrade(grade);
+
+            return count;
+        }
+
         public override string ToString()
         {
             string result = name + ':'+ '\n';

@@ -26,6 +26,17 @@ namespace Catalogue
             return avg / grades.Length;
         }
 
+        public int GetNoOfSpecGrade(double grade)
+        {
+            int count = 0;
+            foreach(double grd in grades)
+            {
+                if (grd == grade)
+                    count++;
+            }
+            return count;
+        }
+
         public override string ToString()
         {
             string result = name + ": ";
