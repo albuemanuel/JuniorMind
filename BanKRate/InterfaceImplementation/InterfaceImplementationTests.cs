@@ -11,5 +11,12 @@ namespace InterfaceImplementation
             Vector<int> vector = new Vector<int>(5);
             Assert.Equal("0, 0, 0, 0, 0", vector.ToString());
         }
+
+        [Fact]
+        public void NoOfElements()
+        {
+            Vector<int> vector = new Vector<int>(5) { 2, 3, 4 };
+            Assert.Equal(3, vector.Count);
+        }
     }
 }
