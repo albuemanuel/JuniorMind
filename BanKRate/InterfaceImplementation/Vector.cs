@@ -9,23 +9,13 @@ namespace InterfaceImplementation
     {
         T[] _vector;
         int _count;
-
-        public Vector(int length)
+        
+        public Vector(int size)
         {
-            _vector = new T[length];
+            _vector = new T[size];
         }
 
-        public T this[int index]
-        {
-            get
-            {
-                return _vector[index];
-            }
-            set
-            {
-                _vector[index] = value;
-            }
-        }
+        public T this[int index] { get => _vector[index]; set => _vector[index] = value; }
 
         public int Count => _count;
 
@@ -33,23 +23,22 @@ namespace InterfaceImplementation
 
         public void Add(T item)
         {
-            if (_count == _vector.Length)
-                Array.Resize(ref _vector, _vector.Length*2);
+            if (_vector.Length == _count)
+                Array.Resize(ref _vector, _vector.Length * 2);
 
-            _vector[_count] = item;
+            _vector[_count++] = item;
         }
 
         public void Clear()
         {
-            _vector = null;
             _count = 0;
         }
 
         public bool Contains(T item)
         {
-            for(int i=0; i<_count; i++)
+            foreach (T el in _vector)
             {
-                if (_vector[i].Equals(item))
+                if (el.Equals(item))
                     return true;
             }
             return false;
@@ -57,37 +46,77 @@ namespace InterfaceImplementation
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            for(int i=arrayIndex; i<arrayIndex+_count; i++)
-            {
-                array[i] = _vector[i];
-            }
+            _vector.CopyTo(array, arrayIndex);
         }
 
-        
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new VectorEnumerator<T>(_vector);
+        }
 
         public int IndexOf(T item)
         {
-            throw new NotImplementedException();
+            for(int i=0; i<_vector.Length;i++)
+            {
+                if (_vector[i].Equals(item))
+                    return i;
+            }
+            return -1;
         }
 
         public void Insert(int index, T item)
         {
-            throw new NotImplementedException();
+            if (index < _count && index >= 0)
+            {
+                if (_count == _vector.Length)
+                    Array.Resize(ref _vector, _vector.Length + 1);
+
+                for (int i = _count - 1; i > index; i--)
+                    _vector[i] = _vector[i - 1];
+
+                _vector[index] = item;
+            }
         }
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            int index = IndexOf(item);
+
+            if (index != -1)
+            {
+                RemoveAt(index);
+
+                return true;
+            }
+            return false;
         }
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            if (index >= 0 && index < _count)
+            {
+                for (int i = index; i < _vector.Length - 1; i++)
+                    _vector[i] = _vector[i + 1];
+
+                _count--;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return IEnumerator.GetEnumerator();
+            return _vector.GetEnumerator();
+        }
+
+        public override string ToString()
+        {
+            string vectorAsString = "";
+            for(int i=0; i<_vector.Length-1; i++)
+            {
+                vectorAsString += _vector[i] + ", ";
+            }
+            vectorAsString += _vector[_vector.Length - 1];
+
+            return vectorAsString;
         }
     }
 }

@@ -6,9 +6,10 @@ namespace InterfaceImplementation
     public class InterfaceImplementationTests
     {
         [Fact]
-        public void Test1()
+        public void VectorInit()
         {
-
+            Vector<int> vector = new Vector<int>(5);
+            Assert.Equal("0, 0, 0, 0, 0", vector.ToString());
         }
     }
 }

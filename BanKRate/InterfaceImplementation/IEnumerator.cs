@@ -1,14 +1,38 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
 namespace InterfaceImplementation
 {
-    class IEnumerator<T> : IEnumerable<T>
+    class VectorEnumerator<T> : IEnumerator<T>
     {
-        public IEnumerator<T> GetEnumerator()
+        T[] _vector;
+        int position = -1;
+
+        public VectorEnumerator(T[] vector)
         {
-            return _vector.Get
+            _vector = vector;
+        }
+
+        public T Current => _vector[position];
+
+        object IEnumerator.Current => _vector[position];
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool MoveNext()
+        {
+            position++;
+            return (position < _vector.Length);
+        }
+
+        public void Reset()
+        {
+            position = -1;
         }
     }
 }
