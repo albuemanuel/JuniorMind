@@ -7,8 +7,8 @@ namespace InterfaceImplementation
 {
     class VectorEnumerator<T> : IEnumerator<T>
     {
-        T[] vector;
-        int position = -1;
+        private T[] vector;
+        private int position = -1;
 
         public VectorEnumerator(T[] vector)
         {

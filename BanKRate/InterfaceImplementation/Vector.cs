@@ -7,8 +7,8 @@ namespace InterfaceImplementation
 {
     class Vector<T> : IList<T>
     {
-        T[] vector;
-        int count;
+        private T[] vector;
+        private int count;
         
         public Vector(int size)
         {
