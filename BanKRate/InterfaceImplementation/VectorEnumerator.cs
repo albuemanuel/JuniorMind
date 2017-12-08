@@ -7,17 +7,19 @@ namespace InterfaceImplementation
 {
     class VectorEnumerator<T> : IEnumerator<T>
     {
-        T[] _vector;
+        T[] vector;
         int position = -1;
 
         public VectorEnumerator(T[] vector)
         {
-            _vector = vector;
+            this.vector = vector;
         }
 
-        public T Current => _vector[position];
+        public T Current => vector[position];
 
-        object IEnumerator.Current => _vector[position];
+        private object Current1 => Current;
+
+        object IEnumerator.Current => Current1;
 
         public void Dispose()
         {
@@ -27,7 +29,7 @@ namespace InterfaceImplementation
         public bool MoveNext()
         {
             position++;
-            return (position < _vector.Length);
+            return (position < vector.Length);
         }
 
         public void Reset()
