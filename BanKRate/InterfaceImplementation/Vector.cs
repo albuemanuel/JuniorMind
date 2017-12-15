@@ -15,6 +15,8 @@ namespace InterfaceImplementation
             vector = new T[size];
         }
 
+        
+
         public T this[int index] { get => vector[index]; set => vector[index] = value; }
 
         public int Count => count;
@@ -55,12 +57,15 @@ namespace InterfaceImplementation
 
         public IEnumerator<T> GetEnumerator()
         {
-            return new VectorEnumerator<T>(vector);
+            for (int i = 0; i < vector.Length; i++)
+            {
+                yield return vector[i];
+            }
         }
 
         public int IndexOf(T item)
         {
-            for(int i=0; i<vector.Length;i++)
+            for (int i = 0; i < vector.Length; i++)
             {
                 if (vector[i].Equals(item))
                     return i;
@@ -106,8 +111,13 @@ namespace InterfaceImplementation
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return vector.GetEnumerator();
+            for (int i = 0; i < vector.Length; i++)
+            {
+                yield return vector[i];
+            }
         }
+
+
 
         public override string ToString()
         {
