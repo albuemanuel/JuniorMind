@@ -29,6 +29,13 @@ namespace Stack
             firstNode = newNode;
         }
 
+        public T Pop()
+        {
+            T value = firstNode.Value;
+            firstNode = firstNode.NextEl;
+            return value;
+        }
+
         public override string ToString()
         {
             Node<T> temp = firstNode;

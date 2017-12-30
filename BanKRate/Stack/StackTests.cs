@@ -18,5 +18,19 @@ namespace Stack
 
             Assert.Equal(expected, stack.ToString());
         }
+
+        [Theory]
+        [InlineData(3, 5)]
+        [InlineData(2, 4)]
+        public void Pop(int a, int b)
+        {
+            Stack<int> stack = new Stack<int>();
+            stack.Push(a);
+            stack.Push(b);
+
+
+            Assert.Equal(b, stack.Pop());
+            Assert.Equal(a, stack.Pop());
+        }
     }
 }
