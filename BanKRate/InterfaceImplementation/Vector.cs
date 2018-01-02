@@ -111,10 +111,7 @@ namespace InterfaceImplementation
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (int i = 0; i < vector.Length; i++)
-            {
-                yield return vector[i];
-            }
+            return GetEnumerator();
         }
 
 

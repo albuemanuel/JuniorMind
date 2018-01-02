@@ -32,5 +32,21 @@ namespace Stack
             Assert.Equal(b, stack.Pop());
             Assert.Equal(a, stack.Pop());
         }
+
+        [Theory]
+        [InlineData(3, 5)]
+        [InlineData(2, 4)]
+        public void Enumerator(int a, int b)
+        {
+            Stack<int> stack = new Stack<int>();
+            stack.Push(a);
+            stack.Push(b);
+
+            string actual = "";
+            foreach (int value in stack)
+                actual += value;
+
+            Assert.Equal(b.ToString()+a.ToString(), actual);
+        }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Stack
 {
-    class Stack<T>
+    class Stack<T> : IEnumerable<T>
     {
         private Node<T> firstNode;
 
@@ -48,5 +48,20 @@ namespace Stack
             return result;
         }
 
+        public IEnumerator<T> GetEnumerator()
+        {
+            while (firstNode != null)
+            {
+                T value = firstNode.Value;
+                firstNode = firstNode.NextEl;
+
+                yield return value;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }
