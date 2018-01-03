@@ -42,11 +42,7 @@ namespace Stack
             stack.Push(a);
             stack.Push(b);
 
-            string actual = "";
-            foreach (int value in stack)
-                actual += value;
-
-            Assert.Equal(b.ToString()+a.ToString(), actual);
+            Assert.Equal(new int[] { b, a }, stack );
         }
     }
 }
