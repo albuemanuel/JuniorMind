@@ -16,12 +16,6 @@ namespace Stack
 
         public void Push(T value)
         {
-            if (firstNode == null)
-            {
-                firstNode = new Node<T>(value);
-                return;
-            }
-
             Node<T> newNode = new Node<T>(value)
             {
                 NextEl = firstNode
@@ -31,6 +25,8 @@ namespace Stack
 
         public T Pop()
         {
+            if (firstNode == null)
+                throw new InvalidOperationException("Stack is empty");
             T value = firstNode.Value;
             firstNode = firstNode.NextEl;
             return value;

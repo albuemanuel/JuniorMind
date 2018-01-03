@@ -28,9 +28,17 @@ namespace Stack
             stack.Push(a);
             stack.Push(b);
 
-
             Assert.Equal(b, stack.Pop());
             Assert.Equal(a, stack.Pop());
+        }
+
+        [Fact]
+        public void PopException()
+        {
+            Stack<int> stack = new Stack<int>();
+
+            InvalidOperationException ex = Assert.Throws<InvalidOperationException>(() => stack.Pop());
+            Assert.Equal("Stack is empty", ex.Message);
         }
 
         [Theory]
@@ -44,5 +52,7 @@ namespace Stack
 
             Assert.Equal(new int[] { b, a }, stack );
         }
+
+        
     }
 }
