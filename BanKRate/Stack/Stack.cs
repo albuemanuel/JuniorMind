@@ -44,6 +44,11 @@ namespace Stack
             return result;
         }
 
+        public T Peek()
+        {
+            return firstNode.Value;
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             while (firstNode != null)

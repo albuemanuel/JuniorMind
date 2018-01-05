@@ -53,6 +53,18 @@ namespace Stack
             Assert.Equal(new int[] { b, a }, stack );
         }
 
-        
+        [Theory]
+        [InlineData(3, 5)]
+        [InlineData(2, 4)]
+        public void Peek(int a, int b)
+        {
+            Stack<int> stack = new Stack<int>();
+            stack.Push(a);
+            stack.Push(b);
+
+            Assert.Equal(b, stack.Peek());
+        }
+
+
     }
 }
