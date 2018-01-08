@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace BinaryTree
 {
@@ -10,28 +11,6 @@ namespace BinaryTree
         public Node root;
 
         public BinaryTree() => root = null;
-
-        //private int GetLeftValue(Node node)
-        //{
-        //    Node parent = null;
-        //    while(node != null)
-        //    {
-        //        parent = node;
-        //        node = node.left;
-        //    }
-        //    return parent.Value;
-        //}
-
-        //private int GetRightValue(Node node)
-        //{
-        //    Node parent = null;
-        //    while (node != null)
-        //    {
-        //        parent = node;
-        //        node = node.right;
-        //    }
-        //    return parent.Value;
-        //}
 
         public string Traverse(Node root, ref string result)
         {
@@ -44,17 +23,15 @@ namespace BinaryTree
             return "";
         }
 
-        public string Traverse()
-        {
-            string result = "";
-            while(root != null)
-            {
-
-            }
-        }
-
         public IEnumerator GetEnumerator()
         {
+            string result = "";
+            Traverse(root, ref result);
+
+            result = result.Remove(result.Length - 1);
+
+            foreach (int no in result.Split(' ').Select(no => Convert.ToInt32(no)))
+                yield return no;
             
         }
 
@@ -65,9 +42,11 @@ namespace BinaryTree
 
             if (value < node.Value)
                 Insert(ref node.left, value);
+
             if (value > node.Value)
                 Insert(ref node.right, value);
         }
 
+        
     }
 }
