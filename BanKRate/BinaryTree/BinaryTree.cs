@@ -44,17 +44,18 @@ namespace BinaryTree
             return "";
         }
 
-        public IEnumerator GetEnumerator()
+        public string Traverse()
         {
-            if (root == null)
-                yield return null;
-            Node parent = root;
+            string result = "";
             while(root != null)
             {
-                //yield return GetLeftValue(root);
-                //yield return root.Value;
-                //yield return GetRightValue(root);
+
             }
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            
         }
 
         public void Insert(ref Node node, int value)
