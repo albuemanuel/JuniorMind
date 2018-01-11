@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BinaryTree
 {
-    class Node<T> : IComparable<T>
+    class Node<T> where T : IComparable<T>
     {
         private T value;
         private Node<T> left = null;
@@ -23,14 +23,6 @@ namespace BinaryTree
         public ref Node<T> Left => ref left;
 
         public ref Node<T> Right => ref right;
-
-        public int CompareTo(T other)
-        {
-            if (other == null)
-                return 1;
-
-            return 
-        }
 
         public override string ToString()
         {

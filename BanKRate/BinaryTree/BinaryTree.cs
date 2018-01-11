@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace BinaryTree
 {
-    class BinaryTree<T> : IEnumerable
+    class BinaryTree<T> : IEnumerable where T : IComparable<T>
     {
         private Node<T> root;
 
@@ -34,7 +34,7 @@ namespace BinaryTree
 
             foreach (int no in result.Split(' ').Select(no => Convert.ToInt32(no)))
                 yield return no;
-            
+
         }
 
         private void Insert(ref Node<T> node, T value)
@@ -42,10 +42,10 @@ namespace BinaryTree
             if (node == null)
                 node = new Node<T>(value);
 
-            if (value < node.Value)
+            if (value.CompareTo(node.Value) < 0)
                 Insert(ref node.Left, value);
 
-            if (value > node.Value)
+            if (value.CompareTo(node.Value) > 0)
                 Insert(ref node.Right, value);
         }
 
