@@ -6,19 +6,21 @@ using System.Linq;
 
 namespace BinaryTree
 {
-    class BinaryTree : IEnumerable
+    class BinaryTree<T> : IEnumerable
     {
-        public Node root;
+        private Node<T> root;
+
+        public Node<T> Root => root;
 
         public BinaryTree() => root = null;
 
-        public string Traverse(Node root, ref string result)
+        public string Traverse(Node<T> root, ref string result)
         {
             if (root != null)
             {
-                Traverse(root.left, ref result);
+                Traverse(root.Left, ref result);
                 result += root.Value + " ";
-                Traverse(root.right, ref result);
+                Traverse(root.Right, ref result);
             }
             return "";
         }
@@ -35,18 +37,19 @@ namespace BinaryTree
             
         }
 
-        public void Insert(ref Node node, int value)
+        private void Insert(ref Node<T> node, T value)
         {
             if (node == null)
-                node = new Node(value);
+                node = new Node<T>(value);
 
             if (value < node.Value)
-                Insert(ref node.left, value);
+                Insert(ref node.Left, value);
 
             if (value > node.Value)
-                Insert(ref node.right, value);
+                Insert(ref node.Right, value);
         }
 
-        
+        public void Insert(T value) => Insert(ref root, value);
+
     }
 }

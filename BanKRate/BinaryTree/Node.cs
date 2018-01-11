@@ -4,20 +4,32 @@ using System.Text;
 
 namespace BinaryTree
 {
-    class Node
+    class Node<T> : IComparable<T>
     {
-        private int value;
-        public Node left = null;
-        public Node right = null;
+        private T value;
+        private Node<T> left = null;
+        private Node<T> right = null;
 
-        public Node(int value)
+        public Node(T value)
         {
             this.value = value;
         }
 
-        public int Value {
+        public T Value {
             get => value;
             set => this.value = value;
+        }
+
+        public ref Node<T> Left => ref left;
+
+        public ref Node<T> Right => ref right;
+
+        public int CompareTo(T other)
+        {
+            if (other == null)
+                return 1;
+
+            return 
         }
 
         public override string ToString()

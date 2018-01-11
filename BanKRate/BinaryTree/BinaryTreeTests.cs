@@ -12,28 +12,28 @@ namespace BinaryTree
         [Fact]
         public void Insert()
         {
-            BinaryTree tree = new BinaryTree();
+            BinaryTree<int> tree = new BinaryTree<int>();
 
-            tree.Insert(ref tree.root, 3);
-            tree.Insert(ref tree.root, 2);
-            tree.Insert(ref tree.root, 4);
+            tree.Insert(3);
+            tree.Insert(2);
+            tree.Insert(4);
 
-            Assert.Equal(2, tree.root.left.Value);
-            Assert.Equal(3, tree.root.Value);
-            Assert.Equal(4, tree.root.right.Value);
+            Assert.Equal(2, tree.Root.Left.Value);
+            Assert.Equal(3, tree.Root.Value);
+            Assert.Equal(4, tree.Root.Right.Value);
         }
 
         [Fact]
         public void Traverse()
         {
-            BinaryTree tree = new BinaryTree();
+            BinaryTree<int> tree = new BinaryTree<int>();
 
-            tree.Insert(ref tree.root, 3);
-            tree.Insert(ref tree.root, 2);
-            tree.Insert(ref tree.root, 4);
+            tree.Insert(3);
+            tree.Insert(2);
+            tree.Insert(4);
 
             string result = "";
-            tree.Traverse(tree.root, ref result);
+            tree.Traverse(tree.Root, ref result);
 
             Assert.Equal("2 3 4 ", result);
         }
@@ -41,11 +41,11 @@ namespace BinaryTree
         [Fact]
         public void Enumerable()
         {
-            BinaryTree tree = new BinaryTree();
+            BinaryTree<int> tree = new BinaryTree<int>();
 
-            tree.Insert(ref tree.root, 3);
-            tree.Insert(ref tree.root, 2);
-            tree.Insert(ref tree.root, 4);
+            tree.Insert(3);
+            tree.Insert(2);
+            tree.Insert(4);
 
             Assert.Equal(new int[] { 2, 3, 4 }, (IEnumerable)tree);
         }
