@@ -6,35 +6,33 @@ using System.Linq;
 
 namespace BinaryTree
 {
-    class BinaryTree<T> : IEnumerable where T : IComparable<T>
+    class BinaryTree<T>: IEnumerable<T> where T : IComparable<T>
     {
         private Node<T> root;
 
-        public Node<T> Root => root;
-
         public BinaryTree() => root = null;
 
-        public string Traverse(Node<T> root, ref string result)
+        public T[] Traverse()
+        {
+            T[] result = new T[0];
+            Traverse(root, ref result);
+            return result;
+        }
+
+        private void Add(ref T[] array, T value)
+        {
+            Array.Resize(ref array, array.Length + 1);
+            array[array.Length - 1] = value;
+        }
+
+        private void Traverse(Node<T> root, ref T[] result)
         {
             if (root != null)
             {
                 Traverse(root.Left, ref result);
-                result += root.Value + " ";
+                Add(ref result, root.Value);
                 Traverse(root.Right, ref result);
             }
-            return "";
-        }
-
-        public IEnumerator GetEnumerator()
-        {
-            string result = "";
-            Traverse(root, ref result);
-
-            result = result.Remove(result.Length - 1);
-
-            foreach (int no in result.Split(' ').Select(no => Convert.ToInt32(no)))
-                yield return no;
-
         }
 
         private void Insert(ref Node<T> node, T value)
@@ -51,5 +49,17 @@ namespace BinaryTree
 
         public void Insert(T value) => Insert(ref root, value);
 
+        public IEnumerator<T> GetEnumerator()
+        {
+            T[] values = Traverse();
+
+            for (int i = 0; i < values.Length; i++)
+                yield return values[i];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }
