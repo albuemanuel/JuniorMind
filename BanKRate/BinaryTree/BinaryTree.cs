@@ -10,8 +10,6 @@ namespace BinaryTree
     {
         private Node<T> root;
 
-        public BinaryTree() => root = null;
-
         public T[] Traverse()
         {
             T[] result = new T[0];
@@ -19,7 +17,7 @@ namespace BinaryTree
             return result;
         }
 
-        private void Add(ref T[] array, T value)
+        private void AddInArray(ref T[] array, T value)
         {
             Array.Resize(ref array, array.Length + 1);
             array[array.Length - 1] = value;
@@ -30,36 +28,36 @@ namespace BinaryTree
             if (root != null)
             {
                 Traverse(root.Left, ref result);
-                Add(ref result, root.Value);
+                AddInArray(ref result, root.Value);
                 Traverse(root.Right, ref result);
             }
         }
 
-        private void Insert(ref Node<T> node, T value)
+        private void Add(ref Node<T> node, T value)
         {
             if (node == null)
                 node = new Node<T>(value);
 
             if (value.CompareTo(node.Value) < 0)
-                Insert(ref node.Left, value);
+                Add(ref node.Left, value);
 
             if (value.CompareTo(node.Value) > 0)
-                Insert(ref node.Right, value);
+                Add(ref node.Right, value);
         }
 
-        public void Insert(T value) => Insert(ref root, value);
+        public void Clear() => root = null;
 
-        public IEnumerator<T> GetEnumerator()
+        public void Balance()
         {
             T[] values = Traverse();
-
-            for (int i = 0; i < values.Length; i++)
-                yield return values[i];
+            Clear();
+            Array.Sort(values);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        public void Add(T value) => Add(ref root, value);
+
+        public IEnumerator<T> GetEnumerator() => GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => Traverse().GetEnumerator();
     }
 }
