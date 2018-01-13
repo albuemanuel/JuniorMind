@@ -11,16 +11,20 @@ namespace BinaryTree
         [Fact]
         public void AddAndTraverse()
         {
-            BinaryTree<int> tree = new BinaryTree<int>() { 3, 2, 4 };
+            BinaryTree<int> tree = new BinaryTree<int>();
 
-            Assert.Equal(new int[] { 2, 3, 4 }, tree.Traverse());
+            tree.Add(3);
+            tree.Add(2);
+            tree.Add(4);
+
+            Assert.Equal(new int[] { 2, 3, 4 }, tree.TraverseInOrder());
         }
 
         [Fact]
         public void Enumerable()
         {
             BinaryTree<int> tree = new BinaryTree<int> { 3, 2, 4 };
-            
+
             Assert.Equal(new int[] { 2, 3, 4 }, tree);
         }
     }

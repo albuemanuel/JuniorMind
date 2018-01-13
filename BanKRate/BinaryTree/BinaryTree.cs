@@ -6,31 +6,34 @@ using System.Linq;
 
 namespace BinaryTree
 {
-    class BinaryTree<T>: IEnumerable<T> where T : IComparable<T>
+    class BinaryTree<T> : IEnumerable<T> where T : IComparable<T>
     {
         private Node<T> root;
 
-        public T[] Traverse()
+        public IEnumerable<T> TraverseInOrder()
         {
-            T[] result = new T[0];
-            Traverse(root, ref result);
-            return result;
+            return TraverseInOrder(root);
         }
 
-        private void AddInArray(ref T[] array, T value)
-        {
-            Array.Resize(ref array, array.Length + 1);
-            array[array.Length - 1] = value;
-        }
+        //private void AddInArray(ref T[] array, T value)
+        //{
+        //    Array.Resize(ref array, array.Length + 1);
+        //    array[array.Length - 1] = value;
+        //}
 
-        private void Traverse(Node<T> root, ref T[] result)
+        private IEnumerable<T> TraverseInOrder(Node<T> root)
         {
             if (root != null)
             {
-                Traverse(root.Left, ref result);
-                AddInArray(ref result, root.Value);
-                Traverse(root.Right, ref result);
+                foreach (T val in TraverseInOrder(root.Left))
+                    yield return val;
+
+                yield return root.Value;
+
+                foreach (T val in TraverseInOrder(root.Right))
+                    yield return val;
             }
+            yield break;
         }
 
         private void Add(ref Node<T> node, T value)
@@ -47,17 +50,17 @@ namespace BinaryTree
 
         public void Clear() => root = null;
 
-        public void Balance()
-        {
-            T[] values = Traverse();
-            Clear();
-            Array.Sort(values);
-        }
+        //public void Balance()
+        //{
+        //    T[] values = Traverse();
+        //    Clear();
+        //    Array.Sort(values);
+        //}
 
         public void Add(T value) => Add(ref root, value);
 
         public IEnumerator<T> GetEnumerator() => GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => Traverse().GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => TraverseInOrder().GetEnumerator();
     }
 }
