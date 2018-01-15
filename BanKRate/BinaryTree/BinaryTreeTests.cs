@@ -11,11 +11,7 @@ namespace BinaryTree
         [Fact]
         public void AddAndTraverse()
         {
-            BinaryTree<int> tree = new BinaryTree<int>();
-
-            tree.Add(3);
-            tree.Add(2);
-            tree.Add(4);
+            BinaryTree<int> tree = new BinaryTree<int> { 3, 2, 4 };
 
             Assert.Equal(new int[] { 2, 3, 4 }, tree.TraverseInOrder());
         }
@@ -26,6 +22,16 @@ namespace BinaryTree
             BinaryTree<int> tree = new BinaryTree<int> { 3, 2, 4 };
 
             Assert.Equal(new int[] { 2, 3, 4 }, tree);
+        }
+
+        [Fact]
+        public void AddArgumentException()
+        {
+            BinaryTree<int> tree = new BinaryTree<int> { 3, 2, 4 };
+
+            ArgumentException ex = Assert.Throws<ArgumentException>(() => tree.Add(2));
+
+            Assert.Equal("Value already exists", ex.Message);
         }
     }
 }

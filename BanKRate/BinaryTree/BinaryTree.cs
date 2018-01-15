@@ -39,12 +39,17 @@ namespace BinaryTree
         private void Add(ref Node<T> node, T value)
         {
             if (node == null)
+            {
                 node = new Node<T>(value);
+                return;
+            }
+
+            if (value.CompareTo(node.Value) == 0)
+                throw new ArgumentException("Value already exists");
 
             if (value.CompareTo(node.Value) < 0)
                 Add(ref node.Left, value);
-
-            if (value.CompareTo(node.Value) > 0)
+            else
                 Add(ref node.Right, value);
         }
 
