@@ -6,6 +6,6 @@ namespace JSONParser
 {
     interface IMatch
     {
-
+        bool Success{ get; set; }
     }
 }
