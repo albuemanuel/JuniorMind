@@ -6,7 +6,7 @@ namespace JSONParser
 {
     class Match : IMatch
     {
-        private char current;
+        private string current;
         private bool success;
 
         public bool Success
@@ -15,13 +15,13 @@ namespace JSONParser
             set => success = value;
         }
 
-        public char Current
+        public string Current
         {
             get => current;
             set => current = value;
         }
 
-        public Match(char match)
+        public Match(string match)
         {
             Current = match;
             Success = true;
