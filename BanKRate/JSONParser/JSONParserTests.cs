@@ -11,6 +11,7 @@ namespace JSONParser
             Character pattern = new Character('a');
             string text = "abcd";
 
+            Assert.True(pattern.Match(text).Item1.Success);
             Assert.Equal((new Match("a"), "bcd"), pattern.Match(text));
         }
 
@@ -20,9 +21,8 @@ namespace JSONParser
             Character pattern = new Character('c');
             string text = "abcd";
 
-            Exception ex = Assert.Throws<Exception>(() => pattern.Match(text));
-
-            Assert.Equal("\"a\" does not match the pattern", ex.Message);
+            Assert.False(pattern.Match(text).Item1.Success);
+            Assert.Equal((new NoMatch("a"), "abcd"), pattern.Match(text));
         }
 
         [Fact]
@@ -31,9 +31,8 @@ namespace JSONParser
             Character pattern = new Character('c');
             string text = "";
 
-            Exception ex = Assert.Throws<Exception>(() => pattern.Match(text));
-
-            Assert.Equal("There's no more text to be parsed", ex.Message);
+            Assert.False(pattern.Match(text).Item1.Success);
+            Assert.Equal((new NoMoreText(), ""), pattern.Match(text));
         }
 
         [Fact]

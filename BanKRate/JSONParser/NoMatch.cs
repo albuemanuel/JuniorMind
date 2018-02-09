@@ -25,12 +25,11 @@ namespace JSONParser
         {
             Current = noMatch;
             Success = false;
-            throw new Exception("\"" + Current + "\"" + " does not match the pattern");
         }
 
         override public bool Equals(object toCompareWith)
         {
-            Match other = toCompareWith as Match;
+            NoMatch other = toCompareWith as NoMatch;
 
             if (other == null)
                 return false;

@@ -17,7 +17,19 @@ namespace JSONParser
         public NoMoreText()
         {
             Success = false;
-            throw new Exception("There's no more text to be parsed");
+        }
+
+        override public bool Equals(object toCompareWith)
+        {
+            NoMoreText other = toCompareWith as NoMoreText;
+
+            if (other == null)
+                return false;
+            if (Success == other.Success)
+                return true;
+
+            return false;
+
         }
     }
 }
