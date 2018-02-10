@@ -33,6 +33,7 @@ namespace JSONParser
 
             if (other == null)
                 return false;
+
             if (Current == other.Current && Success == other.Success)
                 return true;
 

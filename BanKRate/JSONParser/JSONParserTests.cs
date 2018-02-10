@@ -16,6 +16,16 @@ namespace JSONParser
         }
 
         [Fact]
+        public void AnyCharacterMatch()
+        {
+            AnyCharacter pattern = new AnyCharacter();
+            string text = "abcd";
+
+            Assert.True(pattern.Match(text).Item1.Success);
+            Assert.Equal((new Match("a"), "bcd"), pattern.Match(text));
+        }
+
+        [Fact]
         public void CharacterNoMatch()
         {
             Character pattern = new Character('c');
@@ -39,9 +49,21 @@ namespace JSONParser
         public void SequenceMatch()
         {
             Sequence pattern = new Sequence(new Character('a'), new Character('b'), new Character('c'));
+            Sequence pattern2 = new Sequence(new AnyCharacter(), new AnyCharacter(), new Character('c'));
             string text = "abcd";
+            string text2 = "xxcdef";
+            
 
             Assert.Equal((new Match("abc"), "d"), pattern.Match(text));
+            Assert.Equal((new Match("xxc"), "def"), pattern2.Match(text2));
+        }
+
+        [Fact]
+        public void ListMatch()
+        {
+            List listPattern = new List(new Character(','), new AnyCharacter());
+
+            Assert.Equal((new Match("x,x,x"), "]"), listPattern.Match("x,x,x]"));
         }
     }
 }
