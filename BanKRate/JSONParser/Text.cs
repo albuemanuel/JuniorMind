@@ -6,21 +6,22 @@ namespace JSONParser
 {
     class Text : IPattern
     {
-        string pattern;
+        Sequence pattern;
 
         public Text(string pattern)
         {
-            this.pattern = pattern;
+            Character[] characters = new Character[pattern.Length];
+            int i = 0;
+
+            foreach(char character in pattern.ToCharArray())
+                characters[i++] = new Character(character);
+
+            this.pattern = new Sequence(characters);
         }
 
         public (IMatch, string) Match(string text)
         {
-            if(String.IsNullOrEmpty(text))
-                return (new NoMoreText(), text);
-            if (text.IndexOf(pattern) != -1)
-                return (new Match(text), text.Substring(text.Length));
-
-            return (new NoMatch(text), text);
+            return (pattern.Match(text));
         }
     }
 }
