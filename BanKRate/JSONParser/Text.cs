@@ -15,7 +15,7 @@ namespace JSONParser
 
         public (IMatch, string) Match(string text)
         {
-            return (pattern.Match(text));
+            return pattern.Match(text);
         }
     }
 }
