@@ -20,11 +20,10 @@ namespace JSONParser
             if (String.IsNullOrEmpty(text))
                 return (new NoMoreText(), text);
 
-            for(char i = limOne; i<limTwo; i++)
-            {
-                if (i == text[0])
-                    return (new Match(text[0].ToString()), text.Substring(1));
-            }
+            
+            if (text[0] >= limOne && text[0] <= limTwo)
+                return (new Match(text[0].ToString()), text.Substring(1));
+            
 
             return (new NoMatch(text[0].ToString()), text);
         }

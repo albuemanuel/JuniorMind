@@ -89,5 +89,13 @@ namespace JSONParser
 
             Assert.Equal((new Match("t"), "ext"), pattern.Match("text"));
         }
+
+        [Fact]
+        public void TextMatch()
+        {
+            Text pattern = new Text("Ana are mere");
+
+            Assert.Equal((new Match("Ana are mere"), ""), pattern.Match("Ana are mere"));
+        }
     }
 }
