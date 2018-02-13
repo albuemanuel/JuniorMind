@@ -81,5 +81,13 @@ namespace JSONParser
             Assert.Equal((new Match("b"), "ef"), pattern.Match(text));
        
         }
+
+        [Fact]
+        public void RangeMatch()
+        {
+            Range pattern = new Range('a', 'z');
+
+            Assert.Equal((new Match("t"), "ext"), pattern.Match("text"));
+        }
     }
 }

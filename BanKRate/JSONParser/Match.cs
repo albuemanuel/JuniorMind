@@ -7,13 +7,9 @@ namespace JSONParser
     class Match : IMatch
     {
         private string current;
-        private bool success;
+        private bool success = true;
 
-        public bool Success
-        {
-            get => success;
-            set => success = value;
-        }
+        public bool Success => success;
 
         public string Current
         {
@@ -24,7 +20,6 @@ namespace JSONParser
         public Match(string match)
         {
             Current = match;
-            Success = true;
         }
 
         override public bool Equals(object toCompareWith)
@@ -34,11 +29,16 @@ namespace JSONParser
             if (other == null)
                 return false;
 
-            if (Current == other.Current && Success == other.Success)
+            if (Current == other.Current)
                 return true;
 
             return false;
             
+        }
+
+        public override string ToString()
+        {
+            return "Match: " + current;
         }
     }
 }

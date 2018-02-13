@@ -7,13 +7,9 @@ namespace JSONParser
     class NoMatch : IMatch
     {
         private string current;
-        private bool success;
+        private bool success = false;
 
-        public bool Success
-        {
-            get => success;
-            set => success = value;
-        }
+        public bool Success => success;
 
         public string Current
         {
@@ -24,7 +20,6 @@ namespace JSONParser
         public NoMatch(string noMatch)
         {
             Current = noMatch;
-            Success = false;
         }
 
         override public bool Equals(object toCompareWith)
@@ -33,11 +28,16 @@ namespace JSONParser
 
             if (other == null)
                 return false;
-            if (Current == other.Current && Success == other.Success)
+            if (Current == other.Current)
                 return true;
 
             return false;
 
+        }
+
+        public override string ToString()
+        {
+            return "NoMatch: " + current;
         }
     }
 }

@@ -6,18 +6,9 @@ namespace JSONParser
 {
     class NoMoreText : IMatch
     {
-        private bool success;
+        private bool success = false;
 
-        public bool Success
-        {
-            get => success;
-            set => success = value;
-        }
-
-        public NoMoreText()
-        {
-            Success = false;
-        }
+        public bool Success => success;
 
         override public bool Equals(object toCompareWith)
         {
@@ -25,11 +16,13 @@ namespace JSONParser
 
             if (other == null)
                 return false;
-            if (Success == other.Success)
-                return true;
 
-            return false;
+            return true;
+        }
 
+        public override string ToString()
+        {
+            return "NoMoreText";
         }
     }
 }
