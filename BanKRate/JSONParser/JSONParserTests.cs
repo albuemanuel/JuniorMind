@@ -48,25 +48,38 @@ namespace JSONParser
             Assert.Equal((new NoMoreText(), ""), pattern.Match(text));
         }
 
-        //[Fact]
-        //public void SequenceMatch()
-        //{
-        //    Sequence pattern = new Sequence(new Character('a'), new Character('b'), new Character('c'));
-        //    Sequence pattern2 = new Sequence(new AnyCharacter(), new AnyCharacter(), new Character('c'));
-        //    string text = "abcd";
-        //    string text2 = "xxcdef";
-            
+        [Fact]
+        public void SequenceMatch()
+        {
+            Sequence pattern = new Sequence(new Character('a'), new Character('b'), new Character('c'));
+            Sequence pattern2 = new Sequence(new AnyCharacter("xz"), new AnyCharacter("xz"), new Character('c'));
+            Sequence pattern3 = new Sequence(new Character('['), new List(new Character(','), new AnyCharacter("xyz")), new Character(']'));
+            string text = "abcd";
+            string text2 = "xzcdef";
+            string text3 = "[z,x,y]";
 
-        //    Assert.Equal((new Match("abc"), "d"), pattern.Match(text));
-        //    Assert.Equal((new Match("xxc"), "def"), pattern2.Match(text2));
-        //}
 
-        //[Fact]
-        //public void ListMatch()
-        //{
-        //    List listPattern = new List(new Character(','), new AnyCharacter());
+            Assert.Equal((new Match("abc"), "d"), pattern.Match(text));
+            Assert.Equal((new Match("xzc"), "def"), pattern2.Match(text2));
+            Assert.Equal((new Match("[z,x,y]"), ""), pattern3.Match(text3));
+        }
 
-        //    Assert.Equal((new Match("x,x,x"), "]"), listPattern.Match("x,x,x]"));
-        //}
+        [Fact]
+        public void ListMatch()
+        {
+            List listPattern = new List(new Character(','), new AnyCharacter("xyz"));
+
+            Assert.Equal((new Match("x,y,z"), "]"), listPattern.Match("x,y,z]"));
+        }
+
+        [Fact]
+        public void ChoiceMatch()
+        {
+            Choice pattern = new Choice(new Character('a'), new Character('b'), new Character('c'));
+            string text = "bef";
+
+            Assert.Equal((new Match("b"), "ef"), pattern.Match(text));
+       
+        }
     }
 }
