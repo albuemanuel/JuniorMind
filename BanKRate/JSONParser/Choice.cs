@@ -26,7 +26,7 @@ namespace JSONParser
                 var (m, n) = el.Match(text);
 
                 if (m.Success)
-                    return (m, text.Substring(1));
+                    return (m, n);
             }
             return (new NoMatch(text[0].ToString()), text);
         }
