@@ -20,25 +20,25 @@ namespace JSONParser
             string matchedText = "";
             while (true)
             {
-                var (m, n) = valuePattern.Match(text);
-                text = n;
+                var (match, remainingText) = valuePattern.Match(text);
+                text = remainingText;
 
-                if (!m.Success)
-                    return (m, text);
+                if (!match.Success)
+                    return (match, text);
 
-                matchedText += (m as Match).Current;
+                matchedText += (match as Match).Current;
 
-                (m, n) = separator.Match(text);
-                text = n;
+                (match, remainingText) = separator.Match(text);
+                text = remainingText;
 
-                if (!m.Success)
+                if (!match.Success)
                 {
                     if (!Char.IsLetter(text[0]))
                         return (new Match(matchedText), text);
-                    return (m, text);
+                    return (match, text);
                 }
 
-                matchedText += (m as Match).Current;
+                matchedText += (match as Match).Current;
 
             }
         }

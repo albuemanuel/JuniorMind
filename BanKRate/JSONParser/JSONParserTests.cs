@@ -98,5 +98,32 @@ namespace JSONParser
             Assert.Equal((new Match("Ana are mere"), ""), pattern.Match("Ana are mere"));
         }
 
+        [Fact]
+        public void ManyMatch()
+        {
+            Many pattern = new Many(new Sequence(new Character('['), new List(new Character(','), new AnyCharacter("abcxyz")), new Character(']')));
+            string text = "[x,y,z][a,b,c]";
+
+            var (match, remainingText) = pattern.Match(text);
+
+            Assert.Equal((new Match("[x,y,z][a,b,c]"), ""), (match, remainingText));
+            Assert.Equal((new Match(""), ""), pattern.Match(remainingText));
+        }
+
+        [Fact]
+        public void AtLeastOnceMatch()
+        {
+            AtLeastOnce pattern = new AtLeastOnce(new Sequence(new Character('['), new List(new Character(','), new AnyCharacter("abcxyz")), new Character(']')));
+            AtLeastOnce pattern2 = new AtLeastOnce(new AnyCharacter(" \t"));
+            string text = "[x,y,z]{\"text\"}";
+            string text2 = " \t \t           x";
+
+            var (match, remainingText) = pattern.Match(text);
+
+            Assert.Equal((new Match("[x,y,z]"), "{\"text\"}"), (match, remainingText));
+            Assert.Equal((new NoMatch("{"), "{\"text\"}"), pattern.Match(remainingText));
+            Assert.Equal((new Match(" \t \t           "), "x"), pattern2.Match(text2));
+        }
+
     }
 }

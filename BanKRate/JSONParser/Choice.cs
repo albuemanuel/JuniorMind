@@ -8,12 +8,6 @@ namespace JSONParser
     {
         IPattern[] pattern;
 
-        public IPattern this[int index]
-        {
-            get => pattern[index];
-            set => pattern[index] = value;
-        }
-
         public Choice(params IPattern[] pattern)
         {
             this.pattern = pattern;
@@ -23,10 +17,10 @@ namespace JSONParser
         {
             foreach (IPattern el in pattern)
             {
-                var (m, n) = el.Match(text);
+                var (match, remainingText) = el.Match(text);
 
-                if (m.Success)
-                    return (m, n);
+                if (match.Success)
+                    return (match, remainingText);
             }
             return (new NoMatch(text[0].ToString()), text);
         }

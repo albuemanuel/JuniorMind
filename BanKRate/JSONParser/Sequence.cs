@@ -8,12 +8,6 @@ namespace JSONParser
     {
         IPattern[] pattern;
 
-        public IPattern this[int index]
-        {
-            get => pattern[index];
-            set => pattern[index] = value;
-        }
-
         public Sequence(params IPattern[] pattern)
         {
             this.pattern = pattern;
@@ -24,13 +18,13 @@ namespace JSONParser
             string matchedText = "";
             foreach (IPattern el in pattern)
             {
-                var (m, n) = el.Match(text);
-                text = n;
+                var (match, remainingText) = el.Match(text);
+                text = remainingText;
 
-                if (m.Success != true)
-                    return (m, text);
+                if (!match.Success)
+                    return (match, text);
 
-                matchedText += (m as Match).Current;
+                matchedText += (match as Match).Current;
                 
             }
             return (new Match(matchedText), text);
