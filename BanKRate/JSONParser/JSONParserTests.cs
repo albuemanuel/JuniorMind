@@ -115,6 +115,7 @@ namespace JSONParser
         {
             AtLeastOnce pattern = new AtLeastOnce(new Sequence(new Character('['), new List(new Character(','), new AnyCharacter("abcxyz")), new Character(']')));
             AtLeastOnce pattern2 = new AtLeastOnce(new AnyCharacter(" \t"));
+
             string text = "[x,y,z]{\"text\"}";
             string text2 = " \t \t           x";
 
@@ -124,6 +125,29 @@ namespace JSONParser
             Assert.Equal((new NoMatch("{"), "{\"text\"}"), pattern.Match(remainingText));
             Assert.Equal((new Match(" \t \t           "), "x"), pattern2.Match(text2));
         }
+
+        [Fact]
+        public void OptionalMatch()
+        {
+            Optional optional = new Optional('-');
+            string text = "-32";
+            string text2 = "32";
+
+            Assert.Equal((new Match("-"), "32"), optional.Match(text));
+            Assert.Equal((new Match(""), "32"), optional.Match(text2));
+        }
+
+        [Fact]
+        public void NumberMatch()
+        {
+            Number pattern = new Number();
+            string text = "-362";
+
+            Assert.Equal((new Match("-362"), ""), pattern.Match(text));
+
+        }
+
+
 
     }
 }
