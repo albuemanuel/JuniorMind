@@ -6,16 +6,16 @@ namespace JSONParser
 {
     class Optional : IPattern
     {
-        Character optional;
+        IPattern optionalPattern;
 
-        public Optional(char pattern)
+        public Optional(IPattern pattern)
         {
-            optional = new Character(pattern);
+            optionalPattern = pattern;
         }
 
         public (IMatch, string) Match(string text)
         {
-            var (match, remainingText) = optional.Match(text);
+            var (match, remainingText) = optionalPattern.Match(text);
 
             if (match.Success)
                 return (match, remainingText);

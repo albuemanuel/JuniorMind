@@ -129,7 +129,7 @@ namespace JSONParser
         [Fact]
         public void OptionalMatch()
         {
-            Optional optional = new Optional('-');
+            Optional optional = new Optional(new Character('-'));
             string text = "-32";
             string text2 = "32";
 
@@ -138,12 +138,24 @@ namespace JSONParser
         }
 
         [Fact]
-        public void NumberMatch()
+        public void IntegerMatch()
         {
-            Number pattern = new Number();
+            IntegerNumber pattern = new IntegerNumber();
             string text = "-362";
 
             Assert.Equal((new Match("-362"), ""), pattern.Match(text));
+
+        }
+
+        [Theory]
+        [InlineData("362")]
+        [InlineData("362.12")]
+        [InlineData("-362.12")]
+        public void RealNumberMatch(string text)
+        {
+            RealNumber pattern = new RealNumber();
+
+            Assert.Equal((new Match(text), ""), pattern.Match(text));
 
         }
 
