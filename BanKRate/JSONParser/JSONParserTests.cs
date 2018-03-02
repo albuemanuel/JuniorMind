@@ -159,7 +159,18 @@ namespace JSONParser
 
         }
 
+        [Theory]
+        [InlineData("-362.12e21")]
+        [InlineData("-362.12E21")]
+        [InlineData("-362.12e+21")]
+        [InlineData("-362.12e-21")]
+        public void ScientificNotationMatch(string text)
+        {
+            ScientificNotationNumber pattern = new ScientificNotationNumber();
 
+            Assert.Equal((new Match(text), ""), pattern.Match(text));
+
+        }
 
     }
 }
