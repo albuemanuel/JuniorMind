@@ -17,6 +17,9 @@ namespace JSONParser
         {
             foreach (IPattern el in pattern)
             {
+                if (String.IsNullOrEmpty(text))
+                    return (new NoMoreText(), text);
+
                 var (match, remainingText) = el.Match(text);
 
                 if (match.Success)

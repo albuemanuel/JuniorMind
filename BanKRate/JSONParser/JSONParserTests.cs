@@ -137,13 +137,16 @@ namespace JSONParser
             Assert.Equal((new Match(""), "32"), optional.Match(text2));
         }
 
-        [Fact]
-        public void IntegerMatch()
+        [Theory]
+        [InlineData("-362")]
+        [InlineData("362")]
+        [InlineData("0")]
+        [InlineData("1")]
+        public void IntegerMatch(string text)
         {
             IntegerNumber pattern = new IntegerNumber();
-            string text = "-362";
 
-            Assert.Equal((new Match("-362"), ""), pattern.Match(text));
+            Assert.Equal((new Match(text), ""), pattern.Match(text));
 
         }
 
@@ -164,6 +167,7 @@ namespace JSONParser
         [InlineData("-362.12E21")]
         [InlineData("-362.12e+21")]
         [InlineData("-362.12e-21")]
+        [InlineData("-362.12")]
         public void ScientificNotationMatch(string text)
         {
             ScientificNotationNumber pattern = new ScientificNotationNumber();
