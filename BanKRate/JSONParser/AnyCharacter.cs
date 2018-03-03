@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace JSONParser
 {
@@ -12,9 +13,7 @@ namespace JSONParser
         {
             Character[] textArray = new Character[text.Length];
 
-            int i = 0;
-            foreach (char el in text)
-                textArray[i++] = new Character(el);
+            textArray = text.Select(x => new Character(x)).ToArray();
 
             pattern = new HashSet<Character>(textArray);
         }
