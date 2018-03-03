@@ -7,7 +7,7 @@ namespace JSONParser
 {
     class AnyCharacter : IPattern
     {
-        HashSet<Character> pattern;
+        readonly HashSet<Character> pattern;
 
         public AnyCharacter(string text)
         {
