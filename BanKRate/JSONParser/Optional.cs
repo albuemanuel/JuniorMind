@@ -8,10 +8,7 @@ namespace JSONParser
     {
         IPattern optionalPattern;
 
-        public Optional(IPattern pattern)
-        {
-            optionalPattern = pattern;
-        }
+        public Optional(IPattern pattern) => optionalPattern = pattern;
 
         public (IMatch, string) Match(string text)
         {

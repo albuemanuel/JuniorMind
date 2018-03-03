@@ -8,10 +8,7 @@ namespace JSONParser
     {
         IPattern pattern;
 
-        public Many(IPattern pattern)
-        {
-            this.pattern = pattern;
-        }
+        public Many(IPattern pattern) => this.pattern = pattern;
 
         public (IMatch, string) Match(string text)
         {

@@ -8,12 +8,9 @@ namespace JSONParser
     {
         IPattern[] pattern;
 
-        public Sequence(params IPattern[] pattern)
-        {
-            this.pattern = pattern;
-        }
+        public Sequence(params IPattern[] pattern) => this.pattern = pattern;
 
-        public(IMatch, string) Match(string text)
+        public (IMatch, string) Match(string text)
         {
             string matchedText = "";
             string tempText = text;

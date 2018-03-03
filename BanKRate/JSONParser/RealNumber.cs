@@ -16,9 +16,6 @@ namespace JSONParser
                 )
             );
 
-        public (IMatch, string) Match(string text)
-        {
-            return real.Match(text);
-        }
+        public (IMatch, string) Match(string text) => real.Match(text);
     }
 }

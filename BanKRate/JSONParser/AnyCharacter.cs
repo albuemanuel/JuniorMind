@@ -6,28 +6,19 @@ namespace JSONParser
 {
     class AnyCharacter : IPattern
     {
-        string pattern;
+        Choice pattern;
 
-        public AnyCharacter(string pattern)
+        public AnyCharacter(string text)
         {
-            this.pattern = pattern;
+            Character[] textArray = new Character[text.Length];
+
+            int i = 0;
+            foreach (char el in text)
+                textArray[i++] = new Character(el);
+
+            pattern = new Choice(textArray);
         }
 
-        public (IMatch, string) Match(string text)
-        {
-            if (String.IsNullOrEmpty(text))
-                return (new NoMoreText(), text);
-
-            foreach (Char c in pattern)
-            {
-                if (c == text[0])
-                    return (new Match(text[0].ToString()), text.Substring(1));
-            }
-
-            return (new NoMatch(text[0].ToString()), text);
-        }
-
-
-
+        public (IMatch, string) Match(string text) => pattern.Match(text);
     }
 }
