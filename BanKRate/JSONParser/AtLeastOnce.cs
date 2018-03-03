@@ -15,6 +15,9 @@ namespace JSONParser
 
         public (IMatch, string) Match(string text)
         {
+            if (String.IsNullOrEmpty(text))
+                return (new NoMoreText(), text);
+
             Many subPattern = new Many(pattern);
             var (match, remainingText) = subPattern.Match(text);
 

@@ -163,6 +163,17 @@ namespace JSONParser
         }
 
         [Theory]
+        [InlineData("9.")]
+        [InlineData("012")]
+        public void RealNumberNoMatch(string text)
+        {
+            RealNumber pattern = new RealNumber();
+
+            Assert.NotEqual((new Match(text), ""), pattern.Match(text));
+
+        }
+
+        [Theory]
         [InlineData("-362.12e21")]
         [InlineData("-362.12E21")]
         [InlineData("-362.12e+21")]
