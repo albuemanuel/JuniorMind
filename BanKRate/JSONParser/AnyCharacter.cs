@@ -11,11 +11,7 @@ namespace JSONParser
 
         public AnyCharacter(string text)
         {
-            Character[] textArray = new Character[text.Length];
-
-            textArray = text.Select(x => new Character(x)).ToArray();
-
-            pattern = new HashSet<Character>(textArray);
+            pattern = new HashSet<Character>(text.Select(x => new Character(x)).ToArray());
         }
 
         public (IMatch, string) Match(string text)
