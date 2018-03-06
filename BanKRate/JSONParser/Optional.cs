@@ -12,12 +12,9 @@ namespace JSONParser
 
         public (IMatch, string) Match(string text)
         {
-            var (match, remainingText) = optionalPattern.Match(text);
+            Many subPattern = new Many(optionalPattern);
 
-            if (match.Success)
-                return (match, remainingText);
-            else
-                return (new Match(""), text);
+            return subPattern.Match(text);
         }
     }
 }

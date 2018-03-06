@@ -187,5 +187,15 @@ namespace JSONParser
 
         }
 
+        [Theory]
+        [InlineData("\"Text\"")]
+        [InlineData("\"Text\\nText\"")]
+        public void StringMatch(string text)
+        {
+            StringPattern stringPattern = new StringPattern();
+
+            Assert.Equal((new Match(text), ""), stringPattern.Match(text));
+        }
+
     }
 }
