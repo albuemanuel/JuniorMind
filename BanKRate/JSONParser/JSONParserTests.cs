@@ -190,6 +190,8 @@ namespace JSONParser
         [Theory]
         [InlineData("\"Text\"")]
         [InlineData("\"Text\\nText\"")]
+        [InlineData("\"Te    xt\"")]
+        [InlineData("\"T \\r \\t \"")]
         public void StringMatch(string text)
         {
             StringPattern stringPattern = new StringPattern();
@@ -197,5 +199,15 @@ namespace JSONParser
             Assert.Equal((new Match(text), ""), stringPattern.Match(text));
         }
 
+        [Theory]
+        [InlineData("\"\t\"")]
+        [InlineData("\"\r\"")]
+        [InlineData("\" \" \"")]
+        public void StringNoMatch(string text)
+        {
+            StringPattern stringPattern = new StringPattern();
+
+            Assert.NotEqual((new Match(text), ""), stringPattern.Match(text));
+        }
     }
 }

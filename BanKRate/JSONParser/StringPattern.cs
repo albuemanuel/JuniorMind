@@ -27,7 +27,9 @@ namespace JSONParser
                         new Text("\\r"),
                         new Text("\\t"),
                         unicode,
-                        new Range('\u0030', (char)ushort.MaxValue)
+                        new Range('#', '.'),
+                        new Range('0', (char)ushort.MaxValue),
+                        new AnyCharacter("! ")
                     )
                 ),
                 new Character('\"')
