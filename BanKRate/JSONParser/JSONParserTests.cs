@@ -209,5 +209,15 @@ namespace JSONParser
 
             Assert.NotEqual((new Match(text), ""), stringPattern.Match(text));
         }
+
+        [Fact]
+        public void ObjectValueArrayMatch()
+        {
+            ArrayPattern array = new ArrayPattern();
+
+            string text = "[value1,value2,value3]";
+
+            Assert.Equal((new Match(text), ""), array.Match(text));
+        }
     }
 }
