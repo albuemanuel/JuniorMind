@@ -6,13 +6,13 @@ namespace JSONParser
 {
     class Choice : IPattern
     {
-        IPattern[] pattern;
+        protected IPattern[] pattern;
 
         public Choice(params IPattern[] pattern)
         {
             this.pattern = pattern;
         }
-
+                
         public (IMatch, string) Match(string text)
         {
             foreach (IPattern el in pattern)
