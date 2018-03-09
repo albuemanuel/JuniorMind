@@ -29,8 +29,12 @@ namespace JSONParser
                 (match, remainingText) = pattern.Match(remainingText);
             }
 
-            if( count >= start && (end == 0 || count <= end) )
+            if (count >= start && (end == 0 || count <= end))
                 return (new Match(matchedText), remainingText);
+
+            if((count < start && count > 0 )|| count > end)
+                return (new NoMatch("Wrong number of " + "<" + pattern.ToString() + ">" + " objects"), text);
+            
 
             return (new NoMatch(text[0].ToString()), text);
         }

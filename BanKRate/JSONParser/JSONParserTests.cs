@@ -132,6 +132,17 @@ namespace JSONParser
             Assert.Equal((new Match(""), ""), pattern.Match(remainingText));
         }
 
+        [Theory]
+        [InlineData("[x,y,z][a,b,c]")]
+        public void ManyNoMatch(string text)
+        {
+            Many pattern = new Many(new Sequence(new Character('['), new List(new Character(','), new AnyCharacter("abcxyz")), new Character(']')));
+            Many pattern2 = new Many(new Sequence(new Character('['), new List(new Character(','), new AnyCharacter("abcxyz")), new Character(']')), 0, 1);
+
+            Assert.Equal((new Match("[x,y,z][a,b,c]"), ""), pattern.Match(text));
+            Assert.Equal((new NoMatch("Wrong number of <JSONParser.Sequence> objects"), text), pattern2.Match(text));
+        }
+
         [Fact]
         public void AtLeastOnceMatch()
         {
@@ -242,6 +253,16 @@ namespace JSONParser
             JSONPattern array = new JSONPattern();
 
             Assert.Equal((new Match(text), ""), array.Match(text));
+        }
+
+        [Fact]
+        public void JSONPatternNoMatch()
+        {
+            JSONPattern jSONPattern = new JSONPattern();
+
+            string text = "[23";
+
+            Assert.Equal((new NoMoreText(), ""), jSONPattern.Match(text));
         }
     }
 }

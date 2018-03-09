@@ -12,7 +12,7 @@ namespace JSONParser
 
         public (IMatch, string) Match(string text)
         {
-            Many subPattern = new Many(optionalPattern);
+            Many subPattern = new Many(optionalPattern, 0, 1);
 
             return subPattern.Match(text);
         }
