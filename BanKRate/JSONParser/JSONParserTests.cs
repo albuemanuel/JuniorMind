@@ -69,7 +69,29 @@ namespace JSONParser
         {
             List listPattern = new List(new Character(','), new AnyCharacter("xyz"));
 
+
+
             Assert.Equal((new Match("x,y,z"), "]"), listPattern.Match("x,y,z]"));
+        }
+
+        [Fact]
+        public void ListMatch2()
+        {
+            List listPattern = new List(new Character(','), new AnyCharacter("123456"));
+
+            string text = "2,";
+
+            Assert.Equal((new Match("2"), ","), listPattern.Match(text)); 
+        }
+
+        [Fact]
+        public void ListMatchEmpty()
+        {
+            List listPattern = new List(new Character(','), new AnyCharacter("123456"));
+
+            string text = "";
+
+            Assert.Equal((new Match(""), ""), listPattern.Match(text));
         }
 
         [Fact]
@@ -210,12 +232,14 @@ namespace JSONParser
             Assert.NotEqual((new Match(text), ""), stringPattern.Match(text));
         }
 
-        [Fact]
-        public void ObjectValueArrayMatch()
+        [Theory]
+        [InlineData("[\"value1\",[13,14],\"value3\"]")]
+        [InlineData("{\"name\":[13,14],\"name\":15}")]
+        [InlineData("[[4,8,15,16,23,42],[2,3,[15,16,13],5]]")]
+        [InlineData("[23,123,{\"name\":[33,21]}]")]
+        public void JSONPatternMatch(string text)
         {
-            ArrayPattern array = new ArrayPattern();
-
-            string text = "[value1,value2,value3]";
+            JSONPattern array = new JSONPattern();
 
             Assert.Equal((new Match(text), ""), array.Match(text));
         }

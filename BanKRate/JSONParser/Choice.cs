@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace JSONParser
 {
     class Choice : IPattern
     {
-        protected IPattern[] pattern;
+        private readonly List<IPattern> pattern;
 
         public Choice(params IPattern[] pattern)
         {
-            this.pattern = pattern;
+            this.pattern = pattern.ToList();
         }
-                
+
+        public void AddPattern(IPattern newPattern)
+        {
+            pattern.Add(newPattern);
+        }
+
         public (IMatch, string) Match(string text)
         {
             foreach (IPattern el in pattern)
