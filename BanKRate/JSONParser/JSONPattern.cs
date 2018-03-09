@@ -6,6 +6,17 @@ namespace JSONParser
 {
     class JSONPattern : IPattern
     {
+        Many whitespace = new Many
+        (
+            new Choice
+            (
+                new Character(' '),
+                new Character('\n'),
+                new Character('\t'),
+                new Character('\r')
+            )
+        );
+
         Choice value;
         Sequence objectPattern;
         Sequence arrayPattern;
@@ -25,27 +36,42 @@ namespace JSONParser
             objectPattern = new Sequence
             (
                 new Character('{'),
+                whitespace,
                 new List
                 (
                     new Character(','),
                     new Sequence
                     (
+                        whitespace,
                         new StringPattern(),
+                        whitespace,
                         new Character(':'),
-                        value
+                        whitespace,
+
+                        value,
+
+                        whitespace
                     )
                 ),
+                whitespace,
                 new Character('}')
             );
 
             arrayPattern = new Sequence
             (
                 new Character('['),
+                whitespace,
                 new List
                 (
                     new Character(','),
-                    value
+                    new Sequence
+                    (
+                        whitespace,
+                        value,
+                        whitespace
+                    )
                 ),
+                whitespace,
                 new Character(']')
             );
 
