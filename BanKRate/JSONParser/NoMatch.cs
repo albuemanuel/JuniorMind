@@ -28,7 +28,7 @@ namespace JSONParser
 
             if (other == null)
                 return false;
-            if (Current == other.Current)
+            if (Current.ToString() == other.Current.ToString())
                 return true;
 
             return false;

@@ -13,15 +13,17 @@ namespace JSONParser
             pattern = c;
         }
 
-        public(IMatch, string) Match(string text)
+        public(IMatch, TextToParse) Match(ref TextToParse text)
         {
-            if (String.IsNullOrEmpty(text))
+            if (text.IsAtEnd())
                 return (new NoMoreText(), text);
 
-            if (text[0] != pattern)
-                return (new NoMatch(text[0].ToString()), text);
-                
-            return (new Match(text[0].ToString()), text.Substring(1));
+            if (text.Current != pattern)
+                return (new NoMatch(text.Current.ToString()), text);
+
+            string matchedText = text.Current.ToString();
+            text.CurrentIndex++;
+            return (new Match(matchedText), text);
         }
 
 

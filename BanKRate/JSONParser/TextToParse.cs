@@ -7,7 +7,7 @@ namespace JSONParser
 {
     public struct TextToParse : IEnumerable<char>
     {
-        string pattern;
+        readonly string pattern;
         int currentIndex;
 
         public TextToParse(string text)
@@ -16,11 +16,25 @@ namespace JSONParser
             currentIndex = 0;
         }
 
-        //public char this[int index]  => pattern[index]; 
+        public char this[int index] => pattern[index];
 
         public string Pattern => pattern;
 
-        public int CurrentIndex { get => currentIndex;  set => currentIndex = value; }
+        public int CurrentIndex { get => currentIndex; set => currentIndex = value; }
+
+        public char Current => pattern[currentIndex];
+
+        public bool IsAtEnd()
+        {
+            return ((currentIndex == pattern.Length - 1) || pattern.Length == 0); 
+        }
+
+        public override string ToString()
+        {
+            return pattern + '[' + currentIndex + ']';
+        }
+
+        
 
         public IEnumerator<char> GetEnumerator()
         {

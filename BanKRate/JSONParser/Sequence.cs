@@ -10,22 +10,24 @@ namespace JSONParser
 
         public Sequence(params IPattern[] pattern) => this.pattern = pattern;
 
-        public (IMatch, string) Match(string text)
+        public (IMatch, TextToParse) Match(ref TextToParse text)
         {
             string matchedText = "";
-            string tempText = text;
+            int indexOrigin = text.CurrentIndex;
+
             foreach (IPattern el in pattern)
             {
-                var (match, remainingText) = el.Match(tempText);
-                tempText = remainingText;
+                var (match, remainingText) = el.Match(ref text);
 
                 if (!match.Success)
+                {
+
                     return (match, text);
+                }
 
                 matchedText += (match as Match).Current;
-                
             }
-            return (new Match(matchedText), tempText);
+            return (new Match(matchedText), text);
         }
     }
 }

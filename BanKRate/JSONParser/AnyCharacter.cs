@@ -14,19 +14,19 @@ namespace JSONParser
             pattern = new HashSet<Character>(text.Select(x => new Character(x)).ToArray());
         }
 
-        public (IMatch, string) Match(string text)
+        public (IMatch, TextToParse) Match(ref TextToParse text)
         {
-            if (String.IsNullOrEmpty(text))
+            if (text.IsAtEnd())
                 return (new NoMoreText(), text);
 
             foreach (Character choice in pattern)
             {
-                var (match, remainingText) = choice.Match(text);
+                var (match, remainingText) = choice.Match(ref text);
 
                 if (match.Success)
-                    return (match, remainingText);
+                    return (match, text);
             }
-            return (new NoMatch(text[0].ToString()), text);
+            return (new NoMatch(text[text.CurrentIndex].ToString()), text);
         }
     }
 }
