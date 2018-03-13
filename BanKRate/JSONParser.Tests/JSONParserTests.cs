@@ -73,6 +73,45 @@ namespace JSONParser
 
             Assert.Equal((new Match("x,y,z"), "]"), listPattern.Match("x,y,z]"));
         }
+        [Fact]
+        public void ArrayPatternMatch()
+        {
+
+            Many whitespace = new Many
+             (
+            new Choice
+            (
+                new Character(' '),
+                new Character('\n'),
+                new Character('\t'),
+                new Character('\r')
+            )
+                );
+
+            Sequence arrayPattern = new Sequence
+            (
+                new Character('['),
+                whitespace,
+                new List
+                (
+                    new Character(','),
+                    new Sequence
+                    (
+                        whitespace,
+                        new StringPattern(),
+                        whitespace
+                    )
+                ),
+                whitespace,
+                new Character(']')
+            );
+
+            string text = "[\"value1\",\"value2\"]";
+            string text2 = "[\"value1\"\"value2\"]";
+
+            Assert.Equal((new Match(text), ""), arrayPattern.Match(text));
+            Assert.NotEqual((new Match(text2), ""), arrayPattern.Match(text2));
+        }
 
         [Fact]
         public void ListMatch2()
@@ -250,19 +289,20 @@ namespace JSONParser
         [InlineData("[23,123,{\"name\":[33,21]}]")]
         public void JSONPatternMatch(string text)
         {
-            JSONPattern array = new JSONPattern();
+            JSONPattern pattern = new JSONPattern();
 
-            Assert.Equal((new Match(text), ""), array.Match(text));
+            Assert.Equal((new Match(text), ""), pattern.Match(text));
         }
 
-        [Fact]
-        public void JSONPatternNoMatch()
+        [Theory]
+        [InlineData("[\"value1\"\"value3\"]")]
+        public void JSONPatternNoMatch(string text)
         {
             JSONPattern jSONPattern = new JSONPattern();
 
-            string text = "[23";
+            //string text = "[23";
 
-            Assert.Equal((new NoMoreText(), ""), jSONPattern.Match(text));
+            Assert.Equal((new NoMatch(text[0].ToString()), text), jSONPattern.Match(text));
         }
     }
 }

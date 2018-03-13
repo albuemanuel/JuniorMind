@@ -16,15 +16,12 @@ namespace JSONParser
                 new Character('\r')
             )
         );
-
-        Choice value;
-        Sequence objectPattern;
-        Sequence arrayPattern;
-        Sequence jsPattern;
+        
+        IPattern jsPattern;
 
         public JSONPattern()
         {
-            value = new Choice
+            var value = new Choice
             (
                 new StringPattern(),
                 new ScientificNotationNumber(),
@@ -33,7 +30,7 @@ namespace JSONParser
                 new Text("null")
             );
 
-            objectPattern = new Sequence
+            var objectPattern = new Sequence
             (
                 new Character('{'),
                 whitespace,
@@ -47,9 +44,7 @@ namespace JSONParser
                         whitespace,
                         new Character(':'),
                         whitespace,
-
                         value,
-
                         whitespace
                     )
                 ),
@@ -57,7 +52,7 @@ namespace JSONParser
                 new Character('}')
             );
 
-            arrayPattern = new Sequence
+            var arrayPattern = new Sequence
             (
                 new Character('['),
                 whitespace,
@@ -78,17 +73,7 @@ namespace JSONParser
             value.AddPattern(objectPattern);
             value.AddPattern(arrayPattern);
 
-            jsPattern = new Sequence
-            (
-                new Many
-                (
-                    new Choice
-                    (
-                        objectPattern,
-                        arrayPattern
-                    )
-                )
-            );
+            jsPattern = value;
             
         }
 
