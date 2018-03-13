@@ -11,11 +11,11 @@ namespace JSON
         static void Main(string[] args)
         {
             string text = System.IO.File.ReadAllText(args[0]);
-            Console.WriteLine(text);
 
             JSONPattern pattern = new JSONPattern();
+            var (match, remainingText) = pattern.Match(text);
 
-
+            Console.WriteLine(match.Success);
 
         }
     }
