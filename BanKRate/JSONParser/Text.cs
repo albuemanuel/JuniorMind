@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace JSONParser
 {
-    class Text : IPattern
+    public class Text : IPattern
     {
         Sequence pattern;
 

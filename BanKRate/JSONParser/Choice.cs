@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace JSONParser
 {
-    class Choice : IPattern
+    public class Choice : IPattern
     {
         private readonly List<IPattern> pattern;
 

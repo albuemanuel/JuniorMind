@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JSONParser
 {
-    interface IPattern
+    public interface IPattern
     {
         (IMatch, string) Match(string text);
     }

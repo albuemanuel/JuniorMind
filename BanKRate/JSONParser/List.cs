@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JSONParser
 {
-    class List : IPattern
+    public class List : IPattern
     {
         Sequence listPattern;
 

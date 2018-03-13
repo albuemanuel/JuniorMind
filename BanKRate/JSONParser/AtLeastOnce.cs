@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JSONParser
 {
-    class AtLeastOnce : IPattern
+    public class AtLeastOnce : IPattern
     {
         IPattern pattern;
 

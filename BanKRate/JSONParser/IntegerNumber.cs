@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JSONParser
 {
-    class IntegerNumber : IPattern
+    public class IntegerNumber : IPattern
     {
         Sequence integer = new Sequence(
             new Optional(new Text("-")), 

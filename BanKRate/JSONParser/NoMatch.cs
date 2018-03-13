@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JSONParser
 {
-    class NoMatch : IMatch
+    public class NoMatch : IMatch
     {
         private string current;
         private bool success = false;

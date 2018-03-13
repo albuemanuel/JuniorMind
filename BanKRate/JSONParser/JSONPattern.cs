@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JSONParser
 {
-    class JSONPattern : IPattern
+    public class JSONPattern : IPattern
     {
         Many whitespace = new Many
         (

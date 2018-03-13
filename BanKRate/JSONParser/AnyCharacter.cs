@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace JSONParser
 {
-    class AnyCharacter : IPattern
+    public class AnyCharacter : IPattern
     {
         readonly HashSet<Character> pattern;
 

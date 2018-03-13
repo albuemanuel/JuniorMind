@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "JSON": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\dev\\Desktop\\JuniorMind\\BanKRate\\JSON\\bin\\Debug\\netcoreapp2.0\\test.json"
+    }
+  }
+}

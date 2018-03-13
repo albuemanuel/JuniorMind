@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JSONParser
 {
-    class Range : IPattern
+    public class Range : IPattern
     {
         char limOne;
         char limTwo;

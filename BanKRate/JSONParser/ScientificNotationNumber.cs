@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JSONParser
 {
-    class ScientificNotationNumber : IPattern
+    public class ScientificNotationNumber : IPattern
     {
         Sequence exp = new Sequence(
             new RealNumber(),
