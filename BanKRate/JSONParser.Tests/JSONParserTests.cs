@@ -296,6 +296,7 @@ namespace JSONParser
 
         [Theory]
         [InlineData("[\"value1\"\"value3\"]")]
+        [InlineData("[23")]
         public void JSONPatternNoMatch(string text)
         {
             JSONPattern jSONPattern = new JSONPattern();
