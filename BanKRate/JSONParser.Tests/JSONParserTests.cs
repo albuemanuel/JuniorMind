@@ -228,25 +228,29 @@ namespace JSONParser
             Many pattern2 = new Many(new Sequence(new Character('['), new List(new AnyCharacter("abcxyz")), new Character(']')), 0, 1);
 
             var match = pattern.Match(ref text).Item1;
+            TextToParse expectedRemainingText = new TextToParse(text.Pattern, 14);
 
-            Assert.Equal((new Match("[x,y,z][a,b,c]"), ""), );
-            Assert.Equal((new NoMatch("Wrong number of <JSONParser.Sequence> objects"), text), pattern2.Match(text));
+            Assert.Equal((new Match("[x,y,z][a,b,c]"), expectedRemainingText), (match, text));
+
+            text.CurrentIndex = 0;
+            match = pattern2.Match(ref text).Item1;
+
+            Assert.Equal((new NoMatch("Wrong number of <JSONParser.Sequence> objects"), expectedRemainingText), (match, text));
         }
 
         [Fact]
         public void AtLeastOnceMatch()
         {
-            AtLeastOnce pattern = new AtLeastOnce(new Sequence(new Character('['), new List(new Character(','), new AnyCharacter("abcxyz")), new Character(']')));
+            AtLeastOnce pattern = new AtLeastOnce(new Sequence(new Character('['), new List(new AnyCharacter("abcxyz")), new Character(']')));
             AtLeastOnce pattern2 = new AtLeastOnce(new AnyCharacter(" \t"));
 
-            string text = "[x,y,z]{\"text\"}";
-            string text2 = " \t \t           x";
+            TextToParse text = new TextToParse("[x,y,z]{\"text\"}");
+            TextToParse text2 = new TextToParse(" \t \t           x");
 
-            var (match, remainingText) = pattern.Match(text);
 
-            Assert.Equal((new Match("[x,y,z]"), "{\"text\"}"), (match, remainingText));
-            Assert.Equal((new NoMatch("{"), "{\"text\"}"), pattern.Match(remainingText));
-            Assert.Equal((new Match(" \t \t           "), "x"), pattern2.Match(text2));
+            Assert.Equal((new Match("[x,y,z]"), new TextToParse(text.Pattern, 7)), pattern.Match(ref text));
+            Assert.Equal((new NoMatch("{"), new TextToParse(text.Pattern, 7)), pattern.Match(ref text));
+            Assert.Equal((new Match(" \t \t           "), new TextToParse(text2.Pattern, 15)), pattern2.Match(ref text2));
         }
 
         //[Fact]

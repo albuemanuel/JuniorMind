@@ -38,7 +38,7 @@ namespace JSONParser
                 return (new NoMatch("Wrong number of " + "<" + pattern.ToString() + ">" + " objects"), text);
 
 
-            return (new NoMatch(text[0].ToString()), text);
+            return (new NoMatch(text.Current.ToString()), text);
         }
     }
 }
