@@ -253,16 +253,16 @@ namespace JSONParser
             Assert.Equal((new Match(" \t \t           "), new TextToParse(text2.Pattern, 15)), pattern2.Match(ref text2));
         }
 
-        //[Fact]
-        //public void OptionalMatch()
-        //{
-        //    Optional optional = new Optional(new Character('-'));
-        //    string text = "-32";
-        //    string text2 = "32";
+        [Fact]
+        public void OptionalMatch()
+        {
+            Optional optional = new Optional(new Character('-'));
+            TextToParse text = new TextToParse("-32");
+            TextToParse text2 = new TextToParse("32");
 
-        //    Assert.Equal((new Match("-"), "32"), optional.Match(text));
-        //    Assert.Equal((new Match(""), "32"), optional.Match(text2));
-        //}
+            Assert.Equal((new Match("-"), new TextToParse(text.Pattern, 1)), optional.Match(ref text));
+            Assert.Equal((new Match(""), new TextToParse(text2.Pattern)), optional.Match(ref text2));
+        }
 
         //[Theory]
         //[InlineData("-362")]
