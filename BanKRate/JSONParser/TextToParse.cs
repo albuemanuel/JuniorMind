@@ -10,10 +10,10 @@ namespace JSONParser
         readonly string pattern;
         int currentIndex;
 
-        public TextToParse(string text)
+        public TextToParse(string text, int index = 0)
         {
             pattern = text;
-            currentIndex = 0;
+            currentIndex = index;
         }
 
         public char this[int index] => pattern[index];
@@ -26,7 +26,7 @@ namespace JSONParser
 
         public bool IsAtEnd()
         {
-            return ((currentIndex == pattern.Length - 1) || pattern.Length == 0); 
+            return ((currentIndex == pattern.Length) || pattern.Length == 0); 
         }
 
         public override string ToString()

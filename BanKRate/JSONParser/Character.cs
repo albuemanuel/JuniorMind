@@ -21,9 +21,9 @@ namespace JSONParser
             if (text.Current != pattern)
                 return (new NoMatch(text.Current.ToString()), text);
 
-            string matchedText = text.Current.ToString();
+            string matchedChar = text.Current.ToString();
             text.CurrentIndex++;
-            return (new Match(matchedText), text);
+            return (new Match(matchedChar), text);
         }
 
 

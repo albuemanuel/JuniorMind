@@ -21,7 +21,7 @@ namespace JSONParser
 
                 if (!match.Success)
                 {
-
+                    text.CurrentIndex = indexOrigin;
                     return (match, text);
                 }
 

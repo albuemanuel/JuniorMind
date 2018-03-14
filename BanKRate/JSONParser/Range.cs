@@ -4,29 +4,33 @@ using System.Text;
 
 namespace JSONParser
 {
-    //public class Range : IPattern
-    //{
-    //    char limOne;
-    //    char limTwo;
+    public class Range : IPattern
+    {
+        char limOne;
+        char limTwo;
 
-    //    public Range(char limOne, char limTwo)
-    //    {
-    //        this.limOne = limOne;
-    //        this.limTwo = limTwo;
-    //    }
+        public Range(char limOne, char limTwo)
+        {
+            this.limOne = limOne;
+            this.limTwo = limTwo;
+        }
 
-    //    public (IMatch, string) Match(string text)
-    //    {
-    //        if (String.IsNullOrEmpty(text))
-    //            return (new NoMoreText(), text);
+        public (IMatch, TextToParse) Match(ref TextToParse text)
+        {
+            if (text.IsAtEnd())
+                return (new NoMoreText(), text);
 
-            
-    //        if (text[0] >= limOne && text[0] <= limTwo)
-    //            return (new Match(text[0].ToString()), text.Substring(1));
-            
 
-    //        return (new NoMatch(text[0].ToString()), text);
-    //    }
+            if (text[0] >= limOne && text[0] <= limTwo)
+            {
+                string matchedChar = text.Current.ToString();
+                text.CurrentIndex++;
+                return (new Match(matchedChar), text);
+            }
 
-    //}
+
+            return (new NoMatch(text.Current.ToString()), text);
+        }
+
+    }
 }

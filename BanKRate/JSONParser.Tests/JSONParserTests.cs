@@ -60,7 +60,7 @@ namespace JSONParser
         {
             Sequence pattern = new Sequence(new Character('a'), new Character('b'), new Character('c'));
             Sequence pattern2 = new Sequence(new AnyCharacter("xz"), new AnyCharacter("xz"), new Character('c'));
-            //Sequence pattern3 = new Sequence(new Character('['), new List(new Character(','), new AnyCharacter("xyz")), new Character(']'));
+            Sequence pattern3 = new Sequence(new Character('['), new List(new AnyCharacter("xyz")), new Character(']'));
             TextToParse text = new TextToParse("abcd");
             TextToParse text2 = new TextToParse("xzcdef");
             TextToParse text3 = new TextToParse("[z,x,y]");
@@ -72,18 +72,24 @@ namespace JSONParser
             (match, remainingText) = pattern2.Match(ref text2);
 
             Assert.Equal((new Match("xzc"), text2), (match, remainingText));
-            //Assert.Equal((new Match("[z,x,y]"), ""), pattern3.Match(text3));
+
+            match = pattern3.Match(ref text3).Item1;
+
+            Assert.Equal((new Match("[z,x,y]"), text3), (match, text3));
         }
 
-        //[Fact]
-        //public void ListMatch()
-        //{
-        //    List listPattern = new List(new Character(','), new AnyCharacter("xyz"));
+        [Fact]
+        public void ListMatch()
+        {
+            List listPattern = new List(new AnyCharacter("xyz"));
 
+            TextToParse text = new TextToParse("x,y,z]");
 
+            var (match, remainingText) = listPattern.Match(ref text);
 
-        //    Assert.Equal((new Match("x,y,z"), "]"), listPattern.Match("x,y,z]"));
-        //}
+            Assert.Equal((new Match("x,y,z"), text), (match, remainingText));
+        }
+
         //[Fact]
         //public void ArrayPatternMatch()
         //{
@@ -105,7 +111,6 @@ namespace JSONParser
         //        whitespace,
         //        new List
         //        (
-        //            new Character(','),
         //            new Sequence
         //            (
         //                whitespace,
@@ -124,90 +129,125 @@ namespace JSONParser
         //    Assert.NotEqual((new Match(text2), ""), arrayPattern.Match(text2));
         //}
 
-        //[Fact]
-        //public void ListMatch2()
-        //{
-        //    List listPattern = new List(new Character(','), new AnyCharacter("123456"));
+        [Fact]
+        public void ListMatch2()
+        {
+            List listPattern = new List(new AnyCharacter("123456"));
 
-        //    string text = "2,";
+            TextToParse text = new TextToParse("2,");
 
-        //    Assert.Equal((new Match("2"), ","), listPattern.Match(text)); 
-        //}
+            var match = listPattern.Match(ref text).Item1;
 
-        //[Fact]
-        //public void ListMatchEmpty()
-        //{
-        //    List listPattern = new List(new Character(','), new AnyCharacter("123456"));
+            Assert.Equal((new Match("2"), text), (match, text));
+        }
 
-        //    string text = "";
+        [Fact]
+        public void ListMatchEmpty()
+        {
+            List listPattern = new List(new AnyCharacter("123456"));
 
-        //    Assert.Equal((new Match(""), ""), listPattern.Match(text));
-        //}
+            TextToParse text = new TextToParse("");
 
-        //[Fact]
-        //public void ChoiceMatch()
-        //{
-        //    Choice pattern = new Choice(new Character('a'), new Character('b'), new Character('c'));
-        //    string text = "bef";
+            var match = listPattern.Match(ref text).Item1;
 
-        //    Assert.Equal((new Match("b"), "ef"), pattern.Match(text));
+            Assert.Equal((new Match(""), text), (match, text));
+        }
 
-        //}
+        [Fact]
+        public void ChoiceMatch()
+        {
+            Choice pattern = new Choice(new Character('a'), new Character('b'), new Character('c'));
+            TextToParse text = new TextToParse("bef");
 
-        //[Fact]
-        //public void RangeMatch()
-        //{
-        //    Range pattern = new Range('a', 'z');
+            var (match, remainingText) = pattern.Match(ref text);
 
-        //    Assert.Equal((new Match("t"), "ext"), pattern.Match("text"));
-        //}
+            TextToParse expectedRemainingText = new TextToParse("bef");
+            expectedRemainingText.CurrentIndex++;
 
-        //[Fact]
-        //public void TextMatch()
-        //{
-        //    Text pattern = new Text("Ana are mere");
 
-        //    Assert.Equal((new Match("Ana are mere"), ""), pattern.Match("Ana are mere"));
-        //}
+            Assert.Equal((new Match("b"), expectedRemainingText), (match, remainingText));
 
-        //[Fact]
-        //public void ManyMatch()
-        //{
-        //    Many pattern = new Many(new Sequence(new Character('['), new List(new Character(','), new AnyCharacter("abcxyz")), new Character(']')));
-        //    string text = "[x,y,z][a,b,c]";
+            (match, remainingText) = pattern.Match(ref text);
 
-        //    var (match, remainingText) = pattern.Match(text);
+            Assert.Equal((new NoMatch("e"), text), (match, remainingText));
 
-        //    Assert.Equal((new Match("[x,y,z][a,b,c]"), ""), (match, remainingText));
-        //    Assert.Equal((new Match(""), ""), pattern.Match(remainingText));
-        //}
+        }
 
-        //[Theory]
-        //[InlineData("[x,y,z][a,b,c]")]
-        //public void ManyNoMatch(string text)
-        //{
-        //    Many pattern = new Many(new Sequence(new Character('['), new List(new Character(','), new AnyCharacter("abcxyz")), new Character(']')));
-        //    Many pattern2 = new Many(new Sequence(new Character('['), new List(new Character(','), new AnyCharacter("abcxyz")), new Character(']')), 0, 1);
+        [Fact]
+        public void RangeMatch()
+        {
+            Range pattern = new Range('a', 'z');
 
-        //    Assert.Equal((new Match("[x,y,z][a,b,c]"), ""), pattern.Match(text));
-        //    Assert.Equal((new NoMatch("Wrong number of <JSONParser.Sequence> objects"), text), pattern2.Match(text));
-        //}
+            TextToParse text = new TextToParse("text");
 
-        //[Fact]
-        //public void AtLeastOnceMatch()
-        //{
-        //    AtLeastOnce pattern = new AtLeastOnce(new Sequence(new Character('['), new List(new Character(','), new AnyCharacter("abcxyz")), new Character(']')));
-        //    AtLeastOnce pattern2 = new AtLeastOnce(new AnyCharacter(" \t"));
+            var match = pattern.Match(ref text).Item1;
 
-        //    string text = "[x,y,z]{\"text\"}";
-        //    string text2 = " \t \t           x";
+            TextToParse expectedRemainingText = new TextToParse("text");
+            expectedRemainingText.CurrentIndex++;
 
-        //    var (match, remainingText) = pattern.Match(text);
+            Assert.Equal((new Match("t"), expectedRemainingText), (match, text));
+        }
 
-        //    Assert.Equal((new Match("[x,y,z]"), "{\"text\"}"), (match, remainingText));
-        //    Assert.Equal((new NoMatch("{"), "{\"text\"}"), pattern.Match(remainingText));
-        //    Assert.Equal((new Match(" \t \t           "), "x"), pattern2.Match(text2));
-        //}
+        [Fact]
+        public void TextMatch()
+        {
+            Text pattern = new Text("Ana are mere");
+
+            TextToParse text = new TextToParse("Ana are mere");
+
+            TextToParse expectedRemainingText = new TextToParse("Ana are mere");
+            expectedRemainingText.CurrentIndex = 12;
+
+            var match = pattern.Match(ref text).Item1;
+
+            Assert.Equal((new Match("Ana are mere"), expectedRemainingText), (match, text));
+        }
+
+        [Fact]
+        public void ManyMatch()
+        {
+            Many pattern = new Many(new Sequence(new Character('['), new List(new AnyCharacter("abcxyz")), new Character(']')));
+            TextToParse text = new TextToParse("[x,y,z][a,b,c]");
+
+            var match = pattern.Match(ref text).Item1;
+            TextToParse expectedRemainingText = new TextToParse(text.Pattern, 14);
+
+            Assert.Equal((new Match("[x,y,z][a,b,c]"), expectedRemainingText), (match, text));
+
+            match = pattern.Match(ref text).Item1;
+
+            Assert.Equal((new Match(""), expectedRemainingText), (match, text));
+        }
+
+        [Theory]
+        [InlineData("[x,y,z][a,b,c]")]
+        public void ManyNoMatch(string textS)
+        {
+            TextToParse text = new TextToParse(textS);
+            Many pattern = new Many(new Sequence(new Character('['), new List(new AnyCharacter("abcxyz")), new Character(']')));
+            Many pattern2 = new Many(new Sequence(new Character('['), new List(new AnyCharacter("abcxyz")), new Character(']')), 0, 1);
+
+            var match = pattern.Match(ref text).Item1;
+
+            Assert.Equal((new Match("[x,y,z][a,b,c]"), ""), );
+            Assert.Equal((new NoMatch("Wrong number of <JSONParser.Sequence> objects"), text), pattern2.Match(text));
+        }
+
+        [Fact]
+        public void AtLeastOnceMatch()
+        {
+            AtLeastOnce pattern = new AtLeastOnce(new Sequence(new Character('['), new List(new Character(','), new AnyCharacter("abcxyz")), new Character(']')));
+            AtLeastOnce pattern2 = new AtLeastOnce(new AnyCharacter(" \t"));
+
+            string text = "[x,y,z]{\"text\"}";
+            string text2 = " \t \t           x";
+
+            var (match, remainingText) = pattern.Match(text);
+
+            Assert.Equal((new Match("[x,y,z]"), "{\"text\"}"), (match, remainingText));
+            Assert.Equal((new NoMatch("{"), "{\"text\"}"), pattern.Match(remainingText));
+            Assert.Equal((new Match(" \t \t           "), "x"), pattern2.Match(text2));
+        }
 
         //[Fact]
         //public void OptionalMatch()
