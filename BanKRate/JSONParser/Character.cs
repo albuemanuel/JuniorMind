@@ -13,7 +13,7 @@ namespace JSONParser
             pattern = c;
         }
 
-        public(IMatch, TextToParse) Match(ref TextToParse text)
+        public(IMatch, TextToParse) Match(TextToParse text)
         {
             if (text.IsAtEnd())
                 return (new NoMoreText(), text);

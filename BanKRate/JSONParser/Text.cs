@@ -8,8 +8,11 @@ namespace JSONParser
     {
         Sequence pattern;
 
-        public Text(string pattern) => this.pattern = new Sequence(pattern.Select(character => new Character(character)).ToArray());
+        public Text(string pattern)
+        {
+            this.pattern = new Sequence(pattern.Select(character => new Character(character)).ToArray());
+        }
 
-        public (IMatch, TextToParse) Match(ref TextToParse text) => pattern.Match(ref text);
+        public (IMatch, TextToParse) Match(TextToParse text) => pattern.Match(text);
     }
 }

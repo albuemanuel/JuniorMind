@@ -19,19 +19,22 @@ namespace JSONParser
             pattern.Add(newPattern);
         }
 
-        public (IMatch, TextToParse) Match(ref TextToParse text)
+        public (IMatch, TextToParse) Match(TextToParse text)
         {
+            IMatch match;
+            TextToParse originalText = text;
+
             foreach (IPattern el in pattern)
             {
                 if (text.IsAtEnd())
                     return (new NoMoreText(), text);
 
-                var (match, remainingText) = el.Match(ref text);
+                (match, text) = el.Match(text);
 
                 if (match.Success)
-                    return (match, remainingText);
+                    return (match, text);
             }
-            return (new NoMatch(text.Current.ToString()), text);
+            return (new NoMatch(originalText.Current.ToString()), originalText);
         }
     }
 }

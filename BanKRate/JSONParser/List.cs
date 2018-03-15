@@ -30,7 +30,7 @@ namespace JSONParser
             
         }
 
-        public(IMatch, TextToParse) Match(ref TextToParse text)
+        public(IMatch, TextToParse) Match(TextToParse text)
         {
             if (text.IsAtEnd())
                 return (new Match(""), text);
@@ -58,7 +58,7 @@ namespace JSONParser
             //    matchedText += (match as Match).Current;
 
             //}
-            return listPattern.Match(ref text);
+            return listPattern.Match(text);
         }
     }
 }

@@ -16,19 +16,22 @@ namespace JSONParser
             this.end = end;
         }
 
-        public (IMatch, TextToParse) Match(ref TextToParse text)
+        public (IMatch, TextToParse) Match(TextToParse text)
         {
             string matchedText = "";
-            //var (match, remainingText) = pattern.Match(ref text);
 
-            var match = pattern.Match(ref text).Item1;
+            IMatch match;
+            TextToParse originalText = text;
+
+            (match, text) = pattern.Match(text);
+            
             int count = 0;
 
             while (match.Success)
             {
                 count++;
                 matchedText += (match as Match).Current;
-                match = pattern.Match(ref text).Item1;
+                (match, text) = pattern.Match(text);
             }
 
             if (count >= start && (end == 0 || count <= end))

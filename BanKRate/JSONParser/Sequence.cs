@@ -10,18 +10,19 @@ namespace JSONParser
 
         public Sequence(params IPattern[] pattern) => this.pattern = pattern;
 
-        public (IMatch, TextToParse) Match(ref TextToParse text)
+        public (IMatch, TextToParse) Match(TextToParse text)
         {
             string matchedText = "";
-            int indexOrigin = text.CurrentIndex;
+            IMatch match;
+            int originalIndex = text.CurrentIndex;
 
             foreach (IPattern el in pattern)
             {
-                var (match, remainingText) = el.Match(ref text);
+                (match, text) = el.Match(text);
 
                 if (!match.Success)
                 {
-                    text.CurrentIndex = indexOrigin;
+                    text.CurrentIndex = originalIndex;
                     return (match, text);
                 }
 

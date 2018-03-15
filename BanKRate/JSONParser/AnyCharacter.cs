@@ -7,25 +7,21 @@ namespace JSONParser
 {
     public class AnyCharacter : IPattern
     {
-        readonly HashSet<Character> pattern;
+        readonly HashSet<char> pattern;
 
         public AnyCharacter(string text)
         {
-            pattern = new HashSet<Character>(text.Select(x => new Character(x)).ToArray());
+            pattern = new HashSet<char>(text.Select(x => x));
         }
 
-        public (IMatch, TextToParse) Match(ref TextToParse text)
+        public (IMatch, TextToParse) Match(TextToParse text)
         {
             if (text.IsAtEnd())
                 return (new NoMoreText(), text);
 
-            foreach (Character choice in pattern)
-            {
-                var (match, remainingText) = choice.Match(ref text);
+            if (pattern.Contains(text.Current))
+                return (new Match(text.Current.ToString()), new TextToParse(text.Pattern, text.CurrentIndex+1));
 
-                if (match.Success)
-                    return (match, text);
-            }
             return (new NoMatch(text[text.CurrentIndex].ToString()), text);
         }
     }

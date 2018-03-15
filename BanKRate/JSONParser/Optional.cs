@@ -10,11 +10,11 @@ namespace JSONParser
 
         public Optional(IPattern pattern) => optionalPattern = pattern;
 
-        public (IMatch, TextToParse) Match(ref TextToParse text)
+        public (IMatch, TextToParse) Match(TextToParse text)
         {
             Many subPattern = new Many(optionalPattern, 0, 1);
 
-            return subPattern.Match(ref text);
+            return subPattern.Match(text);
         }
     }
 }

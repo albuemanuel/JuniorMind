@@ -6,6 +6,6 @@ namespace JSONParser
 {
     public interface IPattern
     {
-        (IMatch, TextToParse) Match(ref TextToParse text);
+        (IMatch, TextToParse) Match(TextToParse text);
     }
 }

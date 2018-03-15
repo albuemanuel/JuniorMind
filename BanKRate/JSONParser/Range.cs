@@ -15,13 +15,13 @@ namespace JSONParser
             this.limTwo = limTwo;
         }
 
-        public (IMatch, TextToParse) Match(ref TextToParse text)
+        public (IMatch, TextToParse) Match(TextToParse text)
         {
             if (text.IsAtEnd())
                 return (new NoMoreText(), text);
 
 
-            if (text[0] >= limOne && text[0] <= limTwo)
+            if (text.Current >= limOne && text.Current <= limTwo)
             {
                 string matchedChar = text.Current.ToString();
                 text.CurrentIndex++;

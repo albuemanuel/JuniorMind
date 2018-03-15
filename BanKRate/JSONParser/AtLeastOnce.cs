@@ -10,14 +10,14 @@ namespace JSONParser
 
         public AtLeastOnce(IPattern pattern) => this.pattern = pattern;
 
-        public (IMatch, TextToParse) Match(ref TextToParse text)
+        public (IMatch, TextToParse) Match(TextToParse text)
         {
             if (text.IsAtEnd())
                 return (new NoMoreText(), text);
 
             Many subPattern = new Many(pattern, 1);
 
-            return subPattern.Match(ref text);
+            return subPattern.Match(text);
         }
     }
 }
