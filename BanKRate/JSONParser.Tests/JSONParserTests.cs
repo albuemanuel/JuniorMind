@@ -325,6 +325,7 @@ namespace JSONParser
         [InlineData("{   \"name\"  \n :[13, \r\t    14],\"name\":15}")]
         [InlineData("[[4,8,15,16,23,42],[2,3,[15,16,13],5]]")]
         [InlineData("[23,123,{\"name\":[33,21]}]")]
+        [InlineData("[23,42]")]
         public void JSONPatternMatch(string textS)
         {
             TextToParse text = new TextToParse(textS);

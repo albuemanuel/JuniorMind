@@ -8,12 +8,12 @@ namespace JSON
 
         static void Main(string[] args)
         {
-            //string text = System.IO.File.ReadAllText(args[0]);
+            TextToParse text = new TextToParse(System.IO.File.ReadAllText(args[0]));
 
-            //JSONPattern pattern = new JSONPattern();
-            //var (match, remainingText) = pattern.Match(text);
+            JSONPattern pattern = new JSONPattern();
+            var (match, remainingText) = pattern.Match(text);
 
-            //Console.WriteLine(match.Success);
+            Console.WriteLine(match.Success);
 
         }
     }
