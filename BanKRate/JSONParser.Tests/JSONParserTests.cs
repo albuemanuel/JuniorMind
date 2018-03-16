@@ -150,10 +150,8 @@ namespace JSONParser
         {
             Choice pattern = new Choice(new Character('a'), new Character('b'), new Character('c'));
             TextToParse text = new TextToParse("bef");
-
-            var (match, remainingText) = pattern.Match(text);
-
             
+            var (match, remainingText) = pattern.Match(text);
 
 
             Assert.Equal((new Match("b"), new TextToParse("bef", 1)), (match, remainingText));
@@ -162,6 +160,10 @@ namespace JSONParser
 
             Assert.Equal((new NoMatch("e"), remainingText), (match, remainingText));
 
+            Choice pattern2 = new Choice(new Text("Emanuel"), new Text("Ema"));
+            TextToParse text2 = new TextToParse("Emanuela");
+
+            Assert.Equal((new NoMatch("Emanuel"), new TextToParse(text2.Pattern, 7)), pattern2.Match(text2));
         }
 
         [Fact]
@@ -347,7 +349,6 @@ namespace JSONParser
         [Theory]
         [InlineData("23,")]
         [InlineData("42, 3")]
-        [InlineData("\"cozonac\":[\"value1\",      43  ,         \"value3\"]}")]
         public void JSONPatternPartialMatch(string textS)
         {
             TextToParse text = new TextToParse(textS);

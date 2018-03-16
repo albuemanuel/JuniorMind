@@ -1,6 +1,5 @@
 ﻿using System;
 using JSONParser;
-using System.Linq;
 
 namespace JSON
 {
@@ -37,7 +36,7 @@ namespace JSON
             else
             {
                 char noMatch = (match as NoMatch).Current[0];
-                Console.Write($"{text.Pattern} \n--> !jSONPattern '{noMatch}' at ind ( {CalculateIndexOf(noMatch, text.Pattern)} )\n");
+                Console.Write($"--> !jSONPattern '{noMatch}' at ind ( {CalculateIndexOf(noMatch, text.Pattern)} )\n");
             }
 
         }
