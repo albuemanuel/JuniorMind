@@ -1,10 +1,29 @@
 ﻿using System;
 using JSONParser;
+using System.Linq;
 
 namespace JSON
 {
     class Program
     {
+
+        static (int, int) CalculateIndexOf(char x, string source)
+        {
+            int countNL = 0;
+            int countChar = 0;
+            foreach(var el in source)
+            {
+                if (el == '\n')
+                {
+                    countChar = 0;
+                    countNL++;
+                }
+                countChar++;
+                if (el == x)
+                    return (countNL+1, countChar-1);
+            }
+            return (0, 0);
+        }
 
         static void Main(string[] args)
         {
@@ -13,7 +32,13 @@ namespace JSON
             JSONPattern pattern = new JSONPattern();
             var (match, remainingText) = pattern.Match(text);
 
-            Console.WriteLine(match.Success);
+            if (match.Success)
+                Console.WriteLine($"{text.Pattern} \n\n is a jSONPattern\n");
+            else
+            {
+                char noMatch = (match as NoMatch).Current[0];
+                Console.Write($"{text.Pattern} \n--> !jSONPattern '{noMatch}' at ind ( {CalculateIndexOf(noMatch, text.Pattern)} )\n");
+            }
 
         }
     }

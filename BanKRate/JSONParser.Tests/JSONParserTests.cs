@@ -119,7 +119,7 @@ namespace JSONParser
             );
 
             TextToParse text = new TextToParse("[\"value1\",\"value2\"]");
-            TextToParse text2 = new TextToParse("[\"value1\"\"value2\"]");
+            TextToParse text2 = new TextToParse("[\"value1\"   \"value2\"]");
 
             Assert.Equal((new Match(text.Pattern), new TextToParse(text.Pattern, text.Pattern.Length)), arrayPattern.Match(text));
             Assert.NotEqual((new Match(text2.Pattern), new TextToParse(text2.Pattern, text2.Pattern.Length)), arrayPattern.Match(text2));
@@ -336,15 +336,24 @@ namespace JSONParser
 
         [Theory]
         [InlineData("[\"value1\"\"value3\"]")]
-        [InlineData("[23")]
         public void JSONPatternNoMatch(string textS)
         {
             TextToParse text = new TextToParse(textS);
             JSONPattern jSONPattern = new JSONPattern();
 
-            //string text = "[23";
-
             Assert.Equal((new NoMatch(text.Current.ToString()), text), jSONPattern.Match(text));
+        }
+
+        [Theory]
+        [InlineData("23,")]
+        [InlineData("42, 3")]
+        [InlineData("\"cozonac\":[\"value1\",      43  ,         \"value3\"]}")]
+        public void JSONPatternPartialMatch(string textS)
+        {
+            TextToParse text = new TextToParse(textS);
+            JSONPattern jSONPattern = new JSONPattern();
+
+            Assert.Equal((new NoMatch(","), new TextToParse(text.Pattern, 2)), jSONPattern.Match(text));
         }
     }
 }

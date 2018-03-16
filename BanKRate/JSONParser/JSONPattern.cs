@@ -71,15 +71,23 @@ namespace JSONParser
             value.AddPattern(objectPattern);
             value.AddPattern(arrayPattern);
 
-            jsPattern = value;
+            jsPattern = new Sequence(
+                whitespace,
+                value,
+                whitespace
+                );
 
         }
 
         public (IMatch, TextToParse) Match(TextToParse text)
         {
-            //var (match, remainingText) = jsPattern.Match(text);
+            IMatch match;
+            (match, text) = jsPattern.Match(text);
 
-            return jsPattern.Match(text);
+            if (text.CurrentIndex != text.Pattern.Length && match.Success)
+                return (new NoMatch(text.Current.ToString()), text);
+
+            return (match, text);
 
 
         }
