@@ -20,11 +20,9 @@ namespace JSONParser
 
             if (match.Success)
                 return (match, rText);
-
-            else if (match as NoMatch != null)
+            else 
                 return (new NoMatch(rText.Pattern.Substring(0, rText.CurrentIndex)), rText);
 
-            return (match, rText);
 
         }
     }

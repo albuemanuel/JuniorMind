@@ -41,7 +41,7 @@ namespace JSONParser
 
             var (match, remainingText) = pattern.Match(text);
 
-            Assert.Equal((new NoMatch("a"), text), (match, remainingText));
+            Assert.Equal((new NoMatch("(a)"), new TextToParse("abcd")), (match, remainingText));
         }
 
         [Fact]
@@ -66,7 +66,7 @@ namespace JSONParser
             TextToParse text3 = new TextToParse("[z,x,y]");
 
 
-            Assert.Equal((new NoMatch("x"), new TextToParse("abxx")), pattern.Match(new TextToParse("abxx")));
+            Assert.Equal((new NoMatch("ab(x)", 2), new TextToParse("abxx")), pattern.Match(new TextToParse("abxx")));
 
             Assert.Equal((new Match("abc"), new TextToParse(text.Pattern, 3)), pattern.Match(text));
 
@@ -153,17 +153,18 @@ namespace JSONParser
             
             var (match, remainingText) = pattern.Match(text);
 
-
             Assert.Equal((new Match("b"), new TextToParse("bef", 1)), (match, remainingText));
 
             (match, remainingText) = pattern.Match(remainingText);
 
-            Assert.Equal((new NoMatch("e"), remainingText), (match, remainingText));
+            Assert.Equal((new NoMatch("(e)", 1), new TextToParse("bef", 1)), (match, remainingText));
 
             Choice pattern2 = new Choice(new Text("Emao"), new Text("Emanuel"));
             TextToParse text2 = new TextToParse("Emanuetete");
 
             pattern2.Match(text2);
+
+            //Assert.Equal(new NoMatch())
         }
 
         [Fact]
@@ -328,6 +329,7 @@ namespace JSONParser
         [InlineData("[[4,8,15,16,23,42],[2,3,[15,16,13],5]]")]
         [InlineData("[23,123,{\"name\":[33,21]}]")]
         [InlineData("[23,42]")]
+        [InlineData("[76,32, 222, value\"]")]
         public void JSONPatternMatch(string textS)
         {
             TextToParse text = new TextToParse(textS);
@@ -337,13 +339,13 @@ namespace JSONParser
         }
 
         [Theory]
-        [InlineData("[\"value1\"\"value3\"]")]
+        [InlineData("[\"v\"\"value3\"]")]
         public void JSONPatternNoMatch(string textS)
         {
             TextToParse text = new TextToParse(textS);
             JSONPattern jSONPattern = new JSONPattern();
 
-            Assert.Equal((new NoMatch(text.Current.ToString()), text), jSONPattern.Match(text));
+            Assert.Equal((new NoMatch("[\"v\"(\")", 4), text), jSONPattern.Match(text));
         }
 
         [Theory]

@@ -31,7 +31,7 @@ namespace JSONParser
 
         public override string ToString()
         {
-            return pattern + '[' + currentIndex + ']';
+            return $"{pattern} <{currentIndex}>";
         }
 
         

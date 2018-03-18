@@ -8,6 +8,7 @@ namespace JSONParser
     {
         private string current;
         private bool success = false;
+        private int indexOfNoMatch;
 
         public bool Success => success;
 
@@ -17,9 +18,10 @@ namespace JSONParser
             set => current = value;
         }
 
-        public NoMatch(string noMatch)
+        public NoMatch(string noMatch, int index = 0)
         {
             Current = noMatch;
+            indexOfNoMatch = index;
         }
 
         override public bool Equals(object toCompareWith)
@@ -28,7 +30,7 @@ namespace JSONParser
 
             if (other == null)
                 return false;
-            if (Current.ToString() == other.Current.ToString())
+            if (Current.ToString() == other.Current.ToString() && indexOfNoMatch == other.indexOfNoMatch)
                 return true;
 
             return false;
@@ -37,7 +39,7 @@ namespace JSONParser
 
         public override string ToString()
         {
-            return "NoMatch: " + current;
+            return $"NoMatch: {current}<{indexOfNoMatch}>";
         }
     }
 }

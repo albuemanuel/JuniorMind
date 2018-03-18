@@ -20,13 +20,21 @@ namespace JSONParser
             {
                 (match, text) = el.Match(text);
 
+                if(match.Success)
+                {
+                    matchedText += (match as Match).Current;
+                }
+
                 if (!match.Success)
                 {
                     text.CurrentIndex = originalIndex;
-                    return (match, text);
-                }
 
-                matchedText += (match as Match).Current;
+
+                    if (match is NoMatch noMatch)
+                        return (new NoMatch(matchedText + noMatch.Current, noMatch.Current.Length - 2 + matchedText.Length - 1), text);
+
+                    return (new NoMatch(matchedText, matchedText.Length), text);
+                }
             }
             return (new Match(matchedText), text);
         }
