@@ -18,8 +18,6 @@ namespace JSONParser
                 new Character('\"'),
                 new Many(
                     new Choice(
-                                            //  
-                        new Range('0', (char)ushort.MaxValue),
                         new Text("\\\""),
                         new Text("\\\\"),
                         new Text("\\/"),
@@ -29,7 +27,8 @@ namespace JSONParser
                         new Text("\\r"),
                         new Text("\\t"),
                         unicode,
-                        new Range('#', '.'),             //any unicode char except ", \ or any ctrl char
+                        new Range('#', '/'),             //any unicode char except ", \ or any ctrl char
+                        new Range('0', (char)ushort.MaxValue),
                         new AnyCharacter("! ")                               //
                     )
                 ),

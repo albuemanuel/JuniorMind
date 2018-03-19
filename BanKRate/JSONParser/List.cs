@@ -67,7 +67,7 @@ namespace JSONParser
             //}
 
             if (emptyList.Match(text).Item1 is Match empty)
-                return (empty, new TextToParse(text.Pattern, 2));
+                return (empty, new TextToParse(text.Pattern, text.CurrentIndex+2));
 
 
             return listPattern.Match(text);

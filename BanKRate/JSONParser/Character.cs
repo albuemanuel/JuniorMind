@@ -19,7 +19,7 @@ namespace JSONParser
                 return (new NoMoreText(), text);
 
             if (text.Current != pattern)
-                return (new NoMatch($"({text.Current})", text.CurrentIndex), text);
+                return (new NoMatch($"({text.Current})", pattern.ToString(), text.CurrentIndex), text);
 
             string matchedChar = text.Current.ToString();
             text.CurrentIndex++;

@@ -9,6 +9,9 @@ namespace JSONParser
         private string current;
         private bool success = false;
         private int indexOfNoMatch;
+        private string expected;
+
+        public string Expected => expected;
 
         public bool Success => success;
 
@@ -23,10 +26,13 @@ namespace JSONParser
             set => current = value;
         }
 
-        public NoMatch(string noMatch, int index = 0)
+        public NoMatch(string noMatch, int index = 0) : this(noMatch, "", index) { }
+
+        public NoMatch(string noMatch, string expected, int index)
         {
             Current = noMatch;
             indexOfNoMatch = index;
+            this.expected = expected;
         }
 
         override public bool Equals(object toCompareWith)

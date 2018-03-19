@@ -90,6 +90,8 @@ namespace JSONParser
                 return (new NoMatch($"{matched.Current}({text[matched.Current.Length]})", matched.Current.Length), text);
             }
 
+
+
             return (match, text);
 
 

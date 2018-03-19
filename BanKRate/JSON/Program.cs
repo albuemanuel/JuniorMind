@@ -57,7 +57,9 @@ namespace JSON
             {
                 char noMatch = (match as NoMatch).CharOfNoMatch;
 
-                Console.Write($"--> !jSONPattern because of '{noMatch}' at ind {CalculateIndexOf(noMatch, (match as NoMatch).Current)}\n");
+                var name = match as NoMatch;
+
+                Console.Write($"{text.Pattern} \n--> !jSONPattern because of '{noMatch}' at ind {CalculateIndexOf(noMatch, (match as NoMatch).Current)}\n");
             }
 
 

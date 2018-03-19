@@ -339,7 +339,7 @@ namespace JSONParser
         [Fact]
         public void ListMatch3()
         {
-            TextToParse text = new TextToParse("76,32,222, value\"]");
+            TextToParse text = new TextToParse("76,32 222\"]");
             List listPattern = new List(new ScientificNotationNumber());
 
             Assert.Equal((new Match("76,32,222"), new TextToParse(text.Pattern, 9)), listPattern.Match(text));
@@ -358,12 +358,23 @@ namespace JSONParser
         [Theory]
         [InlineData("23,")]
         [InlineData("42, 3")]
+        [InlineData("76,32,222, value\"")]
         public void JSONPatternPartialMatch(string textS)
         {
             TextToParse text = new TextToParse(textS);
             JSONPattern jSONPattern = new JSONPattern();
 
             Assert.Equal((new NoMatch($"{textS.Substring(0,2)}(,)", 2), new TextToParse(text.Pattern, 2)), jSONPattern.Match(text));
+        }
+
+        [Fact]
+        public void JSONPatternTest()
+        {
+            TextToParse text = new TextToParse("[76,32,222, value\"]");
+            JSONPattern jSONPattern = new JSONPattern();
+
+            Assert.Equal((new NoMatch($"[76,32,222(,)", 10), new TextToParse(text.Pattern)), jSONPattern.Match(text));
+
         }
     }
 }
