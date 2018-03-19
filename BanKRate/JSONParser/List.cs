@@ -6,34 +6,41 @@ namespace JSONParser
 {
     public class List : IPattern
     {
-        Choice listPattern;
+        IPattern listPattern;
 
-        public List(IPattern valuePattern)
+        public List(IPattern valuePattern) 
+            : this(valuePattern, new Character(','))
         {
-            listPattern =
-                new Choice(
-                    new Sequence(
+        }
+
+        public List(IPattern valuePattern, IPattern separator)
+        {
+            listPattern = new Sequence(
+                        valuePattern,
                         new Many
                         (
                             new Sequence
                             (
-                                valuePattern,
-                                new Character(',')
+                                
+                                separator,
+                                valuePattern
+                               
                             )
-                        ),
-                        valuePattern
-                    ),
 
-                    valuePattern
-
-                );
-            
+                         )
+                         );
         }
 
         public(IMatch, TextToParse) Match(TextToParse text)
         {
+
+            Text emptyList = new Text("[]");
+
             if (text.IsAtEnd())
                 return (new Match(""), text);
+
+
+
             //string matchedText = "";
             //while (true)
             //{
@@ -58,6 +65,11 @@ namespace JSONParser
             //    matchedText += (match as Match).Current;
 
             //}
+
+            if (emptyList.Match(text).Item1 is Match empty)
+                return (empty, new TextToParse(text.Pattern, 2));
+
+
             return listPattern.Match(text);
         }
     }

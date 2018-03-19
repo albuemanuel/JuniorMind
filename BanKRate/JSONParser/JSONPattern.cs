@@ -85,7 +85,10 @@ namespace JSONParser
             (match, text) = jsPattern.Match(text);
 
             if (text.CurrentIndex != text.Pattern.Length && match.Success)
-                return (new NoMatch(text.Current.ToString()), text);
+            {
+                Match matched = match as Match;
+                return (new NoMatch($"{matched.Current}({text[matched.Current.Length]})", matched.Current.Length), text);
+            }
 
             return (match, text);
 

@@ -120,6 +120,7 @@ namespace JSONParser
 
             TextToParse text = new TextToParse("[\"value1\",\"value2\"]");
             TextToParse text2 = new TextToParse("[\"value1\"   \"value2\"]");
+            
 
             Assert.Equal((new Match(text.Pattern), new TextToParse(text.Pattern, text.Pattern.Length)), arrayPattern.Match(text));
             Assert.NotEqual((new Match(text2.Pattern), new TextToParse(text2.Pattern, text2.Pattern.Length)), arrayPattern.Match(text2));
@@ -162,9 +163,7 @@ namespace JSONParser
             Choice pattern2 = new Choice(new Text("Emao"), new Text("Emanuel"));
             TextToParse text2 = new TextToParse("Emanuetete");
 
-            pattern2.Match(text2);
-
-            //Assert.Equal(new NoMatch())
+            Assert.Equal((new NoMatch("Emanue(t)", 7), text2), pattern2.Match(text2));
         }
 
         [Fact]
@@ -343,7 +342,7 @@ namespace JSONParser
             TextToParse text = new TextToParse("76,32,222, value\"]");
             List listPattern = new List(new ScientificNotationNumber());
 
-            Assert.Equal((new NoMatch("76,32, 222, (v)", 12), text), listPattern.Match(text));
+            Assert.Equal((new Match("76,32,222"), new TextToParse(text.Pattern, 9)), listPattern.Match(text));
         }
 
         [Theory]
@@ -364,7 +363,7 @@ namespace JSONParser
             TextToParse text = new TextToParse(textS);
             JSONPattern jSONPattern = new JSONPattern();
 
-            Assert.Equal((new NoMatch(","), new TextToParse(text.Pattern, 2)), jSONPattern.Match(text));
+            Assert.Equal((new NoMatch($"{textS.Substring(0,2)}(,)", 2), new TextToParse(text.Pattern, 2)), jSONPattern.Match(text));
         }
     }
 }

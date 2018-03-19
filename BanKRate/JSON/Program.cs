@@ -8,21 +8,41 @@ namespace JSON
 
         static (int, int) CalculateIndexOf(char x, string source)
         {
+            int noOfNL = CalculateNoOfNL(source);
             int countNL = 0;
             int countChar = 0;
+            int countCol = 0;
             foreach(var el in source)
             {
                 if (el == '\n')
                 {
-                    countChar = 0;
                     countNL++;
                 }
+
+                if (countNL == noOfNL)
+                {
+                    countCol = source.Length  - countChar - 3;
+                    return (noOfNL, countCol);
+                }
+
                 countChar++;
-                if (el == x)
-                    return (countNL+1, countChar-1);
             }
+
             return (0, 0);
         }
+
+        static int CalculateNoOfNL(string text)
+        {
+            int count = 0;
+            foreach(var el in text)
+            {
+                if (el == '\n')
+                    count++;
+            }
+            return count;
+        }
+
+
 
         static void Main(string[] args)
         {
@@ -35,9 +55,11 @@ namespace JSON
                 Console.WriteLine($"{text.Pattern} \n\n is a jSONPattern\n");
             else
             {
-                char noMatch = (match as NoMatch).Current[0];
-                Console.Write($"--> !jSONPattern '{noMatch}' at ind ( {CalculateIndexOf(noMatch, text.Pattern)} )\n");
+                char noMatch = (match as NoMatch).CharOfNoMatch;
+
+                Console.Write($"--> !jSONPattern because of '{noMatch}' at ind {CalculateIndexOf(noMatch, (match as NoMatch).Current)}\n");
             }
+
 
         }
     }

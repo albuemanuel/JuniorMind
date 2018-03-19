@@ -12,6 +12,11 @@ namespace JSONParser
 
         public bool Success => success;
 
+        public int IndexOfNoMatch => indexOfNoMatch;
+
+        public char CharOfNoMatch => current[indexOfNoMatch+1];
+
+
         public string Current
         {
             get => current;

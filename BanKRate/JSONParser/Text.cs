@@ -15,13 +15,13 @@ namespace JSONParser
 
         public (IMatch, TextToParse) Match(TextToParse text)
         {
-            //return pattern.Match(text);
-            var (match, rText) = pattern.Match(text);
+            return pattern.Match(text);
+            //var (match, rText) = pattern.Match(text);
 
-            if (match.Success)
-                return (match, rText);
-            else 
-                return (new NoMatch(rText.Pattern.Substring(0, rText.CurrentIndex)), rText);
+            //if (match.Success)
+            //    return (match, rText);
+            //else 
+            //    return (new NoMatch(rText.Pattern.Substring(0, rText.CurrentIndex)), rText);
 
 
         }
