@@ -29,7 +29,7 @@ namespace JSONParser
             }
 
 
-            return (new NoMatch(text.Current.ToString()), text);
+            return (new NoMatch($"({text.Current.ToString()})", text.CurrentIndex), text);
         }
 
     }

@@ -40,8 +40,8 @@ namespace JSONParser
             if ((count < start && count > 0) || count > end)
                 return (new NoMatch("Wrong number of " + "<" + pattern.ToString() + ">" + " objects"), text);
 
-
-            return (new NoMatch(text.Current.ToString()), text);
+            NoMatch noMatch = match as NoMatch;
+            return (new NoMatch(matchedText + noMatch.Current, matchedText.Length + noMatch.Current.Length-3), originalText);
         }
     }
 }
