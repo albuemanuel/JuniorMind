@@ -42,8 +42,6 @@ namespace JSON
             return count;
         }
 
-
-
         static void Main(string[] args)
         {
             TextToParse text = new TextToParse(System.IO.File.ReadAllText(args[0]));
@@ -57,9 +55,12 @@ namespace JSON
             {
                 char noMatch = (match as NoMatch).CharOfNoMatch;
 
-                var name = match as NoMatch;
+                if (Char.IsWhiteSpace(noMatch))
+                    noMatch = ' '; 
 
-                Console.Write($"{text.Pattern} \n--> !jSONPattern because of '{noMatch}' at ind {CalculateIndexOf(noMatch, (match as NoMatch).Current)}\n");
+                string exp = (match as NoMatch).Expected;
+
+                Console.Write($"\r\n--> !jSONPattern because of '{noMatch}' at ind {CalculateIndexOf(noMatch, (match as NoMatch).Current)}\nExpected '{exp}'\n");
             }
 
 

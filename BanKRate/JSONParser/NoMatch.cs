@@ -26,7 +26,7 @@ namespace JSONParser
             set => current = value;
         }
 
-        public NoMatch(string noMatch, int index = 0) : this(noMatch, "", index) { }
+        public NoMatch(string noMatch = "", int index = 0) : this(noMatch, "", index) { }
 
         public NoMatch(string noMatch, string expected, int index)
         {

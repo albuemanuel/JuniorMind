@@ -24,7 +24,7 @@ namespace JSONParser
             IMatch match;
             TextToParse originalText = text;
 
-            string partialMatch = "";
+            NoMatch partialMatch = new NoMatch();
 
             foreach (IPattern el in pattern)
             {
@@ -38,12 +38,14 @@ namespace JSONParser
 
                 else if(match as NoMatch != null)
                 {
-                    if ((match as NoMatch).Current.Length > partialMatch.Length)
-                        partialMatch = (match as NoMatch).Current;
+                    if ((match as NoMatch).Current.Length > partialMatch.Current.Length)
+                        partialMatch = match as NoMatch;
                 }
 
             }
-            return (new NoMatch(partialMatch, partialMatch.Length - 2), originalText);
+
+            //return (new NoMatch(partialMatch, partialMatch.Length - 2), originalText);
+            return (partialMatch, originalText);
         }
     }
 }

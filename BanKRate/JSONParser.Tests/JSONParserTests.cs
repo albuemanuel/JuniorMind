@@ -163,7 +163,7 @@ namespace JSONParser
             Choice pattern2 = new Choice(new Text("Emao"), new Text("Emanuel"));
             TextToParse text2 = new TextToParse("Emanuetete");
 
-            Assert.Equal((new NoMatch("Emanue(t)", 7), text2), pattern2.Match(text2));
+            Assert.Equal((new NoMatch("Emanue(t)", 6), text2), pattern2.Match(text2));
         }
 
         [Fact]
@@ -339,7 +339,7 @@ namespace JSONParser
         [Fact]
         public void ListMatch3()
         {
-            TextToParse text = new TextToParse("76,32 222\"]");
+            TextToParse text = new TextToParse("76,32,222\"]");
             List listPattern = new List(new ScientificNotationNumber());
 
             Assert.Equal((new Match("76,32,222"), new TextToParse(text.Pattern, 9)), listPattern.Match(text));

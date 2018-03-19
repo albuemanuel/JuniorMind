@@ -22,7 +22,7 @@ namespace JSONParser
             if (pattern.Contains(text.Current))
                 return (new Match(text.Current.ToString()), new TextToParse(text.Pattern, text.CurrentIndex+1));
 
-            return (new NoMatch($"({text.Current.ToString()})",  text.CurrentIndex), text);
+            return (new NoMatch($"({text.Current.ToString()})", new string(pattern.ToArray()) ,text.CurrentIndex), text);
         }
     }
 }

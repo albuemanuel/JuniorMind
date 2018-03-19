@@ -38,10 +38,10 @@ namespace JSONParser
                 return (new Match(matchedText), text);
 
             if ((count < start && count > 0) || count > end)
-                return (new NoMatch("Wrong number of " + "<" + pattern.ToString() + ">" + " objects"), text);
+                return (new NoMatch("Wrong number of " + "<" + pattern.ToString() + ">" + " objects", pattern.ToString(), originalText.CurrentIndex), text);
 
             NoMatch noMatch = match as NoMatch;
-            return (new NoMatch(matchedText + noMatch.Current, matchedText.Length + noMatch.Current.Length-3), originalText);
+            return (new NoMatch(matchedText + noMatch.Current, noMatch.Expected ,matchedText.Length + noMatch.Current.Length-3), originalText);
         }
     }
 }

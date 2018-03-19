@@ -30,7 +30,7 @@ namespace JSONParser
                     text.CurrentIndex = originalIndex;
 
                     if (match is NoMatch noMatch)
-                        return (new NoMatch(matchedText + noMatch.Current, noMatch.Current.Length - 2 + matchedText.Length - 1), text);
+                        return (new NoMatch(matchedText + noMatch.Current, noMatch.Expected , noMatch.Current.Length - 2 + matchedText.Length - 1), text);
 
                     return (new NoMatch(matchedText, matchedText.Length), text);
                 }
