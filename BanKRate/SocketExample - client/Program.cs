@@ -3,74 +3,65 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
-public class SynchronousSocketClient
+public class TcpClientExample
 {
 
-    public static void StartClient()
+    static void Connect(String server, String message)
     {
-        // Data buffer for incoming data.  
-        byte[] bytes = new byte[256];
-
-        // Connect to a remote device.  
         try
         {
-            // Establish the remote endpoint for the socket.  
-            // This example uses port 11000 on the local computer.  
-            IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
-            IPEndPoint remoteEP = new IPEndPoint(ipAddress, 13000);
+            // Create a TcpClient.
+            // Note, for this client to work you need to have a TcpServer 
+            // connected to the same address as specified by the server, port
+            // combination.
+            Int32 port = 13000;
+            TcpClient client = new TcpClient(server, port);
 
-            // Create a TCP/IP  socket.  
-            Socket sender = new Socket(ipAddress.AddressFamily,
-                SocketType.Stream, ProtocolType.Tcp);
+            // Translate the passed message into ASCII and store it as a Byte array.
+            Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
 
-            // Connect the socket to the remote endpoint. Catch any errors.  
-            try
-            {
-                sender.Connect(remoteEP);
+            // Get a client stream for reading and writing.
+            //  Stream stream = client.GetStream();
 
-                Console.WriteLine("Socket connected to {0}",
-                    sender.RemoteEndPoint.ToString());
+            NetworkStream stream = client.GetStream();
 
-                // Encode the data string into a byte array.  
-                byte[] msg = Encoding.ASCII.GetBytes($"{Console.ReadLine()}");
+            // Send the message to the connected TcpServer. 
+            stream.Write(data, 0, data.Length);
 
-                // Send the data through the socket.  
-                int bytesSent = sender.Send(msg);
+            Console.WriteLine("Sent: {0}", message);
 
-                // Receive the response from the remote device.  
-                int bytesRec = sender.Receive(bytes);
-                Console.WriteLine("Echoed test = {0}",
-                    Encoding.ASCII.GetString(bytes, 0, bytesRec));
+            // Receive the TcpServer.response.
 
-                // Release the socket.  
-                sender.Shutdown(SocketShutdown.Both);
-                sender.Close();
+            // Buffer to store the response bytes.
+            data = new Byte[256];
 
-            }
-            catch (ArgumentNullException ane)
-            {
-                Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
-            }
-            catch (SocketException se)
-            {
-                Console.WriteLine("SocketException : {0}", se.ToString());
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Unexpected exception : {0}", e.ToString());
-            }
+            // String to store the response ASCII representation.
+            String responseData = String.Empty;
 
+            // Read the first batch of the TcpServer response bytes.
+            Int32 bytes = stream.Read(data, 0, data.Length);
+            responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+            Console.WriteLine("Received: {0}", responseData);
+
+            // Close everything.
+            stream.Close();
+            client.Close();
         }
-        catch (Exception e)
+        catch (ArgumentNullException e)
         {
-            Console.WriteLine(e.ToString());
+            Console.WriteLine("ArgumentNullException: {0}", e);
         }
-    }
+        catch (SocketException e)
+        {
+            Console.WriteLine("SocketException: {0}", e);
+        }
 
-    public static int Main(String[] args)
+        Console.WriteLine("\n Press Enter to continue...");
+        Console.Read();
+    }
+    static void Main(string[] args)
     {
-        StartClient();
-        return 0;
+        string s = Console.ReadLine();
+        Connect("127.0.0.1", s);
     }
 }

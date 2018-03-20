@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
+using JSONParser;
 
-public class SynchronousSocketListener
+public class HttpServer
 {
+
+    
 
     // Incoming data from the client.  
     public static string data = null;
 
     public static void Main()
     {
+
         TcpListener listener = null;
         try
         {
@@ -21,7 +24,7 @@ public class SynchronousSocketListener
             listener = new TcpListener(localAddr, port);
 
             listener.Start();
-            Byte[] bytes = new Byte[256];
+            Byte[] bytes = new Byte[1024];
 
             // Start listening for connections.  
             while (true)
@@ -40,7 +43,11 @@ public class SynchronousSocketListener
                     data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
                     Console.WriteLine("Received: {0}", data);
 
-                    data = data.ToUpper();
+                    TextToParse text = new TextToParse(data);
+
+
+
+                    data = "HTTP/1.1 200 OK\r\nContent-Length: 13\r\n\r\n<h1>Test</h1>";
 
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
 
