@@ -436,6 +436,17 @@ namespace JSONParser
             Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), uriPattern.Match(text));
         }
 
+        [Theory]
+        [InlineData("GET /pub/WWW/TheProject.html HTTP/1.1")]
+        public void RequestLinePatternTest(string textS)
+        {
+            TextToParse text = new TextToParse(textS);
+            RequestLinePattern uriPattern = new RequestLinePattern();
+
+            Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), uriPattern.Match(text));
+        }
+
+
 
     }
 }
