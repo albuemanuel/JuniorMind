@@ -7,8 +7,20 @@ namespace JSONParser
     public class NoMoreText : IMatch
     {
         private bool success = false;
+        string expected;
+
+        public string Expected => expected;
 
         public bool Success => success;
+
+        
+        public NoMoreText():this("")
+        { }
+
+        public NoMoreText(string expected)
+        {
+            this.expected = expected;
+        }
 
         override public bool Equals(object toCompareWith)
         {

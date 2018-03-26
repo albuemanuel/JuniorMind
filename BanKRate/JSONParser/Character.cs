@@ -8,6 +8,8 @@ namespace JSONParser
     {
         char pattern;
 
+        public char Pattern => pattern;
+
         public Character(char c)
         {
             pattern = c;
@@ -16,7 +18,7 @@ namespace JSONParser
         public(IMatch, TextToParse) Match(TextToParse text)
         {
             if (text.IsAtEnd())
-                return (new NoMoreText(), text);
+                return (new NoMoreText(pattern.ToString()), text);
 
             if (text.Current != pattern)
                 return (new NoMatch($"({text.Current})", pattern.ToString(), text.CurrentIndex), text);

@@ -377,6 +377,65 @@ namespace JSONParser
 
         }
 
-        
+        [Theory]
+        [InlineData("GET")]
+        [InlineData("POST")]
+        public void MethodPatternMatch(string textS)
+        {
+            TextToParse text = new TextToParse(textS);
+            MethodPattern methodPattern = new MethodPattern();
+
+            Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), methodPattern.Match(text));
+        }
+
+        [Theory]
+        [InlineData("GETO")]
+        public void MethodPatternNoMatch1(string textS)
+        {
+            TextToParse text = new TextToParse(textS);
+            MethodPattern methodPattern = new MethodPattern();
+
+            Assert.Equal((new NoMatch($"{textS.Substring(0, textS.Length-1)}({textS[textS.Length-1]})", textS.Length-1), new TextToParse(textS, textS.Length-1)), methodPattern.Match(text));
+        }
+
+        [Fact]
+        public void MethodPatternNoMoreText()
+        {
+            TextToParse text = new TextToParse("GE");
+            MethodPattern methodPattern = new MethodPattern();
+
+            Assert.Equal((new NoMatch("GE(T)", 3), text), methodPattern.Match(text));
+        }
+
+        [Fact]
+        public void MethodPatternNoMatch2()
+        {
+            TextToParse text = new TextToParse("SDSDS");
+            MethodPattern methodPattern = new MethodPattern();
+
+            Assert.Equal((new NoMatch("(S)"), text), methodPattern.Match(text));
+        }
+
+        [Theory]
+        [InlineData("kdskdbsjk\rbdksjd")]
+        public void URIPatternTest(string textS)
+        {
+            TextToParse text = new TextToParse(textS);
+            URIPattern uriPattern = new URIPattern();
+
+            Assert.Equal((new NoMatch(textS.Substring(0, 9)+"(\r)", 9), new TextToParse(textS, 9)), uriPattern.Match(text));
+        }
+
+        [Theory]
+        [InlineData("HTTP/12.32")]
+        public void HTTPVersionPatternTest(string textS)
+        {
+            TextToParse text = new TextToParse(textS);
+            HTTPVersionPattern uriPattern = new HTTPVersionPattern();
+
+            Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), uriPattern.Match(text));
+        }
+
+
     }
 }

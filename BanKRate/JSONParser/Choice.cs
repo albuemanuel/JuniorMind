@@ -24,7 +24,7 @@ namespace JSONParser
             IMatch match;
             TextToParse originalText = text;
 
-            NoMatch partialMatch = new NoMatch();
+            NoMatch partialMatch = new NoMatch("");
 
             foreach (IPattern el in pattern)
             {
@@ -38,7 +38,7 @@ namespace JSONParser
 
                 else if(match as NoMatch != null)
                 {
-                    if ((match as NoMatch).Current.Length > partialMatch.Current.Length)
+                    if ((match as NoMatch).Current.Length - 2 > partialMatch.Current.Length)
                         partialMatch = match as NoMatch;
                 }
 
