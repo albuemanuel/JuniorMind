@@ -5,9 +5,6 @@ using JSONParser;
 
 public class HttpServer
 {
-
-    
-
     // Incoming data from the client.  
     public static string data = null;
 
