@@ -15,7 +15,10 @@ namespace JSONParser
             request = new Sequence
                 (
                     new RequestLinePattern(),
-                    new HttpHeaderField(),
+                    new Many
+                    (
+                        new HttpHeaderField()
+                    ),
                     endRequestPattern
                 );
         }

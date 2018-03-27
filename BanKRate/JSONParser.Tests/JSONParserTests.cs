@@ -449,7 +449,7 @@ namespace JSONParser
         [Fact]
         public void HttpHeaderTest()
         {
-            string textS = "d:a\r\nD:A\r\n";
+            string textS = "d:a\r\n";
             TextToParse text = new TextToParse(textS);
             HttpHeaderField httpHeader = new HttpHeaderField();
 

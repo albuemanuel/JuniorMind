@@ -30,9 +30,7 @@ namespace JSONParser
 
             IPattern endHeaderField = new Text("\r\n");
 
-            httpHeader = new Many
-                (
-                    new Sequence
+            httpHeader = new Sequence
                     (
                         stringPattern,
                         whitespace,
@@ -40,8 +38,7 @@ namespace JSONParser
                         whitespace,
                         stringPattern,
                         endHeaderField
-                    )
-                );
+                    );
         }
 
         public (IMatch, TextToParse) Match(TextToParse text)
