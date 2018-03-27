@@ -4,11 +4,11 @@ using System.Text;
 
 namespace JSONParser
 {
-    public class HttpHeader : IPattern
+    public class HttpHeaderField : IPattern
     {
         IPattern httpHeader;
 
-        public HttpHeader()
+        public HttpHeaderField()
         {
             IPattern stringPattern = new Many
                 (
@@ -19,16 +19,27 @@ namespace JSONParser
                     )
                 );
 
-            IPattern endRequestLine = new Text("\r\n");
+            IPattern whitespace = new Many
+            (
+                new Choice
+                (
+                    new Character(' '),
+                    new Character('\t')
+                )
+            );
+
+            IPattern endHeaderField = new Text("\r\n");
 
             httpHeader = new Many
                 (
                     new Sequence
                     (
                         stringPattern,
+                        whitespace,
                         new Character(':'),
+                        whitespace,
                         stringPattern,
-                        endRequestLine
+                        endHeaderField
                     )
                 );
         }

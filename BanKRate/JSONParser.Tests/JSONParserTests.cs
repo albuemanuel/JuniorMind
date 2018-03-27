@@ -449,11 +449,23 @@ namespace JSONParser
         [Fact]
         public void HttpHeaderTest()
         {
-            string textS = "d:a\r\n";
+            string textS = "d:a\r\nD:A\r\n";
             TextToParse text = new TextToParse(textS);
-            HttpHeader httpHeader = new HttpHeader();
+            HttpHeaderField httpHeader = new HttpHeaderField();
 
             Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), httpHeader.Match(text));
+        }
+
+
+        [Fact]
+        public void RequestPatternTest()
+        {
+            string textS = "GET /pub/WWW/TheProject.html HTTP/1.1\r\nHost: trlalal\r\nAlt-camp: dsdsdsds\r\n\r\n";
+            TextToParse text = new TextToParse(textS);
+
+            RequestPattern requestPattern = new RequestPattern();
+
+            Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), requestPattern.Match(text));
         }
 
     }
