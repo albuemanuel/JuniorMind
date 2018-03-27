@@ -19,7 +19,7 @@ namespace JSONParser
                     )
                 );
 
-            IPattern cStringPattern = new Many
+            IPattern cStringPattern = new Many                            //complete string pattern --> it has <space> and <:> chars
                 (
                     new Choice
                     (
