@@ -41,10 +41,13 @@ public class HttpServer
                     Console.WriteLine("Received: {0}", data);
 
                     TextToParse text = new TextToParse(data);
+                    RequestPattern requestPattern = new RequestPattern();
+                    var (match, rText) = requestPattern.Match(text);
 
-
-
-                    data = "HTTP/1.1 200 OK\r\nContent-Length: 13\r\n\r\n<h1>Test</h1>";
+                    if (match.Success)
+                        data = "HTTP/1.1 200 OK\r\nContent-Length: 13\r\n\r\n<h1>Test</h1>";
+                    else
+                        data = "HTTP/1.1 400 BAD REQUEST\r\nContent-Length: 13\r\n\r\n<h1>Test</h1>";
 
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
 

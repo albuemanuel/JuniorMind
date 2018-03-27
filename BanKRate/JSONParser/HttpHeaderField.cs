@@ -37,6 +37,14 @@ namespace JSONParser
                         new Character(':'),
                         whitespace,
                         stringPattern,
+                        new Optional
+                        (
+                            new Sequence
+                            (
+                                new Character(':'),
+                                stringPattern
+                            )
+                        ),
                         endHeaderField
                     );
         }

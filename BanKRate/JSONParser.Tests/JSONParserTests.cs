@@ -456,6 +456,16 @@ namespace JSONParser
             Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), httpHeader.Match(text));
         }
 
+        [Fact]
+        public void HttpHeaderTest2()
+        {
+            string textS = "d:a:r\r\n";
+            TextToParse text = new TextToParse(textS);
+            HttpHeaderField httpHeader = new HttpHeaderField();
+
+            Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), httpHeader.Match(text));
+        }
+
 
         [Fact]
         public void RequestPatternTest()

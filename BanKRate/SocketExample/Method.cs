@@ -6,10 +6,5 @@ using System.Threading.Tasks;
 
 namespace SocketExample
 {
-
-    class Request
-    {
-
-        Uri uri;
-    }
+    enum Method { OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT };
 }
