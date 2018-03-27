@@ -395,7 +395,7 @@ namespace JSONParser
             TextToParse text = new TextToParse(textS);
             MethodPattern methodPattern = new MethodPattern();
 
-            Assert.Equal((new NoMatch($"{textS.Substring(0, textS.Length-1)}({textS[textS.Length-1]})", textS.Length-1), new TextToParse(textS, textS.Length-1)), methodPattern.Match(text));
+            Assert.Equal((new Match($"{textS.Substring(0, textS.Length-1)}"), new TextToParse(textS, textS.Length-1)), methodPattern.Match(text));
         }
 
         [Fact]
@@ -423,7 +423,7 @@ namespace JSONParser
             TextToParse text = new TextToParse(textS);
             URIPattern uriPattern = new URIPattern();
 
-            Assert.Equal((new NoMatch(textS.Substring(0, 9)+"(\r)", 9), new TextToParse(textS, 9)), uriPattern.Match(text));
+            Assert.Equal((new Match(textS.Substring(0, 9)), new TextToParse(textS, 9)), uriPattern.Match(text));
         }
 
         [Theory]
@@ -437,13 +437,13 @@ namespace JSONParser
         }
 
         [Theory]
-        [InlineData("GET /pub/WWW/TheProject.html HTTP/1.1")]
+        [InlineData("GET /pub/WWW/TheProject.html HTTP/1.1\r\n")]
         public void RequestLinePatternTest(string textS)
         {
             TextToParse text = new TextToParse(textS);
-            RequestLinePattern uriPattern = new RequestLinePattern();
+            RequestLinePattern requestLine = new RequestLinePattern();
 
-            Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), uriPattern.Match(text));
+            Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), requestLine.Match(text));
         }
 
 

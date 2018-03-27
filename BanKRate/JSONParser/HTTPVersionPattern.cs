@@ -30,11 +30,11 @@ namespace JSONParser
             IMatch match;
             (match, text) = version.Match(text);
 
-            if (text.CurrentIndex != text.Pattern.Length && match.Success)
-            {
-                Match matched = match as Match;
-                return (new NoMatch($"{matched.Current}({text[matched.Current.Length]})", matched.Current.Length), text);
-            }
+            //if (text.CurrentIndex != text.Pattern.Length && match.Success)
+            //{
+            //    Match matched = match as Match;
+            //    return (new NoMatch($"{matched.Current}({text[matched.Current.Length]})", matched.Current.Length), text);
+            //}
 
             return (match, text);
         }
