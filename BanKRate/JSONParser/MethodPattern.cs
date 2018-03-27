@@ -7,7 +7,7 @@ namespace JSONParser
     public class MethodPattern : IPattern
     {
         IPattern method;
-
+        
         public MethodPattern()
         {
             method = new Choice

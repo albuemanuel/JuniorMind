@@ -12,7 +12,7 @@ namespace JSONParser
         {
             uriPattern = new Many
             (
-                new Range('!', (char)ushort.MaxValue)
+                new Range('!', (char)byte.MaxValue)
             );
         }
 
