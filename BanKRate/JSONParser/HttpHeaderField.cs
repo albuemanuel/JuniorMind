@@ -14,8 +14,16 @@ namespace JSONParser
                 (
                     new Choice
                     (
-                        new Range('!', '9'),
+                        new Range(' ', '9'),
                         new Range(';', (char)byte.MaxValue)
+                    )
+                );
+
+            IPattern cStringPattern = new Many
+                (
+                    new Choice
+                    (
+                        new Range(' ', (char)byte.MaxValue)
                     )
                 );
 
@@ -33,18 +41,10 @@ namespace JSONParser
             httpHeader = new Sequence
                     (
                         stringPattern,
-                        whitespace,
+                        //whitespace,
                         new Character(':'),
-                        whitespace,
-                        stringPattern,
-                        new Optional
-                        (
-                            new Sequence
-                            (
-                                new Character(':'),
-                                stringPattern
-                            )
-                        ),
+                        //whitespace,
+                        cStringPattern,
                         endHeaderField
                     );
         }
