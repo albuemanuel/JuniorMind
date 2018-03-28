@@ -478,5 +478,13 @@ namespace JSONParser
             Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), requestPattern.Match(text));
         }
 
+        [Fact]
+        public void MethodMatchTest()
+        {
+            MethodMatch methodMatch = new MethodMatch(new Match("GET"));
+
+            Assert.Equal(Method.GET, methodMatch.Method);
+        }
+
     }
 }

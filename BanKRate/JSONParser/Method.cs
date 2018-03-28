@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SocketExample
+namespace JSONParser
 {
-    enum Method { OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT };
+    public enum Method { OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT };
 }

@@ -7,9 +7,8 @@ namespace JSONParser
     public class Match : IMatch
     {
         private string current;
-        private bool success = true;
 
-        public bool Success => success;
+        public bool Success => true;
 
         public string Current
         {

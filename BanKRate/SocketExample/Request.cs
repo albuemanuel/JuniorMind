@@ -7,9 +7,16 @@ using System.Threading.Tasks;
 namespace SocketExample
 {
 
-    class Request
+    public class Request
     {
-
         Uri uri;
+        
+        float httpVersion;
+        Dictionary<string, string> httpHeaderFields;
+
+        public Request()
+        {
+
+        }
     }
 }
