@@ -27,6 +27,9 @@ namespace JSONParser
             //    return (new NoMatch($"{matched.Current}({text[matched.Current.Length]})", matched.Current.Length), text);
             //}
 
+            if (match.Success)
+                return (new URIPatternMatch(match, UriKind.RelativeOrAbsolute), text);
+
             return (match, text);
         }
     }

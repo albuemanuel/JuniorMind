@@ -25,6 +25,7 @@ namespace JSONParser
                 number
                 );
         }
+
         public (IMatch, TextToParse) Match(TextToParse text)
         {
             IMatch match;
@@ -36,6 +37,8 @@ namespace JSONParser
             //    return (new NoMatch($"{matched.Current}({text[matched.Current.Length]})", matched.Current.Length), text);
             //}
 
+            if (match.Success)
+                return (new HTTPVersionPatternMatch(match), text);
             return (match, text);
         }
     }

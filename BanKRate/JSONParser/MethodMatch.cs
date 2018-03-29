@@ -17,5 +17,23 @@ namespace JSONParser
 
         public Method Method => method;
 
+        override public bool Equals(object toCompareWith)
+        {
+            MethodMatch other = toCompareWith as MethodMatch;
+
+            if (other == null)
+                return false;
+            if (method == other.Method)
+                return true;
+
+            return false;
+
+        }
+
+        public override string ToString()
+        {
+            return "MethodMatch: " + method;
+        }
+
     }
 }

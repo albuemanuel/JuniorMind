@@ -34,7 +34,11 @@ namespace JSONParser
             //    return (new NoMatch($"{matched.Current}({text[matched.Current.Length]})", matched.Current.Length), text);
             //}
 
+            if (match.Success)
+                return (new MethodMatch(match as Match), text);
+
             return (match, text);
+                
         }
     }
 }

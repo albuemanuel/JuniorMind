@@ -385,7 +385,7 @@ namespace JSONParser
             TextToParse text = new TextToParse(textS);
             MethodPattern methodPattern = new MethodPattern();
 
-            Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), methodPattern.Match(text));
+            Assert.Equal((new MethodMatch(new Match(textS)), new TextToParse(textS, textS.Length)), methodPattern.Match(text));
         }
 
         [Theory]
@@ -395,7 +395,7 @@ namespace JSONParser
             TextToParse text = new TextToParse(textS);
             MethodPattern methodPattern = new MethodPattern();
 
-            Assert.Equal((new Match($"{textS.Substring(0, textS.Length-1)}"), new TextToParse(textS, textS.Length-1)), methodPattern.Match(text));
+            Assert.Equal((new MethodMatch(new Match($"{textS.Substring(0, textS.Length-1)}")), new TextToParse(textS, textS.Length-1)), methodPattern.Match(text));
         }
 
         [Fact]
@@ -433,7 +433,7 @@ namespace JSONParser
             TextToParse text = new TextToParse(textS);
             HTTPVersionPattern uriPattern = new HTTPVersionPattern();
 
-            Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), uriPattern.Match(text));
+            Assert.Equal((new HTTPVersionPatternMatch( new Match(textS)), new TextToParse(textS, textS.Length)), uriPattern.Match(text));
         }
 
         [Theory]

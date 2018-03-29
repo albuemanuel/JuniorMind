@@ -15,6 +15,7 @@ namespace JSONParser
             string matchedText = "";
             IMatch match;
             int originalIndex = text.CurrentIndex;
+            IPattern[] patterns;
 
             foreach (IPattern el in pattern)
             {
