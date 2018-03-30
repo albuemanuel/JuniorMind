@@ -50,7 +50,7 @@ namespace JSONParser
 
         public override string ToString()
         {
-            return $"NoMatch: {current}<{indexOfNoMatch}>";
+            return $"{current}<{indexOfNoMatch}>";
         }
     }
 }

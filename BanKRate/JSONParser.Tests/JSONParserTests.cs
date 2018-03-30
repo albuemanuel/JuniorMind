@@ -91,7 +91,7 @@ namespace JSONParser
         {
 
             Many whitespace = new Many
-             (
+            (
             new Choice
             (
                 new Character(' '),
@@ -423,7 +423,7 @@ namespace JSONParser
             TextToParse text = new TextToParse(textS);
             URIPattern uriPattern = new URIPattern();
 
-            Assert.Equal((new Match(textS.Substring(0, 9)), new TextToParse(textS, 9)), uriPattern.Match(text));
+            Assert.Equal((new URIPatternMatch(new Match(textS.Substring(0, 9)), UriKind.RelativeOrAbsolute), new TextToParse(textS, 9)), uriPattern.Match(text));
         }
 
         [Theory]
@@ -443,7 +443,13 @@ namespace JSONParser
             TextToParse text = new TextToParse(textS);
             RequestLinePattern requestLine = new RequestLinePattern();
 
-            Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), requestLine.Match(text));
+            MethodMatch methodMatch = new MethodMatch(new Match("GET"));
+            URIPatternMatch uriPatternMatch = new URIPatternMatch(new Match("/pub/WWW/TheProject.html"), UriKind.RelativeOrAbsolute);
+            HTTPVersionPatternMatch httpVersionMatch = new HTTPVersionPatternMatch(new Match("HTTP/1.1"));
+            Match whitespaceMatch = new Match(" ");
+            Match endRequestLine = new Match("\r\n");
+
+            Assert.Equal((new MatchesArray(methodMatch, whitespaceMatch, uriPatternMatch, whitespaceMatch, httpVersionMatch, endRequestLine), new TextToParse(textS, textS.Length)), requestLine.Match(text));
         }
 
         [Fact]
@@ -486,5 +492,18 @@ namespace JSONParser
             Assert.Equal(Method.GET, methodMatch.Method);
         }
 
+        [Fact]
+        public void SequenceMatchTest()
+        {
+            MethodMatch methodMatch = new MethodMatch(new Match("GET"));
+            URIPatternMatch uriPatternMatch = new URIPatternMatch(new Match("/juniormind.com"), UriKind.RelativeOrAbsolute);
+            HTTPVersionPatternMatch httpVersionPatternMatch = new HTTPVersionPatternMatch(new Match("HTTP/1.1"));
+
+            MatchesArray sequenceMatch = new MatchesArray(methodMatch, uriPatternMatch, httpVersionPatternMatch);
+
+            Assert.Equal(sequenceMatch[0], methodMatch);
+            Assert.Equal(sequenceMatch[1], uriPatternMatch);
+            Assert.Equal(sequenceMatch[2], httpVersionPatternMatch);
+        }
     }
 }

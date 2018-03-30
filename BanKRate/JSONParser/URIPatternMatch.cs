@@ -30,7 +30,7 @@ namespace JSONParser
 
         public override string ToString()
         {
-            return "URIPatternMatch: " + uri;
+            return uri.ToString();
         }
     }
 }

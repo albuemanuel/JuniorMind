@@ -17,7 +17,7 @@ namespace JSONParser
 
         public Method Method => method;
 
-        override public bool Equals(object toCompareWith)
+        public override bool Equals(object toCompareWith)
         {
             MethodMatch other = toCompareWith as MethodMatch;
 
@@ -32,7 +32,7 @@ namespace JSONParser
 
         public override string ToString()
         {
-            return "MethodMatch: " + method;
+            return method.ToString();
         }
 
     }

@@ -12,10 +12,9 @@ namespace JSONParser
 
         public (IMatch, TextToParse) Match(TextToParse text)
         {
-            string matchedText = "";
             IMatch match;
+            MatchesArray matchesArray = new MatchesArray();
             int originalIndex = text.CurrentIndex;
-            IPattern[] patterns;
 
             foreach (IPattern el in pattern)
             {
@@ -23,7 +22,8 @@ namespace JSONParser
 
                 if(match.Success)
                 {
-                    matchedText += (match as Match).Current;
+                    //matchedText += (match as Match).Current;
+                    matchesArray.AddPattern(match);
                 }
 
                 if (!match.Success)
@@ -31,15 +31,15 @@ namespace JSONParser
                     text.CurrentIndex = originalIndex;
 
                     if (match is NoMatch noMatch)
-                        return (new NoMatch(matchedText + noMatch.Current, noMatch.Expected , noMatch.Current.Length - 2 + matchedText.Length - 1), text);
+                        return (new NoMatch(matchesArray.ToString() + noMatch.Current, noMatch.Expected , noMatch.Current.Length - 2 + matchesArray.ToString().Length - 1), text);
 
                     if (match is NoMoreText noMoreText)
-                        return (new NoMatch($"{matchedText}({noMoreText.Expected})", 3), text);
+                        return (new NoMatch($"{matchesArray.ToString()}({noMoreText.Expected})", 3), text);
 
-                    return (new NoMatch(matchedText, matchedText.Length), text);
+                    return (new NoMatch(matchesArray.ToString(), matchesArray.ToString().Length), text);
                 }
             }
-            return (new Match(matchedText), text);
+            return (matchesArray, text);
         }
     }
 }

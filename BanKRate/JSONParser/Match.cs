@@ -37,7 +37,7 @@ namespace JSONParser
 
         public override string ToString()
         {
-            return "Match: " + current;
+            return current;
         }
     }
 }
