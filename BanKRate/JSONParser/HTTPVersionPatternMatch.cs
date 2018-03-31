@@ -26,7 +26,7 @@
 
         public override string ToString()
         {
-            return "HTTPVersionPatternMatch: " + httpVersion;
+            return httpVersion;
         }
     }
 }

@@ -22,8 +22,8 @@ namespace JSONParser
 
                 if(match.Success)
                 {
-                    //matchedText += (match as Match).Current;
                     matchesArray.AddPattern(match);
+                    //matchedText += (match as Match).Current;
                 }
 
                 if (!match.Success)
