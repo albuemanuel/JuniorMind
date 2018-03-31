@@ -447,14 +447,16 @@ namespace JSONParser
             URIPatternMatch uriPatternMatch = new URIPatternMatch(new Match("/pub/WWW/TheProject.html"), UriKind.RelativeOrAbsolute);
             HTTPVersionPatternMatch httpVersionMatch = new HTTPVersionPatternMatch(new Match("HTTP/1.1"));
             Match whitespaceMatch = new Match(" ");
-            IMatch[] matches = new IMatch[2];
+            Match[] matches = new Match[2];
             matches[0] = new Match("\r");
             matches[1] = new Match("\n");
             MatchesArray endRequestLine = new MatchesArray(matches);
 
             var (match, rText) = requestLine.Match(text);
+            MatchesArray requestLineMatch = new MatchesArray(methodMatch, whitespaceMatch, uriPatternMatch, whitespaceMatch, httpVersionMatch, endRequestLine);
+            TextToParse expRText = new TextToParse(textS, textS.Length);
 
-            Assert.Equal((new MatchesArray(methodMatch, whitespaceMatch, uriPatternMatch, whitespaceMatch, httpVersionMatch, endRequestLine), new TextToParse(textS, textS.Length)), (match, rText));
+            Assert.Equal((requestLineMatch, expRText), (match, rText));
         }
 
         [Fact]
