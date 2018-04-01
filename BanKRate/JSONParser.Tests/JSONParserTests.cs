@@ -456,7 +456,7 @@ namespace JSONParser
             MatchesArray requestLineMatch = new MatchesArray(methodMatch, whitespaceMatch, uriPatternMatch, whitespaceMatch, httpVersionMatch, endRequestLine);
             TextToParse expRText = new TextToParse(textS, textS.Length);
 
-            Assert.Equal(requestLineMatch, match);
+            Assert.Equal((requestLineMatch, expRText), (match, rText));
         }
 
         [Fact]
