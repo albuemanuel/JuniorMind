@@ -19,7 +19,7 @@ namespace JSONParser
         public (IMatch, TextToParse) Match(TextToParse text)
         {
             string matchedText = "";
-
+            MatchesArray matchesArray = new MatchesArray();
             IMatch match;
             TextToParse originalText = text;
 
@@ -30,12 +30,13 @@ namespace JSONParser
             while (match.Success)
             {
                 count++;
-                matchedText += (match as Match).Current;
+                //matchedText += (match as Match).Current;
+                matchesArray.AddPattern(match);
                 (match, text) = pattern.Match(text);
             }
 
             if (count >= start && (end == 0 || count <= end))
-                return (new Match(matchedText), text);
+                return (matchesArray, text);
 
             if ((count < start && count > 0) || count > end)
                 return (new NoMatch("Wrong number of " + "<" + pattern.ToString() + ">" + " objects", pattern.ToString(), originalText.CurrentIndex), text);

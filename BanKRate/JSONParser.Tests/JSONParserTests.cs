@@ -454,6 +454,31 @@ namespace JSONParser
 
             var (match, rText) = requestLine.Match(text);
             MatchesArray requestLineMatch = new MatchesArray(methodMatch, whitespaceMatch, uriPatternMatch, whitespaceMatch, httpVersionMatch, endRequestLine);
+            //Match requestLineMatch = new Match(textS);
+            TextToParse expRText = new TextToParse(textS, textS.Length);
+
+            Assert.Equal((requestLineMatch, expRText), (match, rText));
+        }
+
+        [Theory]
+        [InlineData("GET /pub/WWW/TheProject.html HTTP/1.1\r\n")]
+        public void RequestLinePatternTest2(string textS)
+        {
+            TextToParse text = new TextToParse(textS);
+            RequestLinePattern requestLine = new RequestLinePattern();
+
+            MethodMatch methodMatch = new MethodMatch(new Match("GET"));
+            URIPatternMatch uriPatternMatch = new URIPatternMatch(new Match("/pub/WWW/TheProject.html"), UriKind.RelativeOrAbsolute);
+            HTTPVersionPatternMatch httpVersionMatch = new HTTPVersionPatternMatch(new Match("HTTP/1.1"));
+            Match whitespaceMatch = new Match(" ");
+            Match[] matches = new Match[2];
+            matches[0] = new Match("\r");
+            matches[1] = new Match("\n");
+            MatchesArray endRequestLine = new MatchesArray(matches);
+
+            var (match, rText) = requestLine.Match(text);
+            //MatchesArray requestLineMatch = new MatchesArray(methodMatch, whitespaceMatch, uriPatternMatch, whitespaceMatch, httpVersionMatch, endRequestLine);
+            Match requestLineMatch = new Match(textS);
             TextToParse expRText = new TextToParse(textS, textS.Length);
 
             Assert.Equal((requestLineMatch, expRText), (match, rText));
@@ -479,7 +504,6 @@ namespace JSONParser
             Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), httpHeader.Match(text));
         }
 
-
         [Fact]
         public void RequestPatternTest()
         {
@@ -488,7 +512,9 @@ namespace JSONParser
 
             RequestPattern requestPattern = new RequestPattern();
 
-            Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), requestPattern.Match(text));
+            var (match, rText) = requestPattern.Match(text);
+
+            Assert.Equal((new Match(textS), new TextToParse(textS, textS.Length)), (match, rText));
         }
 
         [Fact]

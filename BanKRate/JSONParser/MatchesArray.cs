@@ -9,7 +9,7 @@ namespace JSONParser
     {
         private List<IMatch> matchArray;
 
-        public List<IMatch> MatchSequence => matchArray;
+        public List<IMatch> MatchArray => matchArray;
 
         public void AddPattern(IMatch match)
         {

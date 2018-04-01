@@ -12,11 +12,18 @@ namespace SocketExample
     {
         Uri uri;
         Method method;
-        float httpVersion;
+        string httpVersion;
         Dictionary<string, string> httpHeaderFields;
 
-        public Request()
+        public Request(MatchesArray requestPattern)
         {
+            MatchesArray requestLine = requestPattern[0] as MatchesArray;
+
+            method = (requestLine[0] as MethodMatch).Method;
+            uri = (requestLine[1] as URIPatternMatch).Uri;
+            httpVersion = (requestLine[2] as HTTPVersionPatternMatch).HTTPVersion;
+            
+
 
         }
     }
