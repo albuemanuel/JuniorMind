@@ -539,5 +539,13 @@ namespace JSONParser
             Assert.Equal(sequenceMatch[1], uriPatternMatch);
             Assert.Equal(sequenceMatch[2], httpVersionPatternMatch);
         }
+
+        [Fact]
+        public void HttpHeaderFieldMatchTest()
+        {
+            HttpHeaderFieldMatch headerField = new HttpHeaderFieldMatch(new Match("cozonac:mac\r\n"));
+
+            Assert.Equal(("cozonac", "mac"), (headerField.Key, headerField.Value));
+        }
     }
 }
