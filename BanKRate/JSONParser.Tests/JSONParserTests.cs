@@ -1,5 +1,6 @@
 using System;
 using Xunit;
+using SocketExample;
 
 namespace JSONParser
 {
@@ -546,6 +547,19 @@ namespace JSONParser
             HttpHeaderFieldMatch headerField = new HttpHeaderFieldMatch(new Match("cozonac:mac\r\n"));
 
             Assert.Equal(("cozonac", "mac"), (headerField.Key, headerField.Value));
+        }
+
+        [Fact]
+        public void RequestTest()
+        {
+            string textS = "GET /pub/WWW/TheProject.html HTTP/1.1\r\nHost: trlalal\r\nAlt-camp: dsdsdsds\r\n\r\n";
+            TextToParse text = new TextToParse(textS);
+
+            RequestPattern requestPattern = new RequestPattern();
+
+            var (match, rText) = requestPattern.Match(text);
+
+            //Request request = new Request(match as );
         }
     }
 }

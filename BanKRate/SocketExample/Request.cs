@@ -25,11 +25,13 @@ namespace SocketExample
 
             MatchesArray httpHeader = requestPattern[1] as MatchesArray;
 
-            //foreach (var header in httpHeader.MatchArray)
-            //{
-            //    string key = (header as Match).Current
-            //    httpHeaderFields.Add(header ;
-            //}
+            foreach (HttpHeaderFieldMatch header in httpHeader.MatchArray)
+            {
+                string key = header.Key;
+                string value = header.Value;
+
+                httpHeaderFields.Add(key, value);
+            }
         }
     }
 }

@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JSONParser\JSONParser.csproj" />
+    <ProjectReference Include="..\SocketExample\HttpServer.csproj" />
   </ItemGroup>
 
 </Project>
