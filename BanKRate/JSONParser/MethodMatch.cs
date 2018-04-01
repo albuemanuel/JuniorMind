@@ -23,6 +23,7 @@ namespace JSONParser
 
             if (other == null)
                 return false;
+
             if (method == other.Method)
                 return true;
 

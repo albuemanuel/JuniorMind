@@ -35,10 +35,17 @@ namespace JSONParser
 
             if (other == null)
                 return false;
-            if (matchArray.Equals( other.matchArray))
-                return true;
 
-            return false;
+            if (matchArray.Count != other.matchArray.Count)
+                return false;
+
+            for(int i=0; i<matchArray.Count; i++)
+            {
+                if (!matchArray[i].Equals(other.matchArray[i]))
+                    return false;
+            }
+
+            return true;
         }
 
     }

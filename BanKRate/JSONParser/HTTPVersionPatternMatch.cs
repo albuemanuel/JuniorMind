@@ -18,6 +18,7 @@
 
             if (other == null)
                 return false;
+
             if (httpVersion == other.httpVersion)
                 return true;
 
