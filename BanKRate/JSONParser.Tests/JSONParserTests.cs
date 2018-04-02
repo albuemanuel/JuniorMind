@@ -552,14 +552,18 @@ namespace JSONParser
         [Fact]
         public void RequestTest()
         {
-            string textS = "GET /pub/WWW/TheProject.html HTTP/1.1\r\nHost: trlalal\r\nAlt-camp: dsdsdsds\r\n\r\n";
+            string textS = "GET /pub/WWW/TheProject.html HTTP/1.1\r\nHost: val1\r\nAlt-camp: val2\r\n\r\n";
             TextToParse text = new TextToParse(textS);
 
             RequestPattern requestPattern = new RequestPattern();
 
             var (match, rText) = requestPattern.Match(text);
 
-            //Request request = new Request(match as );
+            Request request = new Request(match as MatchesArray);
+
+            string header = "\n\t[Host,  val1]\n\t[Alt-camp,  val2]";
+
+            Assert.Equal((Method.GET, new Uri("/pub/WWW/TheProject.html", UriKind.RelativeOrAbsolute), header), (request.Method, request.Uri, request.HeaderAsString));
         }
     }
 }
