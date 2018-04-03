@@ -16,17 +16,21 @@ namespace SocketExample
 
             if (request.Method == Method.GET)
             {
+                byte[] file = null;
                 DiskRepository diskRepository = new DiskRepository();
                 try
                 {
-                    byte[] file = diskRepository.GetData(request.Uri);
+                    file = diskRepository.GetData(request.Uri);
                 }
+
                 catch(FileNotFoundException e)
                 {
                     response.Payload = Encoding.ASCII.GetBytes(e.ToString());
                     response.SetContentLength(e.ToString().Length);
                     response.SetStatusCode(404);
                 }
+
+                response.Payload = file;
             }
 
             response.AddHeaderField("tralala", "cozonac");

@@ -33,6 +33,8 @@ namespace HttpServerTests
             response.SetContentLength(13);
 
             response.Payload = Encoding.ASCII.GetBytes("<h1>Test</h1>");
+
+            Assert.Equal("<h1>Test</h1>", Encoding.ASCII.GetString(response.Payload));
         }
     }
 }

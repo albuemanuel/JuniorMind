@@ -46,13 +46,13 @@ public class HttpServer
                     var (match, rText) = requestPattern.Match(text);
                     Request request;
 
-                    if (match.Success)
-                    {
-                        data = "HTTP/1.1 200 OK\r\nContent-Length: 13\r\n\r\n<h1>Test</h1>";
-                        request = new Request(match as MatchesArray);
-                    }
-                    else
-                        data = "HTTP/1.1 400 BAD REQUEST\r\nContent-Length: 13\r\n\r\n<h1>Test</h1>";
+                    //if (match.Success)
+                    //{
+                    //    data = "HTTP/1.1 200 OK\r\nContent-Length: 13\r\n\r\n<h1>Test</h1>";
+                    //    request = new Request(match as MatchesArray);
+                    //}
+                    //else
+                    //    data = "HTTP/1.1 400 BAD REQUEST\r\nContent-Length: 13\r\n\r\n<h1>Test</h1>";
 
                     byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
 
