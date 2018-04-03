@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSONParser", "JSONParser\JS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JSONParser.Tests", "JSONParser.Tests\JSONParser.Tests.csproj", "{707DCCB9-6F3F-4C79-A10B-14AE6AC9FC8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpServerTests", "HttpServerTests\HttpServerTests.csproj", "{E2A421A0-EB5A-4D4E-B182-C9BB040A7FEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpServerTests", "HttpServerTests\HttpServerTests.csproj", "{E2A421A0-EB5A-4D4E-B182-C9BB040A7FEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
