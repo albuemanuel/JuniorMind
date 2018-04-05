@@ -2,8 +2,9 @@
 
 namespace SocketExample
 {
-    interface IRepository
+    public interface IRepository
     {
         byte[] GetData(Uri uri);
+        bool IsDirectory(Uri uri);
     }
 }

@@ -43,21 +43,18 @@ public class HttpServer
 
                     TextToParse text = new TextToParse(data);
                     RequestPattern requestPattern = new RequestPattern();
+
                     var (match, rText) = requestPattern.Match(text);
-                    Request request;
 
-                    //if (match.Success)
-                    //{
-                    //    data = "HTTP/1.1 200 OK\r\nContent-Length: 13\r\n\r\n<h1>Test</h1>";
-                    //    request = new Request(match as MatchesArray);
-                    //}
-                    //else
-                    //    data = "HTTP/1.1 400 BAD REQUEST\r\nContent-Length: 13\r\n\r\n<h1>Test</h1>";
+                    Request request = new Request(match as MatchesArray);
 
-                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
+                    StaticController staticController = new StaticController();
+                    Response response = staticController.GenerateResponse(request);
 
-                    stream.Write(msg, 0, msg.Length);
-                    Console.WriteLine("Sent: {0}", data);
+                    byte[] responseAsBytes = response.ToBytesArray();
+
+                    stream.Write(responseAsBytes, 0, responseAsBytes.Length);
+                    Console.WriteLine("Sent: {0}", response.ResponseAsString());
 
                 }
 

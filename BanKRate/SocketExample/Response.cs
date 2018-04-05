@@ -37,10 +37,7 @@ namespace SocketExample
 
         public void SetContentLength(int length)
         {
-            if (httpHeaderFields.ContainsKey("Content-Length"))
-                httpHeaderFields["Content-Length"] = length.ToString();
-            else
-                httpHeaderFields.Add("Content-Length", length.ToString());
+            AddHeaderField("Content-Length", length.ToString());
         }
 
         public void SetStatusCode(int statusCode)
@@ -63,29 +60,34 @@ namespace SocketExample
 
         private string HeaderAsString => httpHeaderFields.Aggregate("", (result, next) => result + next.Key + ':' + next.Value + "\r\n");
 
+        public string ResponseAsString()
+        {
+            string httpVersion = "HTTP/1.1";
+            string statusCode = this.statusCode;
+
+            string statusLine = httpVersion + " " + statusCode + "\r\n";
+
+            string response = statusLine + HeaderAsString;
+
+            return response;
+        }
+
 
         public byte[] ToBytesArray()
         {
-            byte[] httpVersion = Encoding.ASCII.GetBytes("HTTP/1.1");
-            byte[] statusCode = Encoding.ASCII.GetBytes(this.statusCode);
+            string httpVersion = "HTTP/1.1";
+            string statusCode = this.statusCode;
 
-            byte[] statusLine = new byte[statusCode.Length + httpVersion.Length];
+            string statusLine = httpVersion + " " + statusCode + "\r\n";
 
-            Array.Copy(httpVersion, statusLine, httpVersion.Length);                            //Adding httpVersion to statusLine
-            Array.Copy(statusCode, 0, statusLine, httpVersion.Length, statusCode.Length);       //Adding statusCode  to statusLine
-                                                                                                //statusLineFormed
-            byte[] headerAsBytes = Encoding.ASCII.GetBytes(HeaderAsString);
-            byte[] responseAsBytes = new byte[statusLine.Length + headerAsBytes.Length + 2];          
 
-            Array.Copy(statusLine, responseAsBytes, statusLine.Length);                                //Adding statusLine to response
-            Array.Copy(headerAsBytes, 0, responseAsBytes, statusLine.Length, headerAsBytes.Length);    //Adding header to response
+            string headers = statusLine + HeaderAsString + "\r\n" ;
+            byte[] headersAsBytes = Encoding.ASCII.GetBytes(headers);
 
-            byte[] endHeader = Encoding.ASCII.GetBytes("\r\n");                                 
+            byte[] responseAsBytes = new byte[headersAsBytes.Length + payload.Length];
 
-            Array.Copy(endHeader, 0, responseAsBytes, headerAsBytes.Length, 2);                        //Adding endHeader to response
-
-            Array.Resize(ref responseAsBytes, responseAsBytes.Length + payload.Length);
-            Array.Copy(payload, 0, responseAsBytes, statusLine.Length + headerAsBytes.Length + 2, payload.Length);
+            Array.Copy(headersAsBytes, responseAsBytes, headersAsBytes.Length);
+            Array.Copy(payload, 0, responseAsBytes, headersAsBytes.Length, payload.Length);
 
             return responseAsBytes;
         }

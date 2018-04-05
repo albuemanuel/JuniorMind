@@ -10,6 +10,17 @@ namespace SocketExample
 {
     public class StaticController : IController
     {
+        private readonly IRepository repository;
+
+        public StaticController()
+            : this(new DiskRepository())
+        { }
+
+        public StaticController(IRepository repository)
+        {
+            this.repository = repository;
+        }
+
         public Response GenerateResponse(Request request)
         {
             Response response = new Response(200);
@@ -17,27 +28,34 @@ namespace SocketExample
             if (request.Method == Method.GET)
             {
                 byte[] file = null;
-                DiskRepository diskRepository = new DiskRepository();
                 try
                 {
-                    file = diskRepository.GetData(request.Uri);
+                    file = repository.GetData(request.Uri);
+                    response.Payload = file;
+                    response.SetContentLength(file.Length);
                 }
-
-                catch(FileNotFoundException e)
+                catch (DirectoryNotFoundException e)
                 {
-                    response.Payload = Encoding.ASCII.GetBytes(e.ToString());
-                    response.SetContentLength(e.ToString().Length);
-                    response.SetStatusCode(404);
+                    HandleNotFoundException(response, e);
                 }
-
-                response.Payload = file;
+                catch (FileNotFoundException e)
+                {
+                    HandleNotFoundException(response, e);
+                }
             }
 
             response.AddHeaderField("tralala", "cozonac");
+            
 
             return response;
         }
 
-        
+        private static void HandleNotFoundException(Response response, Exception e)
+        {
+            response.Payload = Encoding.ASCII.GetBytes(e.ToString());
+            response.SetContentLength(e.ToString().Length);
+            response.SetStatusCode(404);
+        }
+
     }
 }
