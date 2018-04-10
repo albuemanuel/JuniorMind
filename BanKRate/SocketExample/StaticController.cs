@@ -30,7 +30,14 @@ namespace SocketExample
                 byte[] file = null;
                 try
                 {
-                    file = repository.GetData(request.Uri);
+                    if (repository.IsDirectory(request.Uri))
+                    {
+                        Uri dirUri = new Uri(request.Uri.ToString() + "/index.htm", UriKind.RelativeOrAbsolute);
+                        file = repository.GetData(dirUri);
+                    }
+                    else
+                        file = repository.GetData(request.Uri);
+
                     response.Payload = file;
                     response.SetContentLength(file.Length);
                 }

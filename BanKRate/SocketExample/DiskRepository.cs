@@ -9,8 +9,8 @@ namespace SocketExample
 
         public byte[] GetData(Uri relativeUri)
         {
-            if (IsDirectory(relativeUri))
-                return File.ReadAllBytes(FullPath(relativeUri) + "/index.htm");
+            //if (IsDirectory(relativeUri))
+                //return File.ReadAllBytes(FullPath(relativeUri) + "/index.htm");
 
             return File.ReadAllBytes(FullPath(relativeUri));
         }

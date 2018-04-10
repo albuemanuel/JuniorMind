@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using JSONParser;
 using SocketExample;
+using System.Text;
 
 public class HttpServer
 {
@@ -38,25 +39,18 @@ public class HttpServer
                 // An incoming connection needs to be processed.  
                 while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
                 {
-                    data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+                    data += Encoding.ASCII.GetString(bytes, 0, i);
                     Console.WriteLine("Received: {0}", data);
 
-                    TextToParse text = new TextToParse(data);
-                    RequestPattern requestPattern = new RequestPattern();
-
-                    var (match, rText) = requestPattern.Match(text);
-
-                    Request request = new Request(match as MatchesArray);
-
-                    StaticController staticController = new StaticController();
-                    Response response = staticController.GenerateResponse(request);
-
-                    byte[] responseAsBytes = response.ToBytesArray();
-
-                    stream.Write(responseAsBytes, 0, responseAsBytes.Length);
-                    Console.WriteLine("Sent: {0}", response.ResponseAsString());
+                    if (Encoding.ASCII.GetString(bytes).Contains("\r\n"))
+                        break;
 
                 }
+                Request request = FormRequest();
+                Response response = GenerateResponse(request);
+
+                Respond(stream, response);
+                Console.WriteLine("Sent: {0}", response.ResponseAsString());
 
                 client.Close();
             }
@@ -74,5 +68,29 @@ public class HttpServer
 
     }
 
-    
+    private static void Respond(NetworkStream stream, Response response)
+    {
+        byte[] responseAsBytes = response.ToBytesArray();
+
+        stream.Write(responseAsBytes, 0, responseAsBytes.Length);
+    }
+
+    private static Response GenerateResponse(Request request)
+    {
+        StaticController staticController = new StaticController();
+        Response response = staticController.GenerateResponse(request);
+        return response;
+    }
+
+    private static Request FormRequest()
+    {
+        TextToParse text = new TextToParse(data);
+        RequestPattern requestPattern = new RequestPattern();
+
+        var (match, rText) = requestPattern.Match(text);
+
+        Request request = new Request(match as MatchesArray);
+        return request;
+    }
+
 }

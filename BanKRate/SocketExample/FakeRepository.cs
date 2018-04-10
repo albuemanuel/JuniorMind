@@ -29,7 +29,7 @@ namespace SocketExample
 
         public byte[] GetData(Uri uri)
         {
-            if (IsDirectory(uri))
+            if (uri.ToString().Split('/').Last() == "index.htm")
                 return Encoding.ASCII.GetBytes("index.htm");
 
             return Encoding.ASCII.GetBytes("Poza unui cozonac cu mac");
@@ -42,7 +42,10 @@ namespace SocketExample
 
         public bool IsDirectory(Uri uri)
         {
-            return Directory.Exists(FullPath(uri));
+            string uriS = uri.ToString();
+
+            return (uriS[uriS.Length - 1] == '/');
+
         }
     }
 }
