@@ -6,7 +6,7 @@ using System.Text;
 public class TcpClientExample
 {
 
-    static void Connect(String server, String message)
+    static void Connect(String server, params string[] messages)
     {
         try
         {
@@ -17,23 +17,26 @@ public class TcpClientExample
             Int32 port = 13000;
             TcpClient client = new TcpClient(server, port);
 
-            // Translate the passed message into ASCII and store it as a Byte array.
-            Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
-
-            // Get a client stream for reading and writing.
-            //  Stream stream = client.GetStream();
-
             NetworkStream stream = client.GetStream();
+            foreach (var message in messages)
+            {
+                // Translate the passed message into ASCII and store it as a Byte array.
+                Byte[] messageData = System.Text.Encoding.ASCII.GetBytes(message);
 
-            // Send the message to the connected TcpServer. 
-            stream.Write(data, 0, data.Length);
+                // Get a client stream for reading and writing.
+                //  Stream stream = client.GetStream();
 
-            Console.WriteLine("Sent: {0}", message);
+
+                // Send the message to the connected TcpServer. 
+                stream.Write(messageData, 0, messageData.Length);
+
+                Console.WriteLine("Sent: {0}", message);
+            }
 
             // Receive the TcpServer.response.
 
             // Buffer to store the response bytes.
-            data = new Byte[256];
+            var data = new Byte[256];
 
             // String to store the response ASCII representation.
             String responseData = String.Empty;
@@ -61,7 +64,8 @@ public class TcpClientExample
     }
     static void Main(string[] args)
     {
-        string s = Console.ReadLine();
-        Connect("127.0.0.1", s);
+        Console.ReadLine();
+        Connect("127.0.0.1",
+            "GET", "/ HTTP/1.1\r\n", "Host: 127.0.0.1:13000\r\n", "Connection: keep-alive\r\n", "Accept-Language: en-US,en;q=0.9\r\n\r\n");
     }
 }
