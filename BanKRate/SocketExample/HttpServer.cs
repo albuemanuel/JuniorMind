@@ -33,29 +33,32 @@ public class HttpServer
                 TcpClient client = listener.AcceptTcpClient();
                 data = null;
 
-                
                 NetworkStream stream = client.GetStream();
 
-                while (stream != null)
+                while (true)
                 {
-
                     int i;
                     // An incoming connection needs to be processed.  
                     while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
                     {
-                        data += System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+
+                        data += Encoding.ASCII.GetString(bytes, 0, i);
                         Console.WriteLine("Received: {0}", data);
 
-                        Request request = FormRequest();
-                        Response response = GenerateResponse(request);
-
-                        Respond(stream, response);
-                        Console.WriteLine("Sent: {0}", response.ResponseAsString());
+                        
+                        if (Encoding.ASCII.GetString(bytes).Contains("\r\n\r\n"))
+                            break;
 
                         //stream.Write(Encoding.ASCII.GetBytes("OK"), 0, 2);
                         //Console.WriteLine("Sent: OK");
 
                     }
+
+                    Request request = FormRequest();
+                    Response response = GenerateResponse(request);
+
+                    Respond(stream, response);
+                    Console.WriteLine("Sent: {0}", response.ResponseAsString());
 
                     client.Close();
                 }
