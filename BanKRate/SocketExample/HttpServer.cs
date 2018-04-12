@@ -8,16 +8,23 @@ using System.Text;
 public class HttpServer
 {
     // Incoming data from the client.  
-    public static string data = null;
 
-    public static void Main()
+    Int32 port;
+    string ipAddress;
+
+    public HttpServer(Int32 port = 13000, string ipAddress = "127.0.0.1")
+    {
+        this.port = port;
+        this.ipAddress = ipAddress;
+    }
+
+    public void StartHttpServer()
     {
 
         TcpListener listener = null;
         try
         {
-            Int32 port = 13000;
-            IPAddress localAddr = IPAddress.Parse("127.0.0.1");
+            IPAddress localAddr = IPAddress.Parse(ipAddress);
 
             // TcpListener server = new TcpListener(port);
             listener = new TcpListener(localAddr, port);
@@ -31,12 +38,12 @@ public class HttpServer
                 Console.WriteLine("Waiting for a connection...");
                 // Program is suspended while waiting for an incoming connection.  
                 TcpClient client = listener.AcceptTcpClient();
-                data = null;
+                string data = null;
 
                 NetworkStream stream = client.GetStream();
 
-                ReceiveRequest(bytes, stream);
-                Request request = FormRequest();
+                data = ReceiveRequest(bytes, stream);
+                Request request = FormRequest(data);
 
                 Response response = GenerateResponse(request);
 
@@ -59,8 +66,9 @@ public class HttpServer
 
     }
 
-    public static void ReceiveRequest(byte[] bytes, System.IO.Stream stream)
+    public static string ReceiveRequest(byte[] bytes, System.IO.Stream stream)
     {
+        string data = null;
         int i;
         // An incoming connection needs to be processed.  
         while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
@@ -73,6 +81,7 @@ public class HttpServer
                 break;
 
         }
+        return data;
     }
 
     private static void Respond(NetworkStream stream, Response response)
@@ -89,7 +98,7 @@ public class HttpServer
         return response;
     }
 
-    private static Request FormRequest()
+    private static Request FormRequest(string data)
     {
         TextToParse text = new TextToParse(data);
         RequestPattern requestPattern = new RequestPattern();

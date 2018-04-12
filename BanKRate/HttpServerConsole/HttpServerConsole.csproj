@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{51B3DEB4-8CE7-47A6-A511-0DE6D607603A}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>SocketExample</RootNamespace>
-    <AssemblyName>SocketExample</AssemblyName>
+    <ProjectGuid>{2ACF954F-27BA-4FEC-9900-2E310952BB94}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>HttpServerConsole</RootNamespace>
+    <AssemblyName>HttpServerConsole</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,14 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,27 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DiskRepository.cs" />
-    <Compile Include="FakeRepository.cs" />
-    <Compile Include="HttpServer.cs" />
-    <Compile Include="IController.cs" />
-    <Compile Include="IRepository.cs" />
+    <Compile Include="HttpServerConsole.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Request.cs" />
-    <Compile Include="Response.cs" />
-    <Compile Include="StaticController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JSONParser\JSONParser.csproj">
-      <Project>{052de705-0396-4c63-b939-48826b1209a6}</Project>
-      <Name>JSONParser</Name>
+    <ProjectReference Include="..\SocketExample\HttpServer.csproj">
+      <Project>{51b3deb4-8ce7-47a6-a511-0de6d607603a}</Project>
+      <Name>HttpServer</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SiteFolder\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
