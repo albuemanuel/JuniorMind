@@ -58,7 +58,7 @@ namespace SocketExample
             }
         }
 
-        private string HeaderAsString => httpHeaderFields.Aggregate("", (result, next) => result + next.Key + ':' + next.Value + "\r\n");
+        private string HeaderAsString => httpHeaderFields.Aggregate("", (result, next) => result + next.Key + ": " + next.Value + "\r\n");
 
         public string ResponseAsString()
         {

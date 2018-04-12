@@ -21,7 +21,7 @@ namespace HttpServerTests
             Response response = staticController.GenerateResponse(request);
 
             Assert.Equal("Poza unui cozonac cu mac", Encoding.ASCII.GetString(response.Payload));
-            Assert.Equal("HTTP/1.1 200 OK\r\nContent-Length:24\r\ntralala:cozonac\r\n\r\nPoza unui cozonac cu mac", Encoding.ASCII.GetString(response.ToBytesArray()));
+            Assert.Equal("HTTP/1.1 200 OK\r\nContent-Length: 24\r\ntralala: cozonac\r\nConnection: close\r\n\r\nPoza unui cozonac cu mac", Encoding.ASCII.GetString(response.ToBytesArray()));
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace HttpServerTests
             Response response = staticController.GenerateResponse(request);
 
             Assert.Equal("Poza unui cozonac cu mac", Encoding.ASCII.GetString(response.Payload));
-            Assert.Equal("HTTP/1.1 200 OK\r\nContent-Length:24\r\ntralala:cozonac\r\n\r\nPoza unui cozonac cu mac", Encoding.ASCII.GetString(response.ToBytesArray()));
+            Assert.Equal("HTTP/1.1 200 OK\r\nContent-Length: 24\r\ntralala: cozonac\r\nConnection: close\r\n\r\nPoza unui cozonac cu mac", Encoding.ASCII.GetString(response.ToBytesArray()));
         }
     }
 }

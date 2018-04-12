@@ -35,33 +35,15 @@ public class HttpServer
 
                 NetworkStream stream = client.GetStream();
 
-                while (true)
-                {
-                    int i;
-                    // An incoming connection needs to be processed.  
-                    while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
-                    {
+                ReceiveRequest(bytes, stream);
+                Request request = FormRequest();
 
-                        data += Encoding.ASCII.GetString(bytes, 0, i);
-                        Console.WriteLine("Received: {0}", data);
+                Response response = GenerateResponse(request);
 
-                        
-                        if (Encoding.ASCII.GetString(bytes).Contains("\r\n\r\n"))
-                            break;
+                Respond(stream, response);
+                Console.WriteLine("Sent: {0}", response.ResponseAsString());
 
-                        //stream.Write(Encoding.ASCII.GetBytes("OK"), 0, 2);
-                        //Console.WriteLine("Sent: OK");
-
-                    }
-
-                    Request request = FormRequest();
-                    Response response = GenerateResponse(request);
-
-                    Respond(stream, response);
-                    Console.WriteLine("Sent: {0}", response.ResponseAsString());
-
-                    client.Close();
-                }
+                client.Close();
             }
 
         }
@@ -75,6 +57,22 @@ public class HttpServer
             Console.Read();
         }
 
+    }
+
+    public static void ReceiveRequest(byte[] bytes, System.IO.Stream stream)
+    {
+        int i;
+        // An incoming connection needs to be processed.  
+        while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+        {
+
+            data += Encoding.ASCII.GetString(bytes, 0, i);
+            Console.WriteLine("Received: {0}", data);
+
+            if (data.Contains("\r\n\r\n"))
+                break;
+
+        }
     }
 
     private static void Respond(NetworkStream stream, Response response)

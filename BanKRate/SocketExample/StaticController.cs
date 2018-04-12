@@ -52,7 +52,7 @@ namespace SocketExample
             }
 
             response.AddHeaderField("tralala", "cozonac");
-            
+            response.AddHeaderField("Connection", "close");
 
             return response;
         }
