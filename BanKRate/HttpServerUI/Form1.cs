@@ -10,21 +10,21 @@ using System.Windows.Forms;
 
 namespace HttpServerUI
 {
-    public partial class Form1 : Form
+    public partial class ServerWindowForm : Form
     {
-        public Form1()
+        public ServerWindowForm()
         {
             InitializeComponent();
         }
 
         private void StartServerButton_Click(object sender, EventArgs e)
         {
+            Int32.TryParse(PortBox.Text, out int port);
 
-            HttpServer httpServer = new HttpServer();
+            HttpServer httpServer = new HttpServer(port, IPBox.Text, BaseURIBox.Text);
             Thread thread = new Thread(httpServer.StartHttpServer);
 
             thread.Start();
-
         }
 
         private void IPBox_Click(object sender, EventArgs e)
@@ -37,7 +37,7 @@ namespace HttpServerUI
             EmptyBox(sender);
         }
 
-        private void BaseURIBox3_Click(object sender, EventArgs e)
+        private void BaseURIBox_Click(object sender, EventArgs e)
         {
             EmptyBox(sender);
         }
@@ -47,7 +47,5 @@ namespace HttpServerUI
             TextBox box = sender as TextBox;
             box.Text = string.Empty;
         }
-
-        
     }
 }

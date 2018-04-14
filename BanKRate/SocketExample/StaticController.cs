@@ -12,8 +12,8 @@ namespace SocketExample
     {
         private readonly IRepository repository;
 
-        public StaticController()
-            : this(new DiskRepository())
+        public StaticController(string baseURI)
+            : this(new DiskRepository(baseURI))
         { }
 
         public StaticController(IRepository repository)

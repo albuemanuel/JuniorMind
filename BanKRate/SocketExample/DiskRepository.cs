@@ -5,7 +5,12 @@ namespace SocketExample
 {
     public class DiskRepository : IRepository
     {
-        string baseUri = "C:/Users/dev/Desktop/JuniorMind/BanKRate/SocketExample/SiteFolder/";
+        string baseURI;
+
+        public DiskRepository(string baseURI)
+        {
+            this.baseURI = baseURI;
+        }
 
         public byte[] GetData(Uri relativeUri)
         {
@@ -17,7 +22,7 @@ namespace SocketExample
 
         private string FullPath(Uri relativeUri)
         {
-            return Path.Combine(baseUri, relativeUri.ToString().TrimStart('/'));
+            return Path.Combine(baseURI, relativeUri.ToString().TrimStart('/'));
         }
 
         public bool IsDirectory(Uri uri)

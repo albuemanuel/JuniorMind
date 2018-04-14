@@ -12,6 +12,7 @@ namespace HttpServerConsole
         {
             HttpServer httpServer = new HttpServer();
             Thread thread = new Thread(httpServer.StartHttpServer);
+            thread.Start();
         }
     }
 }

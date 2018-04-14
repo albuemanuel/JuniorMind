@@ -11,11 +11,13 @@ public class HttpServer
 
     Int32 port;
     string ipAddress;
+    string baseURI;
 
-    public HttpServer(Int32 port = 13000, string ipAddress = "127.0.0.1")
+    public HttpServer(Int32 port = 13000, string ipAddress = "127.0.0.1", string baseURI = "C:/Users/albue.DESKTOP-7NLSNIJ/Desktop/JM/JuniorMind/BanKRate/SocketExample/SiteFolder")
     {
         this.port = port;
         this.ipAddress = ipAddress;
+        this.baseURI = baseURI;
     }
 
     public void StartHttpServer()
@@ -45,7 +47,7 @@ public class HttpServer
                 data = ReceiveRequest(bytes, stream);
                 Request request = FormRequest(data);
 
-                Response response = GenerateResponse(request);
+                Response response = GenerateResponse(request, baseURI);
 
                 Respond(stream, response);
                 Console.WriteLine("Sent: {0}", response.ResponseAsString());
@@ -91,9 +93,9 @@ public class HttpServer
         stream.Write(responseAsBytes, 0, responseAsBytes.Length);
     }
 
-    private static Response GenerateResponse(Request request)
+    private static Response GenerateResponse(Request request, string baseURI)
     {
-        StaticController staticController = new StaticController();
+        StaticController staticController = new StaticController(baseURI);
         Response response = staticController.GenerateResponse(request);
         return response;
     }
