@@ -10,7 +10,8 @@ namespace HttpServerConsole
     {
         static void Main(string[] args)
         {
-            HttpServer httpServer = new HttpServer();
+            Int32.TryParse(args[0], out int port);
+            HttpServer httpServer = new HttpServer(port, args[1], args[2]);
             Thread thread = new Thread(httpServer.StartHttpServer);
             thread.Start();
         }
