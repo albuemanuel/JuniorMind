@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleTextChangedEventArgs.cs" />
     <Compile Include="DiskRepository.cs" />
     <Compile Include="FakeRepository.cs" />
     <Compile Include="HttpServer.cs" />

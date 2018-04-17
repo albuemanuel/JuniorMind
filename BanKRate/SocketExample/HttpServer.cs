@@ -5,16 +5,27 @@ using JSONParser;
 using SocketExample;
 using System.Text;
 
+
 public class HttpServer
 {
     // Incoming data from the client.  
-
+    public event EventHandler<ConsoleTextChangedEventArgs> ConsoleTextChanged;
+    private volatile bool shouldStop = false;
     Int32 port;
     string ipAddress;
     string baseURI;
+    private TcpListener listener;
 
-    public HttpServer(Int32 port = 13000, string ipAddress = "127.0.0.1", string baseURI = "C:/Users/albue.DESKTOP-7NLSNIJ/Desktop/JM/JuniorMind/BanKRate/SocketExample/SiteFolder")
+    protected virtual void OnConsoleTextChanged(ConsoleTextChangedEventArgs e)
     {
+        ConsoleTextChanged?.Invoke(this, e);
+    }
+
+    public bool ShouldStop { get => shouldStop; }
+
+    public HttpServer(object control = null, Int32 port = 13000, string ipAddress = "127.0.0.1", string baseURI = "C:/Users/albue.DESKTOP-7NLSNIJ/Desktop/JM/JuniorMind/BanKRate/SocketExample/SiteFolder")
+    {
+        this.control = control;
         this.port = port;
         this.ipAddress = ipAddress;
         this.baseURI = baseURI;
@@ -22,8 +33,8 @@ public class HttpServer
 
     public void StartHttpServer()
     {
-
-        TcpListener listener = null;
+        ConsoleTextChangedEventArgs consoleTextChangedEventArgs = new ConsoleTextChangedEventArgs();
+        listener = null;
         try
         {
             IPAddress localAddr = IPAddress.Parse(ipAddress);
@@ -35,37 +46,60 @@ public class HttpServer
             Byte[] bytes = new Byte[1024];
 
             // Start listening for connections.  
-            while (true)
+            while (!shouldStop)
             {
+                
+
+                consoleTextChangedEventArgs.Text = "Waiting for a connection\r\n";
+                OnConsoleTextChanged(consoleTextChangedEventArgs);
                 Console.WriteLine("Waiting for a connection...");
+                
                 // Program is suspended while waiting for an incoming connection.  
+
                 TcpClient client = listener.AcceptTcpClient();
                 string data = null;
 
                 NetworkStream stream = client.GetStream();
 
                 data = ReceiveRequest(bytes, stream);
-                Request request = FormRequest(data);
 
-                Response response = GenerateResponse(request, baseURI);
+                if(data != null)
+                {
+                    Request request = FormRequest(data);
 
-                Respond(stream, response);
-                Console.WriteLine("Sent: {0}", response.ResponseAsString());
+                    Response response = GenerateResponse(request, baseURI);
+
+                    Respond(stream, response);
+
+                    consoleTextChangedEventArgs.Text = $"Sent: {response.ResponseAsString()}";
+                    OnConsoleTextChanged(consoleTextChangedEventArgs);
+                    Console.WriteLine("Sent: {0}", response.ResponseAsString()); 
+                }
 
                 client.Close();
             }
-
+            listener.Stop();
         }
         catch (Exception e)
         {
+            consoleTextChangedEventArgs.Text = $"Socket exception: {e}";
+            OnConsoleTextChanged(consoleTextChangedEventArgs);
             Console.WriteLine("Socket exception: {0}", e);
         }
         finally
         {
+            consoleTextChangedEventArgs.Text = "\nServerStopped";
+            OnConsoleTextChanged(consoleTextChangedEventArgs);
             Console.WriteLine("\nPress ENTER to continue...");
             Console.Read();
         }
 
+    }
+
+    public void RequestStop()
+    {
+        shouldStop = true;
+        listener.Stop();
     }
 
     public static string ReceiveRequest(byte[] bytes, System.IO.Stream stream)

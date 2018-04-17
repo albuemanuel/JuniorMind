@@ -28,22 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.StartServerButton = new System.Windows.Forms.Button();
             this.IPBox = new System.Windows.Forms.TextBox();
             this.PortBox = new System.Windows.Forms.TextBox();
             this.BaseURIBox = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.StatusBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // button1
+            // StartServerButton
             // 
-            this.button1.Location = new System.Drawing.Point(301, 206);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Start Server";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.StartServerButton_Click);
+            this.StartServerButton.Location = new System.Drawing.Point(301, 206);
+            this.StartServerButton.Name = "StartServerButton";
+            this.StartServerButton.Size = new System.Drawing.Size(75, 23);
+            this.StartServerButton.TabIndex = 0;
+            this.StartServerButton.Text = "Start Server";
+            this.StartServerButton.UseVisualStyleBackColor = true;
+            this.StartServerButton.Click += new System.EventHandler(this.StartServerButton_Click);
             // 
             // IPBox
             // 
@@ -70,28 +70,27 @@
             this.BaseURIBox.Name = "BaseURIBox";
             this.BaseURIBox.Size = new System.Drawing.Size(495, 20);
             this.BaseURIBox.TabIndex = 3;
-            this.BaseURIBox.Text = "C:\\Users\\albue.DESKTOP-7NLSNIJ\\Desktop\\JM\\JuniorMind\\BanKRate\\SocketExample\\SiteF" +
-    "older";
+            this.BaseURIBox.Text = "C:\\Users\\dev\\Desktop\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder";
             this.BaseURIBox.Click += new System.EventHandler(this.BaseURIBox_Click);
             // 
-            // textBox4
+            // StatusBox
             // 
-            this.textBox4.Location = new System.Drawing.Point(91, 289);
-            this.textBox4.Multiline = true;
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(477, 280);
-            this.textBox4.TabIndex = 4;
+            this.StatusBox.Location = new System.Drawing.Point(91, 289);
+            this.StatusBox.Multiline = true;
+            this.StatusBox.Name = "StatusBox";
+            this.StatusBox.Size = new System.Drawing.Size(477, 280);
+            this.StatusBox.TabIndex = 4;
             // 
             // ServerWindowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(716, 628);
-            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.StatusBox);
             this.Controls.Add(this.BaseURIBox);
             this.Controls.Add(this.PortBox);
             this.Controls.Add(this.IPBox);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.StartServerButton);
             this.Name = "ServerWindowForm";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -101,11 +100,11 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button StartServerButton;
         private System.Windows.Forms.TextBox IPBox;
         private System.Windows.Forms.TextBox PortBox;
         private System.Windows.Forms.TextBox BaseURIBox;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox StatusBox;
     }
 }
 
