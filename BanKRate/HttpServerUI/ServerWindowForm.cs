@@ -29,9 +29,9 @@ namespace HttpServerUI
             if (httpServer == null || httpServer.ShouldStop)
             {
                 ChangeButtonState(sender as Button);
-                httpServer = new HttpServer(port, IPBox.Text, BaseURIBox.Text, this);
+                httpServer = new HttpServer(port, IPBox.Text, BaseURIBox.Text);
                 httpServer.ConsoleTextChanged += httpServer_ConsoleTextChanged;
-                thread = new Thread(httpServer.StartHttpServer);
+                thread = new Thread(new ThreadStart(httpServer.StartHttpServer));
                 thread.Start();
             }
             else

@@ -23,9 +23,8 @@ public class HttpServer
 
     public bool ShouldStop { get => shouldStop; }
 
-    public HttpServer(object control = null, Int32 port = 13000, string ipAddress = "127.0.0.1", string baseURI = "C:/Users/albue.DESKTOP-7NLSNIJ/Desktop/JM/JuniorMind/BanKRate/SocketExample/SiteFolder")
+    public HttpServer(Int32 port = 13000, string ipAddress = "127.0.0.1", string baseURI = "C:/Users/albue.DESKTOP-7NLSNIJ/Desktop/JM/JuniorMind/BanKRate/SocketExample/SiteFolder")
     {
-        this.control = control;
         this.port = port;
         this.ipAddress = ipAddress;
         this.baseURI = baseURI;
@@ -82,13 +81,13 @@ public class HttpServer
         }
         catch (Exception e)
         {
-            consoleTextChangedEventArgs.Text = $"Socket exception: {e}";
+            consoleTextChangedEventArgs.Text = $"\r\nSocket exception: {e}";
             OnConsoleTextChanged(consoleTextChangedEventArgs);
             Console.WriteLine("Socket exception: {0}", e);
         }
         finally
         {
-            consoleTextChangedEventArgs.Text = "\nServerStopped";
+            consoleTextChangedEventArgs.Text = "\r\nServerStopped";
             OnConsoleTextChanged(consoleTextChangedEventArgs);
             Console.WriteLine("\nPress ENTER to continue...");
             Console.Read();

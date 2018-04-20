@@ -78,6 +78,7 @@
             this.StatusBox.Location = new System.Drawing.Point(91, 289);
             this.StatusBox.Multiline = true;
             this.StatusBox.Name = "StatusBox";
+            this.StatusBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.StatusBox.Size = new System.Drawing.Size(477, 280);
             this.StatusBox.TabIndex = 4;
             // 
