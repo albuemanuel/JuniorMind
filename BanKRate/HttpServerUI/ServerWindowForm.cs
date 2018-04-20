@@ -16,6 +16,8 @@ namespace HttpServerUI
         HttpServer httpServer;
         Thread thread;
 
+        delegate void ChangeTextBox();
+
         public ServerWindowForm()
         {
             InitializeComponent();
@@ -23,14 +25,13 @@ namespace HttpServerUI
 
         private void StartServerButton_Click(object sender, EventArgs e)
         {
-
             Int32.TryParse(PortBox.Text, out int port);
 
             if (httpServer == null || httpServer.ShouldStop)
             {
                 ChangeButtonState(sender as Button);
                 httpServer = new HttpServer(port, IPBox.Text, BaseURIBox.Text);
-                httpServer.ConsoleTextChanged += httpServer_ConsoleTextChanged;
+                httpServer.ConsoleTextChanged += HttpServer_ConsoleTextChanged;
                 thread = new Thread(new ThreadStart(httpServer.StartHttpServer));
                 thread.Start();
             }
@@ -38,20 +39,23 @@ namespace HttpServerUI
             {
                 ChangeButtonState(sender as Button);
                 httpServer.RequestStop();
-                thread.Join();
+                //thread.Join(5000);
             }
+        }
+
+        private void HttpServer_ConsoleTextChanged(string text)
+        {
+            ChangeTextBox del = () => StatusBox.AppendText(text);
+
+            Invoke(new Action(() =>
+                StatusBox.AppendText(text)));
         }
 
         private void CreateServer()
         {
 
         }
-
-        private void httpServer_ConsoleTextChanged(object sender, ConsoleTextChangedEventArgs e)
-        {
-            StatusBox.Text += e.Text;
-        }
-
+        
         private void ChangeButtonState(Button button)
         {
             switch(button.Text)

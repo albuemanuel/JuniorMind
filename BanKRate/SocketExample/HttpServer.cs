@@ -9,16 +9,17 @@ using System.Text;
 public class HttpServer
 {
     // Incoming data from the client.  
-    public event EventHandler<ConsoleTextChangedEventArgs> ConsoleTextChanged;
+    public delegate void ConsoleTextChangedDelegate(string text);
+    public event ConsoleTextChangedDelegate ConsoleTextChanged;
     private volatile bool shouldStop = false;
     Int32 port;
     string ipAddress;
     string baseURI;
     private TcpListener listener;
 
-    protected virtual void OnConsoleTextChanged(ConsoleTextChangedEventArgs e)
+    protected virtual void OnConsoleTextChanged(string text)
     {
-        ConsoleTextChanged?.Invoke(this, e);
+        ConsoleTextChanged?.Invoke(text);
     }
 
     public bool ShouldStop { get => shouldStop; }
@@ -32,7 +33,6 @@ public class HttpServer
 
     public void StartHttpServer()
     {
-        ConsoleTextChangedEventArgs consoleTextChangedEventArgs = new ConsoleTextChangedEventArgs();
         listener = null;
         try
         {
@@ -49,8 +49,7 @@ public class HttpServer
             {
                 
 
-                consoleTextChangedEventArgs.Text = "Waiting for a connection\r\n";
-                OnConsoleTextChanged(consoleTextChangedEventArgs);
+                OnConsoleTextChanged("Waiting for a connection\r\n");
                 Console.WriteLine("Waiting for a connection...");
                 
                 // Program is suspended while waiting for an incoming connection.  
@@ -70,8 +69,7 @@ public class HttpServer
 
                     Respond(stream, response);
 
-                    consoleTextChangedEventArgs.Text = $"Sent: {response.ResponseAsString()}";
-                    OnConsoleTextChanged(consoleTextChangedEventArgs);
+                    OnConsoleTextChanged($"Sent: {response.ResponseAsString()}");
                     Console.WriteLine("Sent: {0}", response.ResponseAsString()); 
                 }
 
@@ -81,14 +79,12 @@ public class HttpServer
         }
         catch (Exception e)
         {
-            consoleTextChangedEventArgs.Text = $"\r\nSocket exception: {e}";
-            OnConsoleTextChanged(consoleTextChangedEventArgs);
+            OnConsoleTextChanged($"\r\nSocket exception:\n {e}");
             Console.WriteLine("Socket exception: {0}", e);
         }
         finally
         {
-            consoleTextChangedEventArgs.Text = "\r\nServerStopped";
-            OnConsoleTextChanged(consoleTextChangedEventArgs);
+            OnConsoleTextChanged("\r\nServerStopped");
             Console.WriteLine("\nPress ENTER to continue...");
             Console.Read();
         }
