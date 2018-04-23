@@ -30,7 +30,7 @@ namespace HttpServerUI
             if (httpServer == null || httpServer.ShouldStop)
             {
                 ChangeButtonState(sender as Button);
-                httpServer = new HttpServer(port, IPBox.Text, BaseURIBox.Text);
+                httpServer = new HttpServer(port, IPBox.Text, BaseUriComboBox.Text);
                 httpServer.ConsoleTextChanged += HttpServer_ConsoleTextChanged;
                 thread = new Thread(new ThreadStart(httpServer.StartHttpServer));
                 thread.Start();
@@ -71,17 +71,17 @@ namespace HttpServerUI
 
         private void IPBox_Click(object sender, EventArgs e)
         {
-            EmptyBox(sender);
+            //EmptyBox(sender);
         }
 
         private void PortBox_Click(object sender, EventArgs e)
         {
-            EmptyBox(sender);
+            //EmptyBox(sender);
         }
 
         private void BaseURIBox_Click(object sender, EventArgs e)
         {
-            EmptyBox(sender);
+            //EmptyBox(sender);
         }
 
         private static void EmptyBox(object sender)
