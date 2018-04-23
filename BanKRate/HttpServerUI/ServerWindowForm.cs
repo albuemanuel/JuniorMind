@@ -45,10 +45,15 @@ namespace HttpServerUI
 
         private void HttpServer_ConsoleTextChanged(string text)
         {
-            ChangeTextBox del = () => StatusBox.AppendText(text);
+            ChangeTextBox del = delegate ()
+            {
+                if (!string.IsNullOrWhiteSpace(StatusBox.Text))
+                    StatusBox.AppendText("\r\n" + text);
+                else
+                    StatusBox.AppendText(text);
+            };
 
-            Invoke(new Action(() =>
-                StatusBox.AppendText(text)));
+            Invoke(del);
         }
 
         private void CreateServer()
@@ -88,6 +93,18 @@ namespace HttpServerUI
         {
             TextBox box = sender as TextBox;
             box.Text = string.Empty;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            folderBrowserDialog1.SelectedPath = BaseUriComboBox.Text;
+            folderBrowserDialog1.ShowDialog();
+        }
+
+        private void ServerWindowForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (httpServer != null)
+                httpServer.RequestStop();
         }
     }
 }

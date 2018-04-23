@@ -38,12 +38,20 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.BaseUriComboBox = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // IPBox
             // 
+            this.IPBox.AutoCompleteCustomSource.AddRange(new string[] {
+            "127.0.0.1 ",
+            "localhost"});
+            this.IPBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.IPBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.IPBox.Location = new System.Drawing.Point(83, 50);
             this.IPBox.Name = "IPBox";
             this.IPBox.Size = new System.Drawing.Size(100, 20);
@@ -53,6 +61,8 @@
             // 
             // PortBox
             // 
+            this.PortBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.PortBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystemDirectories;
             this.PortBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PortBox.Location = new System.Drawing.Point(110, 0);
             this.PortBox.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -101,6 +111,7 @@
             this.tableLayoutPanel1.Controls.Add(this.StartServerButton, 3, 4);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 3, 2);
             this.tableLayoutPanel1.Controls.Add(this.BaseUriComboBox, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.button1, 4, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -169,11 +180,26 @@
             this.BaseUriComboBox.FormattingEnabled = true;
             this.BaseUriComboBox.Items.AddRange(new object[] {
             "C:\\Users\\albue.DESKTOP-7NLSNIJ\\Desktop\\JM\\JuniorMind\\BanKRate\\SocketExample\\SiteF" +
-                "older"});
+                "older",
+            "C:\\Users\\dev\\Desktop\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder"});
             this.BaseUriComboBox.Location = new System.Drawing.Point(83, 23);
             this.BaseUriComboBox.Name = "BaseUriComboBox";
             this.BaseUriComboBox.Size = new System.Drawing.Size(394, 21);
             this.BaseUriComboBox.TabIndex = 9;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(483, 23);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(19, 21);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // ServerWindowForm
             // 
@@ -183,6 +209,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "ServerWindowForm";
             this.Text = "Form1";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ServerWindowForm_FormClosing);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -202,6 +229,9 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.ComboBox BaseUriComboBox;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 

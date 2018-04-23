@@ -47,9 +47,7 @@ public class HttpServer
             // Start listening for connections.  
             while (!shouldStop)
             {
-                
-
-                OnConsoleTextChanged("Waiting for a connection\r\n");
+                OnConsoleTextChanged("Waiting for a connection...");
                 Console.WriteLine("Waiting for a connection...");
                 
                 // Program is suspended while waiting for an incoming connection.  

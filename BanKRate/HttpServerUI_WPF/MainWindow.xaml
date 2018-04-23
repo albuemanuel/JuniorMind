@@ -1,0 +1,74 @@
+﻿<Window x:Name="ServerWindow"
+        x:Class="HttpServerUI_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HttpServerUI_WPF"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="492.188"
+        Width="373.729"
+        Closing="ServerWindow_Closing"
+        FontFamily="Microsoft Sans Serif">
+    <Grid Margin="7">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="7" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="7" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="7" />
+            <RowDefinition Height="23" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Label HorizontalAlignment="Left"
+               Height="23"
+               VerticalAlignment="Top"
+               Margin="0,0,7,0"
+               Grid.Column="0"
+               Grid.Row="0">Path</Label>
+        <Label Grid.Column="0"
+               Margin="0,0,7,0"
+               Grid.Row="2">
+            IP</Label>
+        <TextBox x:Name="IPBox"
+                 Text="127.0.0.1"
+                 Grid.Column="1"
+                 Grid.Row="2"
+                 VerticalContentAlignment="Center" />
+
+        <Label Grid.Column="2"
+               Margin="7,0,7,0"
+               Grid.Row="2">Port</Label>
+        <TextBox x:Name="PortBox"
+                 Text="13000"
+                 Grid.Column="4"
+                 Grid.Row="2"
+                 VerticalContentAlignment="Center" />
+        <TextBox x:Name="StatusBox"
+                 TextWrapping="Wrap"
+                 Grid.ColumnSpan="4"
+                 Grid.Column="0"
+                 Grid.Row="4" />
+        <Button Content="Start"
+                Click="Button_Click"
+                Grid.Column="3"
+                Grid.Row="6" />
+        <ComboBox x:Name="BaseURIComboBox"
+                  Grid.Column="1"
+                  Grid.Row="0"
+                  Grid.ColumnSpan="3">
+            <ComboBoxItem x:Name="URI1"
+                          Content="C:\\Users\\dev\Desktop\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder" />
+            <ComboBoxItem x:Name="URI2"
+                          Content="C:\\Users\\albue.DESKTOP-7NLSNIJ\\Desktop\\JM\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder" />
+        </ComboBox>
+
+    </Grid>
+</Window>
