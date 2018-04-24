@@ -181,7 +181,8 @@
             this.BaseUriComboBox.Items.AddRange(new object[] {
             "C:\\Users\\albue.DESKTOP-7NLSNIJ\\Desktop\\JM\\JuniorMind\\BanKRate\\SocketExample\\SiteF" +
                 "older",
-            "C:\\Users\\dev\\Desktop\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder"});
+            "C:\\Users\\dev\\Desktop\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder",
+            "C:\\Users\\Emanuel\\Desktop\\Code\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder"});
             this.BaseUriComboBox.Location = new System.Drawing.Point(83, 23);
             this.BaseUriComboBox.Name = "BaseUriComboBox";
             this.BaseUriComboBox.Size = new System.Drawing.Size(394, 21);

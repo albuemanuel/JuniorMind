@@ -68,6 +68,8 @@
                           Content="C:\\Users\\dev\Desktop\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder" />
             <ComboBoxItem x:Name="URI2"
                           Content="C:\\Users\\albue.DESKTOP-7NLSNIJ\\Desktop\\JM\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder" />
+            <ComboBoxItem x:Name="URI3"
+                          Content="C:\Users\Emanuel\Desktop\Code\JuniorMind\BanKRate\SocketExample\SiteFolder\" />
         </ComboBox>
 
     </Grid>
