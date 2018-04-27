@@ -9,9 +9,15 @@
         Title="MainWindow"
         Height="492.188"
         Width="373.729"
-        Closing="ServerWindow_Closing"
         FontFamily="Microsoft Sans Serif">
     <Grid Margin="7">
+        <Grid.Resources>
+            <local:HttpServerViewModel x:Key="viewModel" />
+        </Grid.Resources>
+
+        <Grid.DataContext>
+            <Binding Source="{StaticResource viewModel}"></Binding>
+        </Grid.DataContext>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="7" />
@@ -38,7 +44,7 @@
                Grid.Row="2">
             IP</Label>
         <TextBox x:Name="IPBox"
-                 Text="127.0.0.1"
+                 Text="{Binding Path=IPAddress, Mode=TwoWay}"
                  Grid.Column="1"
                  Grid.Row="2"
                  VerticalContentAlignment="Center" />
@@ -47,7 +53,7 @@
                Margin="7,0,7,0"
                Grid.Row="2">Port</Label>
         <TextBox x:Name="PortBox"
-                 Text="13000"
+                 Text="{Binding Path=Port, Mode=TwoWay}"
                  Grid.Column="4"
                  Grid.Row="2"
                  VerticalContentAlignment="Center" />
@@ -57,7 +63,6 @@
                  Grid.Column="0"
                  Grid.Row="4" />
         <Button Content="Start"
-                Click="Button_Click"
                 Grid.Column="3"
                 Grid.Row="6" />
         <ComboBox x:Name="BaseURIComboBox"
