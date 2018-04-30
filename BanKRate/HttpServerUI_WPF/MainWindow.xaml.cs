@@ -26,7 +26,7 @@ namespace HttpServerUI_WPF
         public MainWindow()
         {
             InitializeComponent();
-            viewModel = new HttpServerViewModel();
+            //viewModel = new HttpServerViewModel();
             
         }
 

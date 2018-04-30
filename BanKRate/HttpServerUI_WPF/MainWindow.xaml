@@ -16,7 +16,9 @@
         </Grid.Resources>
 
         <Grid.DataContext>
-            <Binding Source="{StaticResource viewModel}"></Binding>
+            <Binding Source="{StaticResource viewModel}">
+                
+            </Binding>
         </Grid.DataContext>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -58,6 +60,7 @@
                  Grid.Row="2"
                  VerticalContentAlignment="Center" />
         <TextBox x:Name="StatusBox"
+                 Text="{Binding Path=Status, Mode=OneWay}"
                  TextWrapping="Wrap"
                  Grid.ColumnSpan="4"
                  Grid.Column="0"

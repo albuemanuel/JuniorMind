@@ -11,10 +11,11 @@ namespace HttpServerUI_WPF
     {
         Int32 port = 13000;
         string ipAddress = "127.0.0.1";
+        string[] status;
 
         public string IPAddress { get => ipAddress; set => ipAddress = value; }
-
         public Int32 Port { get => port; set => Port = value; }
+        public string[] Status { get => status; set => status = value; }
 
 
         //HttpServer httpServer;
