@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace HttpServerUI_WPF
 {
@@ -12,36 +13,46 @@ namespace HttpServerUI_WPF
         Int32 port = 13000;
         string ipAddress = "127.0.0.1";
         string[] status;
-
+        string[] uriList =
+        {
+            "C:\\Users\\dev\\Desktop\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder",
+            "C:\\Users\\albue.DESKTOP-7NLSNIJ\\Desktop\\JM\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder",
+            "C:\\Users\\Emanuel\\Desktop\\Code\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder"
+        };
+        private ICommand StartServer;
         public string IPAddress { get => ipAddress; set => ipAddress = value; }
         public Int32 Port { get => port; set => Port = value; }
         public string[] Status { get => status; set => status = value; }
+        public string[] UriList => uriList;
 
+        public HttpServerViewModel()
+        {
+            StartServer = new HttpServerCommand(ServerStart);
+        }
 
-        //HttpServer httpServer;
-        //Thread thread;
+        HttpServer httpServer;
+        Thread thread;
 
         //delegate void ChangeStatusBoxText();
 
-        //private void StartServer(object sender, RoutedEventArgs e)
-        //{
-        //    Int32.TryParse(PortBox.Text, out int port);
+        private void ServerStart()
+        {
 
-        //    if (httpServer == null || httpServer.ShouldStop)
-        //    {
-        //        ChangeButtonState(sender as Button);
-        //        httpServer = new HttpServer(port, IPBox.Text, BaseURIComboBox.Text);
-        //        httpServer.ConsoleTextChanged += HttpServer_ConsoleTextChanged;
-        //        thread = new Thread(new ThreadStart(httpServer.StartHttpServer));
-        //        thread.Start();
-        //    }
-        //    else
-        //    {
-        //        ChangeButtonState(sender as Button);
-        //        httpServer.RequestStop();
-        //        thread.Join(5000);
-        //    }
-        //}
+            if (httpServer == null || httpServer.ShouldStop)
+            {
+                //ChangeButtonState(sender as Button);
+                httpServer = new HttpServer(port, ipAddress, uriList[1]);
+                //httpServer.ConsoleTextChanged += HttpServer_ConsoleTextChanged;
+                thread = new Thread(new ThreadStart(httpServer.StartHttpServer));
+                thread.Start();
+            }
+            else
+            {
+                //ChangeButtonState(sender as Button);
+                httpServer.RequestStop();
+                thread.Join(5000);
+            }
+        }
 
         //private void ChangeButtonState(Button button)
         //{

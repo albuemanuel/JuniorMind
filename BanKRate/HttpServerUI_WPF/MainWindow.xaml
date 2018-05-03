@@ -10,8 +10,12 @@
         Height="492.188"
         Width="373.729"
         FontFamily="Microsoft Sans Serif">
+    <Window.DataContext>
+        <local:HttpServerViewModel/>
+    </Window.DataContext>
+    
     <Grid Margin="7">
-        <Grid.Resources>
+        <!--<Grid.Resources>
             <local:HttpServerViewModel x:Key="viewModel" />
         </Grid.Resources>
 
@@ -19,7 +23,7 @@
             <Binding Source="{StaticResource viewModel}">
                 
             </Binding>
-        </Grid.DataContext>
+        </Grid.DataContext>-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="7" />
@@ -50,7 +54,6 @@
                  Grid.Column="1"
                  Grid.Row="2"
                  VerticalContentAlignment="Center" />
-
         <Label Grid.Column="2"
                Margin="7,0,7,0"
                Grid.Row="2">Port</Label>
@@ -65,7 +68,8 @@
                  Grid.ColumnSpan="4"
                  Grid.Column="0"
                  Grid.Row="4" />
-        <Button Content="Start"
+        <Button Command="{Binding StartServer}"
+                Content="Start"
                 Grid.Column="3"
                 Grid.Row="6" />
         <ComboBox x:Name="BaseURIComboBox"
@@ -73,11 +77,11 @@
                   Grid.Row="0"
                   Grid.ColumnSpan="3">
             <ComboBoxItem x:Name="URI1"
-                          Content="C:\\Users\\dev\Desktop\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder" />
+                          Content="{Binding Path=UriList[0]}" />
             <ComboBoxItem x:Name="URI2"
-                          Content="C:\\Users\\albue.DESKTOP-7NLSNIJ\\Desktop\\JM\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder" />
+                          Content="{Binding Path=UriList[1]}" />
             <ComboBoxItem x:Name="URI3"
-                          Content="C:\Users\Emanuel\Desktop\Code\JuniorMind\BanKRate\SocketExample\SiteFolder\" />
+                          Content="{Binding Path=UriList[2]}" />
         </ComboBox>
 
     </Grid>
