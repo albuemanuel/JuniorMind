@@ -11,16 +11,19 @@ namespace HttpServerUI_WPF
     {
         public event EventHandler CanExecuteChanged;
 
-        private Action command;
+        //private Action command;
 
-        public HttpServerCommand(Action command)
+        public delegate void Command();
+        private Command command;
+
+        public HttpServerCommand(Command command)
         {
             this.command = command;
         }
 
         public bool CanExecute(object parameter)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public void Execute(object parameter)

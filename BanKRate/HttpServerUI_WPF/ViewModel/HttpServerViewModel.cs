@@ -19,15 +19,18 @@ namespace HttpServerUI_WPF
             "C:\\Users\\albue.DESKTOP-7NLSNIJ\\Desktop\\JM\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder",
             "C:\\Users\\Emanuel\\Desktop\\Code\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder"
         };
-        private ICommand StartServer;
+        private ICommand startServer;
         public string IPAddress { get => ipAddress; set => ipAddress = value; }
         public Int32 Port { get => port; set => Port = value; }
         public string[] Status { get => status; set => status = value; }
         public string[] UriList => uriList;
 
+        public string StartButtonContent => "Start";
+        public ICommand StartServer => startServer;
+
         public HttpServerViewModel()
         {
-            StartServer = new HttpServerCommand(ServerStart);
+            startServer = new HttpServerCommand(ServerStart);
         }
 
         HttpServer httpServer;
