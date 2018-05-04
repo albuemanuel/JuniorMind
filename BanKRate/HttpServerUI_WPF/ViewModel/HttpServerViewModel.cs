@@ -100,7 +100,7 @@ namespace HttpServerUI_WPF
             //Dispatcher.Invoke(del);
 
             Action action = new Action(() => Status.Add(text));
-            Application.Current.Dispatcher.BeginInvoke(action);
+            Application.Current.Dispatcher.Invoke(action);
         }
 
         public void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
