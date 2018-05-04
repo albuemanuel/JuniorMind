@@ -21,16 +21,13 @@ namespace HttpServerUI_WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        //HttpServerViewModel viewModel;
 
         public MainWindow()
         {
             InitializeComponent();
-            //viewModel = new HttpServerViewModel();
             
             var httpServerViewModel = (HttpServerViewModel)DataContext;
             Closing += httpServerViewModel.OnWindowClosing;
-
         }
 
     }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -55,10 +56,11 @@ namespace HttpServerUI_WPF
 
         private void ServerStart()
         {
+            ToggleStartButton();
 
             if (httpServer == null || httpServer.ShouldStop)
             {
-                ToggleStartButton();
+                
                 httpServer = new HttpServer(port, ipAddress, uriList[1]);
                 httpServer.ConsoleTextChanged += HttpServer_ConsoleTextChanged;
                 thread = new Thread(new ThreadStart(httpServer.StartHttpServer));
@@ -66,7 +68,6 @@ namespace HttpServerUI_WPF
             }
             else
             {
-                ToggleStartButton();
                 httpServer.RequestStop();
                 thread.Join(5000);
             }
@@ -99,8 +100,7 @@ namespace HttpServerUI_WPF
             //Dispatcher.Invoke(del);
 
             Action action = new Action(() => Status.Add(text));
-            Dispatcher.Invoke(action);
-            
+            Application.Current.Dispatcher.BeginInvoke(action);
         }
 
         public void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
