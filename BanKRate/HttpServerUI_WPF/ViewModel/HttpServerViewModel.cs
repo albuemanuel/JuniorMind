@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace HttpServerUI_WPF
 {
-    public class HttpServerViewModel
+    public class HttpServerViewModel : INotifyPropertyChanged
     {
         Int32 port = 13000;
         string ipAddress = "127.0.0.1";
-        string[] status;
+        ObservableCollection<string> status = new ObservableCollection<string>();
         string[] uriList =
         {
             "C:\\Users\\dev\\Desktop\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder",
@@ -20,12 +23,24 @@ namespace HttpServerUI_WPF
             "C:\\Users\\Emanuel\\Desktop\\Code\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder"
         };
         private ICommand startServer;
+
+        private string startButtonContent = "Start";
+
         public string IPAddress { get => ipAddress; set => ipAddress = value; }
         public Int32 Port { get => port; set => Port = value; }
-        public string[] Status { get => status; set => status = value; }
+        public ObservableCollection<string> Status { get => status; set => status = value; }
+        
         public string[] UriList => uriList;
 
-        public string StartButtonContent => "Start";
+        
+        public string StartButtonContent { get => startButtonContent; set
+            {
+                startButtonContent = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StartButtonContent)));
+            }
+        }
+        
+
         public ICommand StartServer => startServer;
 
         public HttpServerViewModel()
@@ -36,56 +51,62 @@ namespace HttpServerUI_WPF
         HttpServer httpServer;
         Thread thread;
 
-        //delegate void ChangeStatusBoxText();
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void ServerStart()
         {
 
             if (httpServer == null || httpServer.ShouldStop)
             {
-                //ChangeButtonState(sender as Button);
+                ToggleStartButton();
                 httpServer = new HttpServer(port, ipAddress, uriList[1]);
-                //httpServer.ConsoleTextChanged += HttpServer_ConsoleTextChanged;
+                httpServer.ConsoleTextChanged += HttpServer_ConsoleTextChanged;
                 thread = new Thread(new ThreadStart(httpServer.StartHttpServer));
                 thread.Start();
             }
             else
             {
-                //ChangeButtonState(sender as Button);
+                ToggleStartButton();
                 httpServer.RequestStop();
                 thread.Join(5000);
             }
         }
 
-        //private void ChangeButtonState(Button button)
-        //{
-        //    switch (button.Content)
-        //    {
-        //        case "Start":
-        //            button.Content = "Stop";
-        //            break;
-        //        case "Stop":
-        //            button.Content = "Start";
-        //            break;
-        //    }
-        //}
+        private void ToggleStartButton()
+        {
+            switch (StartButtonContent)
+            {
+                case "Start":
+                    StartButtonContent = "Stop";
 
-        //private void HttpServer_ConsoleTextChanged(string text)
-        //{
-        //    ChangeStatusBoxText del = delegate ()
-        //    {
-        //        if (!string.IsNullOrWhiteSpace(StatusBox.Text))
-        //            StatusBox.AppendText("\r\n" + text);
-        //        else
-        //            StatusBox.AppendText(text);
-        //    };
-        //    Dispatcher.Invoke(del);
-        //}
+                    break;
+                case "Stop":
+                    StartButtonContent = "Start";
+                    break;
+            }
+            
+        }
 
-        //private void ServerWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        //{
-        //    if (httpServer != null)
-        //        httpServer.RequestStop();
-        //}
+        private void HttpServer_ConsoleTextChanged(string text)
+        {
+            //ChangeStatusBoxText del = delegate ()
+            //{ 
+            //    if (!string.IsNullOrWhiteSpace(StatusBox.Text))
+            //        StatusBox.AppendText("\r\n" + text);
+            //    else
+            //        StatusBox.AppendText(text);
+            //};
+            //Dispatcher.Invoke(del);
+
+            Action action = new Action(() => Status.Add(text));
+            Dispatcher.Invoke(action);
+            
+        }
+
+        public void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (httpServer != null)
+                httpServer.RequestStop();
+        }
     }
 }

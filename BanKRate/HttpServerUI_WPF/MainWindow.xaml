@@ -11,9 +11,9 @@
         Width="373.729"
         FontFamily="Microsoft Sans Serif">
     <Window.DataContext>
-        <local:HttpServerViewModel/>
+        <local:HttpServerViewModel />
     </Window.DataContext>
-    
+
     <Grid Margin="7">
         <!--<Grid.Resources>
             <local:HttpServerViewModel x:Key="viewModel" />
@@ -62,26 +62,21 @@
                  Grid.Column="4"
                  Grid.Row="2"
                  VerticalContentAlignment="Center" />
-        <TextBox x:Name="StatusBox"
-                 Text="{Binding Path=Status, Mode=OneWay}"
-                 TextWrapping="Wrap"
+        <ListBox x:Name="StatusBox"
+                 ItemsSource="{Binding Status, Mode=OneWay}"
                  Grid.ColumnSpan="4"
                  Grid.Column="0"
                  Grid.Row="4" />
         <Button Command="{Binding StartServer}"
-                Content="{Binding StartButtonContent}"
+                Content="{Binding StartButtonContent, Mode=OneWay}"
                 Grid.Column="3"
                 Grid.Row="6" />
         <ComboBox x:Name="BaseURIComboBox"
                   Grid.Column="1"
                   Grid.Row="0"
-                  Grid.ColumnSpan="3">
-            <ComboBoxItem x:Name="URI1"
-                          Content="{Binding Path=UriList[0]}" />
-            <ComboBoxItem x:Name="URI2"
-                          Content="{Binding Path=UriList[1]}" />
-            <ComboBoxItem x:Name="URI3"
-                          Content="{Binding Path=UriList[2]}" />
+                  Grid.ColumnSpan="3"
+                  ItemsSource="{Binding UriList}">
+
         </ComboBox>
 
     </Grid>
