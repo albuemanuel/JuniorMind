@@ -8,25 +8,14 @@ using System.Windows.Input;
 namespace HttpServerUI_WPF
 {
     public class HttpServerCommand : ICommand
-    {
-        public event EventHandler CanExecuteChanged
-        {
-            add
-            {
-                CommandManager.RequerySuggested += value;
-            }
-            remove
-            {
-                CommandManager.RequerySuggested -= value;
-            }
-        }
-
-        //private Action command;
-
+    {      
         public delegate void Command();
-        private Command command;
         public delegate bool Enabled();
+
+        private Command command;
         private Enabled canExecute;
+
+        public event EventHandler CanExecuteChanged;
 
         public HttpServerCommand(Command command, Enabled canExecute)
         {
@@ -42,6 +31,11 @@ namespace HttpServerUI_WPF
         public void Execute(object parameter)
         {
             command();
+        }
+
+        public void UpdateCanExecute()
+        {
+            CanExecuteChanged?.Invoke(this, null);
         }
     }
 }

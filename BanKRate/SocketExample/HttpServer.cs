@@ -5,11 +5,11 @@ using JSONParser;
 using SocketExample;
 using System.Text;
 
+public delegate void ConsoleTextChangedDelegate(string text);
 
 public class HttpServer
 {
     // Incoming data from the client.  
-    public delegate void ConsoleTextChangedDelegate(string text);
     public event ConsoleTextChangedDelegate ConsoleTextChanged;
     private volatile bool shouldStop = false;
     Int32 port;

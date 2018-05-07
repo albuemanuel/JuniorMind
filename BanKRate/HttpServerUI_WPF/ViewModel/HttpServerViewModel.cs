@@ -24,11 +24,17 @@ namespace HttpServerUI_WPF
             "C:\\Users\\albue.DESKTOP-7NLSNIJ\\Desktop\\JM\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder",
             "C:\\Users\\Emanuel\\Desktop\\Code\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder"
         };
-        private ICommand startServer;
-        private ICommand stopServer;
+        private HttpServerCommand startServer;
+        private HttpServerCommand stopServer;
+        HttpServer httpServer;
+        Thread thread;
 
-        private string startButtonContent = "Start";
-        private string stopButtonContent = "Stop";
+
+        public HttpServerViewModel()
+        {
+            startServer = new HttpServerCommand(ServerStart, () => httpServer==null);
+            stopServer = new HttpServerCommand(ServerStop, () => httpServer!=null);
+        }
 
         public string IPAddress { get => ipAddress; set => ipAddress = value; }
         public Int32 Port { get => port; set => port = value; }
@@ -36,115 +42,45 @@ namespace HttpServerUI_WPF
         public string SelectedURI { get; set; }
 
         public string[] UriList => uriList;
-
-
-        public string StartButtonContent
-        {
-            get => startButtonContent;
-            set
-            {
-                startButtonContent = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StartButtonContent)));
-            }
-        }
-
-        public string StopButtonContent
-        {
-            get => stopButtonContent;
-            set
-            {
-                stopButtonContent = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StopButtonContent)));
-            }
-        }
-
-
         public ICommand StartServer => startServer;
-        private bool startServerEnabled = true;
-
         public ICommand StopServer => stopServer;
-        private bool stopServerEnabled = false;
-
-        public HttpServerViewModel()
-        {
-            startServer = new HttpServerCommand(ServerStart, () => startServerEnabled);
-            stopServer = new HttpServerCommand(ServerStop, () => stopServerEnabled);
-        }
-
-        HttpServer httpServer;
-        Thread thread;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private void ServerStart()
-        {
-            //ToggleStartButton();
-
-            //if (httpServer == null || httpServer.ShouldStop)
-            //{
-            httpServer = new HttpServer(port, ipAddress, SelectedURI);
-            httpServer.ConsoleTextChanged += HttpServer_ConsoleTextChanged;
-            thread = new Thread(new ThreadStart(httpServer.StartHttpServer));
-            thread.Start();
-            ToggleCanExecute(ref startServerEnabled);
-            ToggleCanExecute(ref stopServerEnabled);
-            //}
-
-            //else
-            //{
-            //    httpServer.RequestStop();
-            //    thread.Join(5000);
-            //}
-        }
-
-
-
-        private void ServerStop()
-        {
-            httpServer.RequestStop();
-            thread.Join(5000);
-            ToggleCanExecute(ref startServerEnabled);
-            ToggleCanExecute(ref stopServerEnabled);
-        }
-
-        private void ToggleCanExecute(ref bool canExecute)
-        {
-            canExecute = !canExecute;
-        }
-
-        //private void ToggleStartButton()
-        //{
-        //    switch (StartButtonContent)
-        //    {
-        //        case "Start":
-        //            StartButtonContent = "Stop";
-        //            break;
-        //        case "Stop":
-        //            StartButtonContent = "Start";
-        //            break;
-        //    }
-
-        //}
-
-        private void HttpServer_ConsoleTextChanged(string text)
-        {
-            //ChangeStatusBoxText del = delegate ()
-            //{ 
-            //    if (!string.IsNullOrWhiteSpace(StatusBox.Text))
-            //        StatusBox.AppendText("\r\n" + text);
-            //    else
-            //        StatusBox.AppendText(text);
-            //};
-            //Dispatcher.Invoke(del);
-
-            Action action = new Action(() => Status.Add(text));
-            Application.Current.Dispatcher.Invoke(action);
-        }
-
         public void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (httpServer != null)
                 httpServer.RequestStop();
         }
+
+        private void ServerStart()
+        {
+            httpServer = new HttpServer(port, ipAddress, SelectedURI);
+            httpServer.ConsoleTextChanged += HttpServer_ConsoleTextChanged;
+            thread = new Thread(new ThreadStart(httpServer.StartHttpServer));
+            thread.Start();
+            ToggleCanExecute();
+        }
+
+        private void ToggleCanExecute()
+        {
+            startServer.UpdateCanExecute();
+            stopServer.UpdateCanExecute();
+        }
+
+        private void ServerStop()
+        {
+            httpServer.RequestStop();
+            thread.Join(5000);
+            httpServer = null;
+            ToggleCanExecute();
+        }
+
+        private void HttpServer_ConsoleTextChanged(string text)
+        {
+            Action action = new Action(() => Status.Add(text));
+            Application.Current.Dispatcher.Invoke(action);
+        }
+
+        
     }
 }
