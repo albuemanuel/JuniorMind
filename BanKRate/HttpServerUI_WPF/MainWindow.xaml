@@ -58,7 +58,7 @@
                Margin="7,0,7,0"
                Grid.Row="2">Port</Label>
         <TextBox x:Name="PortBox"
-                 Text="{Binding Path=Port, Mode=TwoWay}"
+                 Text="{Binding Port, Mode=TwoWay}"
                  Grid.Column="4"
                  Grid.Row="2"
                  VerticalContentAlignment="Center" />
@@ -72,12 +72,18 @@
                 Grid.Column="3"
                 Grid.Row="6" />
         <ComboBox x:Name="BaseURIComboBox"
+                  IsEditable="True"
                   Grid.Column="1"
                   Grid.Row="0"
                   Grid.ColumnSpan="3"
-                  ItemsSource="{Binding UriList}">
+                  ItemsSource="{Binding UriList}"
+                  Text="{Binding SelectedURI}">
 
         </ComboBox>
+        <Button Command="{Binding StartServer}"
+            Content="{Binding StartButtonContent, Mode=OneWay}"
+            Grid.Column="1"
+            Grid.Row="6" />
 
     </Grid>
 </Window>

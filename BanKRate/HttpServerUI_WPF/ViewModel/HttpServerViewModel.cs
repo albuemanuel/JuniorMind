@@ -19,6 +19,7 @@ namespace HttpServerUI_WPF
         ObservableCollection<string> status = new ObservableCollection<string>();
         string[] uriList =
         {
+            "C:\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder",
             "C:\\Users\\dev\\Desktop\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder",
             "C:\\Users\\albue.DESKTOP-7NLSNIJ\\Desktop\\JM\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder",
             "C:\\Users\\Emanuel\\Desktop\\Code\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder"
@@ -26,21 +27,36 @@ namespace HttpServerUI_WPF
         private ICommand startServer;
 
         private string startButtonContent = "Start";
+        private string stopButtonContent = "Stop";
 
         public string IPAddress { get => ipAddress; set => ipAddress = value; }
-        public Int32 Port { get => port; set => Port = value; }
+        public Int32 Port { get => port; set => port = value; }
         public ObservableCollection<string> Status { get => status; set => status = value; }
-        
+        public string SelectedURI { get; set; }
+
         public string[] UriList => uriList;
 
-        
-        public string StartButtonContent { get => startButtonContent; set
+
+        public string StartButtonContent
+        {
+            get => startButtonContent;
+            set
             {
                 startButtonContent = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StartButtonContent)));
             }
         }
-        
+
+        public string StopButtonContent
+        {
+            get => stopButtonContent;
+            set
+            {
+                stopButtonContent = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StopButtonContent)));
+            }
+        }
+
 
         public ICommand StartServer => startServer;
 
@@ -60,8 +76,7 @@ namespace HttpServerUI_WPF
 
             if (httpServer == null || httpServer.ShouldStop)
             {
-                
-                httpServer = new HttpServer(port, ipAddress, uriList[1]);
+                httpServer = new HttpServer(port, ipAddress, SelectedURI);
                 httpServer.ConsoleTextChanged += HttpServer_ConsoleTextChanged;
                 thread = new Thread(new ThreadStart(httpServer.StartHttpServer));
                 thread.Start();
@@ -79,13 +94,12 @@ namespace HttpServerUI_WPF
             {
                 case "Start":
                     StartButtonContent = "Stop";
-
                     break;
                 case "Stop":
                     StartButtonContent = "Start";
                     break;
             }
-            
+
         }
 
         private void HttpServer_ConsoleTextChanged(string text)
