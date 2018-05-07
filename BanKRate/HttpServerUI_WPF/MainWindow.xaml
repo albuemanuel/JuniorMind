@@ -80,6 +80,12 @@
                   Text="{Binding SelectedURI}">
 
         </ComboBox>
+        <Button Command="{Binding StopServer}"
+                Content="{Binding StopButtonContent, Mode=OneWay}"
+                Grid.Row="6"
+                Grid.ColumnSpan="2"
+                Margin="0,0,42,0" 
+                />
 
     </Grid>
 </Window>

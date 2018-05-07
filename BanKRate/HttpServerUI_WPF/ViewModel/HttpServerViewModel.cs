@@ -25,6 +25,7 @@ namespace HttpServerUI_WPF
             "C:\\Users\\Emanuel\\Desktop\\Code\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder"
         };
         private ICommand startServer;
+        private ICommand stopServer;
 
         private string startButtonContent = "Start";
         private string stopButtonContent = "Stop";
@@ -59,10 +60,15 @@ namespace HttpServerUI_WPF
 
 
         public ICommand StartServer => startServer;
+        private bool startServerEnabled = true;
+
+        public ICommand StopServer => stopServer;
+        private bool stopServerEnabled = false;
 
         public HttpServerViewModel()
         {
-            startServer = new HttpServerCommand(ServerStart);
+            startServer = new HttpServerCommand(ServerStart, () => startServerEnabled);
+            stopServer = new HttpServerCommand(ServerStop, () => stopServerEnabled);
         }
 
         HttpServer httpServer;
@@ -72,35 +78,53 @@ namespace HttpServerUI_WPF
 
         private void ServerStart()
         {
-            ToggleStartButton();
+            //ToggleStartButton();
 
-            if (httpServer == null || httpServer.ShouldStop)
-            {
-                httpServer = new HttpServer(port, ipAddress, SelectedURI);
-                httpServer.ConsoleTextChanged += HttpServer_ConsoleTextChanged;
-                thread = new Thread(new ThreadStart(httpServer.StartHttpServer));
-                thread.Start();
-            }
-            else
-            {
-                httpServer.RequestStop();
-                thread.Join(5000);
-            }
+            //if (httpServer == null || httpServer.ShouldStop)
+            //{
+            httpServer = new HttpServer(port, ipAddress, SelectedURI);
+            httpServer.ConsoleTextChanged += HttpServer_ConsoleTextChanged;
+            thread = new Thread(new ThreadStart(httpServer.StartHttpServer));
+            thread.Start();
+            ToggleCanExecute(ref startServerEnabled);
+            ToggleCanExecute(ref stopServerEnabled);
+            //}
+
+            //else
+            //{
+            //    httpServer.RequestStop();
+            //    thread.Join(5000);
+            //}
         }
 
-        private void ToggleStartButton()
+
+
+        private void ServerStop()
         {
-            switch (StartButtonContent)
-            {
-                case "Start":
-                    StartButtonContent = "Stop";
-                    break;
-                case "Stop":
-                    StartButtonContent = "Start";
-                    break;
-            }
-
+            httpServer.RequestStop();
+            thread.Join(5000);
+            ToggleCanExecute(ref startServerEnabled);
+            ToggleCanExecute(ref stopServerEnabled);
         }
+
+        private void ToggleCanExecute(ref bool canExecute)
+        {
+            canExecute = !canExecute;
+        }
+
+        //private void ToggleStartButton()
+        //{
+        //    switch (StartButtonContent)
+        //    {
+        //        case "Start":
+        //            StartButtonContent = "Stop";
+        //            break;
+        //        case "Stop":
+        //            StartButtonContent = "Start";
+        //            break;
+        //    }
+
+        //}
 
         private void HttpServer_ConsoleTextChanged(string text)
         {
