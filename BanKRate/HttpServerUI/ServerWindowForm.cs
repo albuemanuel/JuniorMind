@@ -32,7 +32,7 @@ namespace HttpServerUI
                 ChangeButtonState(sender as Button);
                 httpServer = new HttpServer(port, IPBox.Text, BaseUriComboBox.Text);
                 httpServer.ConsoleTextChanged += HttpServer_ConsoleTextChanged;
-                thread = new Thread(new ThreadStart(httpServer.StartHttpServer));
+                thread = new Thread(new ThreadStart(httpServer.RunServerAsync));
                 thread.Start();
             }
             else

@@ -27,7 +27,7 @@ namespace HttpServerUI_WPF
         private HttpServerCommand startServer;
         private HttpServerCommand stopServer;
         HttpServer httpServer;
-        Thread thread;
+        Task task;
 
 
         public HttpServerViewModel()
@@ -56,8 +56,8 @@ namespace HttpServerUI_WPF
         {
             httpServer = new HttpServer(port, ipAddress, SelectedURI);
             httpServer.ConsoleTextChanged += HttpServer_ConsoleTextChanged;
-            thread = new Thread(new ThreadStart(httpServer.StartHttpServer));
-            thread.Start();
+            task = new Task(httpServer.RunServerAsync);
+            task.Start();
             ToggleCanExecute();
         }
 
@@ -70,7 +70,7 @@ namespace HttpServerUI_WPF
         private void ServerStop()
         {
             httpServer.RequestStop();
-            thread.Join(5000);
+            //task.Join(5000);
             httpServer = null;
             ToggleCanExecute();
         }
