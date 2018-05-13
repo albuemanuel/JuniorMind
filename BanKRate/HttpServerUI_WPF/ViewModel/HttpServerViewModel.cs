@@ -22,7 +22,8 @@ namespace HttpServerUI_WPF
             "C:\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder",
             "C:\\Users\\dev\\Desktop\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder",
             "C:\\Users\\albue.DESKTOP-7NLSNIJ\\Desktop\\JM\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder",
-            "C:\\Users\\Emanuel\\Desktop\\Code\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder"
+            "C:\\Users\\Emanuel\\Desktop\\Code\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder",
+            "C:\\Users\\Elix\\Desktop\\JM\\JuniorMind\\BanKRate\\SocketExample\\SiteFolder"
         };
         private HttpServerCommand startServer;
         private HttpServerCommand stopServer;

@@ -105,22 +105,20 @@ public class HttpServer
 
         var bytes = new Byte[1024];
         stream.ReadAsync(bytes, 0, bytes.Length)
-            .ContinueWith(readTask =>
-            {
+            .ContinueWith(readTask => ReadStream(readTask, bytes, stream));
+    }
 
-                var count = readTask.Result;
-                var data = Encoding.ASCII.GetString(bytes, 0, count);
+    private void ReadStream(Task<int> task, byte[] bytes, NetworkStream stream)
+    {
+        var count = task.Result;
+        var data = Encoding.ASCII.GetString(bytes, 0, count);
 
-                var request = FormRequest(data);
-                var response = GenerateResponse(request, baseURI);
+        var request = FormRequest(data);
+        var response = GenerateResponse(request, baseURI);
 
-                var responseAsBytes = response.ToBytesArray();
+        var responseAsBytes = response.ToBytesArray();
 
-                stream.WriteAsync(responseAsBytes, 0, responseAsBytes.Length)
-                    .ContinueWith(writeTask =>
-                    client.Close());
-
-            });
+        stream.WriteAsync(responseAsBytes, 0, responseAsBytes.Length);
     }
 
     public void RequestStop()
