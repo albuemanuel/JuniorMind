@@ -5,6 +5,7 @@ using JSONParser;
 using SocketExample;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 public delegate void ConsoleTextChangedDelegate(string text);
 
@@ -86,7 +87,7 @@ public class HttpServer
 
     private void AcceptClient()
     {
-        if (!shouldStop)
+        //if (!shouldStop)
         {
             OnConsoleTextChanged("Waiting for a connection...");
             listener.AcceptTcpClientAsync()
@@ -96,15 +97,19 @@ public class HttpServer
 
     private void ProcessClient(Task<TcpClient> task)
     {
-        AcceptClient();
+        string data = null;
         var client = task.Result;
+        AcceptClient();
         var stream = client.GetStream();
 
         var bytes = new Byte[1024];
         stream.ReadAsync(bytes, 0, bytes.Length)
             .ContinueWith(readTask => {
                 var count = readTask.Result;
-                var data = Encoding.ASCII.GetString(bytes, 0, count);
+                data += Encoding.ASCII.GetString(bytes, 0, count);
+
+                if (!data.Contains("\r\n\r\n"))
+                    stream.ReadAsync(bytes, 0, bytes.Length);
 
                 var request = FormRequest(data);
                 var response = GenerateResponse(request, baseURI);
@@ -119,7 +124,7 @@ public class HttpServer
 
     public void RequestStop()
     {
-        shouldStop = true;
+        //shouldStop = true;
         listener.Stop();
     }
 
