@@ -104,13 +104,17 @@ public class HttpServer
 
         var bytes = new Byte[1024];
         stream.ReadAsync(bytes, 0, bytes.Length)
-            .ContinueWith(readTask => {
+            .ContinueWith(readTask =>
+            {
                 var count = readTask.Result;
                 data += Encoding.ASCII.GetString(bytes, 0, count);
 
                 if (!data.Contains("\r\n\r\n"))
                     stream.ReadAsync(bytes, 0, bytes.Length);
 
+
+            }).ContinueWith(readComplete =>
+            {
                 var request = FormRequest(data);
                 var response = GenerateResponse(request, baseURI);
 
