@@ -38,50 +38,52 @@ public class HttpServer
         listener.Start();
         AcceptClient();
 
-        //Byte[] bytes = new Byte[1024];
+        {
+            //Byte[] bytes = new Byte[1024];
 
-        //// Start listening for connections.  
-        //while (!shouldStop)
-        //{
-        //    OnConsoleTextChanged("Waiting for a connection...");
-        //    Console.WriteLine("Waiting for a connection...");
+            //// Start listening for connections.  
+            //while (!shouldStop)
+            //{
+            //    OnConsoleTextChanged("Waiting for a connection...");
+            //    Console.WriteLine("Waiting for a connection...");
 
-        //    // Program is suspended while waiting for an incoming connection.  
+            //    // Program is suspended while waiting for an incoming connection.  
 
-        //    TcpClient client = listener.AcceptTcpClientAsync().ContinueWith(task => { });
-        //    string data = null;
+            //    TcpClient client = listener.AcceptTcpClientAsync().ContinueWith(task => { });
+            //    string data = null;
 
-        //    NetworkStream stream = client.GetStream();
+            //    NetworkStream stream = client.GetStream();
 
-        //    data = ReceiveRequest(bytes, stream);
+            //    data = ReceiveRequest(bytes, stream);
 
-        //    if(data != null)
-        //    {
-        //        Request request = FormRequest(data);
+            //    if(data != null)
+            //    {
+            //        Request request = FormRequest(data);
 
-        //        Response response = GenerateResponse(request, baseURI);
+            //        Response response = GenerateResponse(request, baseURI);
 
-        //        Respond(stream, response);
+            //        Respond(stream, response);
 
-        //        OnConsoleTextChanged($"Sent: {response.ResponseAsString()}");
-        //        Console.WriteLine("Sent: {0}", response.ResponseAsString()); 
-        //    }
+            //        OnConsoleTextChanged($"Sent: {response.ResponseAsString()}");
+            //        Console.WriteLine("Sent: {0}", response.ResponseAsString()); 
+            //    }
 
-        //    client.Close();
-        //}
-        //listener.Stop();
-        //    }
-        //catch (Exception e)
-        //{
-        //    OnConsoleTextChanged($"\r\nSocket exception:\n {e}");
-        //    Console.WriteLine("Socket exception: {0}", e);
-        //}
-        //finally
-        //{
-        //    OnConsoleTextChanged("\r\nServerStopped");
-        //    Console.WriteLine("\nPress ENTER to continue...");
-        //    Console.Read();
-        //}
+            //    client.Close();
+            //}
+            //listener.Stop();
+            //    }
+            //catch (Exception e)
+            //{
+            //    OnConsoleTextChanged($"\r\nSocket exception:\n {e}");
+            //    Console.WriteLine("Socket exception: {0}", e);
+            //}
+            //finally
+            //{
+            //    OnConsoleTextChanged("\r\nServerStopped");
+            //    Console.WriteLine("\nPress ENTER to continue...");
+            //    Console.Read();
+            //}
+        }
 
     }
 
@@ -99,10 +101,11 @@ public class HttpServer
     {
         string data = null;
         var client = task.Result;
-        AcceptClient();
         var stream = client.GetStream();
-
         var bytes = new Byte[1024];
+
+        AcceptClient();
+
         stream.ReadAsync(bytes, 0, bytes.Length)
             .ContinueWith(readTask =>
             {
@@ -132,23 +135,24 @@ public class HttpServer
         listener.Stop();
     }
 
-    public static string ReceiveRequest(byte[] bytes, System.IO.Stream stream)
-    {
-        string data = null;
-        int i;
-        // An incoming connection needs to be processed.  
-        while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
-        {
+    //public static string ReceiveRequest(byte[] bytes, System.IO.Stream stream)
+    //{
+    //    string data = null;
+    //    int i;
+    //    // An incoming connection needs to be processed.  
+    //    while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
+    //    {
 
-            data += Encoding.ASCII.GetString(bytes, 0, i);
-            Console.WriteLine("Received: {0}", data);
+    //        data += Encoding.ASCII.GetString(bytes, 0, i);
+    //        Console.WriteLine("Received: {0}", data);
 
-            if (data.Contains("\r\n\r\n"))
-                break;
+    //        if (data.Contains("\r\n\r\n"))
+    //            break;
 
-        }
-        return data;
-    }
+    //    }
+    //    return data;
+    //}
+
     protected virtual void OnConsoleTextChanged(string text)
     {
         ConsoleTextChanged?.Invoke(text);
