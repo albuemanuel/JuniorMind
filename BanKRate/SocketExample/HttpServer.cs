@@ -37,13 +37,6 @@ public class HttpServer
         listener.Start();
         AcceptClient();
 
-
-
-
-
-
-
-
         //Byte[] bytes = new Byte[1024];
 
         //// Start listening for connections.  
@@ -93,8 +86,12 @@ public class HttpServer
 
     private void AcceptClient()
     {
-        listener.AcceptTcpClientAsync()
-            .ContinueWith(ProcessClient);
+        if (!shouldStop)
+        {
+            OnConsoleTextChanged("Waiting for a connection...");
+            listener.AcceptTcpClientAsync()
+                .ContinueWith(ProcessClient);
+        }
     }
 
     private void ProcessClient(Task<TcpClient> task)
@@ -105,20 +102,19 @@ public class HttpServer
 
         var bytes = new Byte[1024];
         stream.ReadAsync(bytes, 0, bytes.Length)
-            .ContinueWith(readTask => ReadStream(readTask, bytes, stream));
-    }
+            .ContinueWith(readTask => {
+                var count = readTask.Result;
+                var data = Encoding.ASCII.GetString(bytes, 0, count);
 
-    private void ReadStream(Task<int> task, byte[] bytes, NetworkStream stream)
-    {
-        var count = task.Result;
-        var data = Encoding.ASCII.GetString(bytes, 0, count);
+                var request = FormRequest(data);
+                var response = GenerateResponse(request, baseURI);
 
-        var request = FormRequest(data);
-        var response = GenerateResponse(request, baseURI);
+                var responseAsBytes = response.ToBytesArray();
 
-        var responseAsBytes = response.ToBytesArray();
-
-        stream.WriteAsync(responseAsBytes, 0, responseAsBytes.Length);
+                OnConsoleTextChanged($"Sent: {response.ResponseAsString()}");
+                stream.WriteAsync(responseAsBytes, 0, responseAsBytes.Length)
+                    .ContinueWith(writeAsync => client.Close());
+            });
     }
 
     public void RequestStop()
