@@ -11,6 +11,7 @@ public delegate void ConsoleTextChangedDelegate(string text);
 
 public class HttpServer
 {
+    int i = 0;
     // Incoming data from the client.  
     public event ConsoleTextChangedDelegate ConsoleTextChanged;
     private volatile bool shouldStop = false;
@@ -28,6 +29,7 @@ public class HttpServer
 
     public void RunServerAsync()
     {
+
         listener = null;
 
         IPAddress localAddr = IPAddress.Parse(ipAddress);
@@ -36,7 +38,21 @@ public class HttpServer
         listener = new TcpListener(localAddr, port);
 
         listener.Start();
-        AcceptClient();
+        try
+        {
+            AcceptClient();
+        }
+        catch (Exception e)
+        {
+            OnConsoleTextChanged($"\r\nSocket exception:\n {e}");
+            Console.WriteLine("Socket exception: {0}", e);
+        }
+        //finally
+        //{
+        //    OnConsoleTextChanged("\r\nServerStopped");
+        //    Console.WriteLine("\nPress ENTER to continue...");
+        //    Console.Read();
+        //}
 
         {
             //Byte[] bytes = new Byte[1024];
@@ -89,15 +105,18 @@ public class HttpServer
 
     private void AcceptClient()
     {
-        //if (!shouldStop)
-        {
-            OnConsoleTextChanged("Waiting for a connection...");
-            listener.AcceptTcpClientAsync()
-                .ContinueWith(ProcessClient);
-        }
+        OnConsoleTextChanged("Waiting for a connection...");
+
+        listener.AcceptTcpClientAsync()
+            .ContinueWith(IDandProcessClient);
     }
 
-    private void ProcessClient(Task<TcpClient> task)
+    private void IDandProcessClient(Task<TcpClient> task)
+    {
+        i++;
+        ProcessClient(task, i);
+    }
+    private void ProcessClient(Task<TcpClient> task, int ID)
     {
         string data = null;
         var client = task.Result;
@@ -106,33 +125,70 @@ public class HttpServer
 
         AcceptClient();
 
+        ProcessData(stream, bytes, data, client, ID);
+
+        {//stream.ReadAsync(bytes, 0, bytes.Length)
+         //    .ContinueWith(readTask =>
+         //    {
+         //        var count = readTask.Result;
+         //        data += Encoding.ASCII.GetString(bytes, 0, count);
+
+            //        if (!data.Contains("\r\n\r\n"))
+            //            stream.ReadAsync(bytes, 0, bytes.Length);
+
+
+            //    }).ContinueWith(readComplete =>
+            //    {
+            //        var request = FormRequest(data);
+            //        var response = GenerateResponse(request, baseURI);
+
+            //        var responseAsBytes = response.ToBytesArray();
+
+            //        OnConsoleTextChanged($"Sent: {response.ResponseAsString()}");
+            //        stream.WriteAsync(responseAsBytes, 0, responseAsBytes.Length)
+            //            .ContinueWith(writeAsync => client.Close());
+            //    });
+        }
+    }
+
+    private void ProcessData(NetworkStream stream, byte[] bytes, string data, TcpClient client, int ID)
+    {
         stream.ReadAsync(bytes, 0, bytes.Length)
-            .ContinueWith(readTask =>
+            .ContinueWith(read =>
             {
-                var count = readTask.Result;
-                data += Encoding.ASCII.GetString(bytes, 0, count);
+                if (read.Result == 0)
+                {
+                    OnConsoleTextChanged("Connection closed");
+                    throw new Exception("Connection closed");
+                }
+                data += Encoding.ASCII.GetString(bytes, 0, read.Result);
 
                 if (!data.Contains("\r\n\r\n"))
-                    stream.ReadAsync(bytes, 0, bytes.Length);
-
-
-            }).ContinueWith(readComplete =>
+                    ProcessData(stream, bytes, data, client, ID);
+            })
+            .ContinueWith(complete =>
             {
-                var request = FormRequest(data);
-                var response = GenerateResponse(request, baseURI);
+                if (complete.Status == TaskStatus.RanToCompletion)
+                {
+                    var request = FormRequest(data);
+                    var response = GenerateResponse(request, baseURI);
 
-                var responseAsBytes = response.ToBytesArray();
+                    var responseAsBytes = response.ToBytesArray();
 
-                OnConsoleTextChanged($"Sent: {response.ResponseAsString()}");
-                stream.WriteAsync(responseAsBytes, 0, responseAsBytes.Length)
-                    .ContinueWith(writeAsync => client.Close());
+                    OnConsoleTextChanged($"Sent: {response.ResponseAsString()}");
+                    stream.WriteAsync(responseAsBytes, 0, responseAsBytes.Length)
+                    .ContinueWith(writeComplete => client.Close());
+                }
             });
     }
 
     public void RequestStop()
     {
+        //if(cts!=null)
+        //    cts.Cancel();
         //shouldStop = true;
         listener.Stop();
+
     }
 
     //public static string ReceiveRequest(byte[] bytes, System.IO.Stream stream)
