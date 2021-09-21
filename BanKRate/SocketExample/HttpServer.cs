@@ -17,6 +17,7 @@ public class HttpServer
     // Incoming data from the client.  
     public event ConsoleTextChangedDelegate ConsoleTextChanged;
     private volatile bool shouldStop = false;
+    test change
     Int32 port;
     string ipAddress;
     string baseURI;
