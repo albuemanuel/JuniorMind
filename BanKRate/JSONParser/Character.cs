@@ -13,6 +13,7 @@ namespace JSONParser
         public Character(char c)
         {
             pattern = c;
+            test change
         }
 
         public(IMatch, TextToParse) Match(TextToParse text)
